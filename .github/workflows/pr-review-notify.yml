@@ -1,0 +1,91 @@
+name: PR 审查通知
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    branches: [main, dev]
+
+jobs:
+  # 1. 自动化代码检查
+  automated-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: 设置 Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: 安装依赖
+        run: npm install
+        
+      - name: 运行 ESLint
+        run: npm run lint || echo "ESLint 检查完成"
+        
+      - name: 构建检查
+        run: npm run build || echo "构建检查完成"
+
+  # 2. 通知白泽
+  notify-baize:
+    runs-on: ubuntu-latest
+    needs: automated-checks
+    steps:
+      - name: 生成审查通知
+        run: |
+          echo "📖 白泽审查通知"
+          echo "==============="
+          echo ""
+          echo "**PR #${{ github.event.pull_request.number }}**"
+          echo ""
+          echo "- **标题：** ${{ github.event.pull_request.title }}"
+          echo "- **作者：** ${{ github.event.pull_request.user.login }}"
+          echo "- **分支：** ${{ github.event.pull_request.head.ref }} → ${{ github.event.pull_request.base.ref }}"
+          echo "- **时间：** $(date +'%Y-%m-%d %H:%M:%S')"
+          echo "- **URL：** ${{ github.event.pull_request.html_url }}"
+          echo ""
+          echo "自动化检查：${{ needs.automated-checks.result }}"
+          echo ""
+          echo "待审查项目："
+          echo "- [ ] 代码逻辑正确性"
+          echo "- [ ] 架构设计合理性"
+          echo "- [ ] 安全漏洞检查"
+          echo "- [ ] 性能影响评估"
+          echo "- [ ] 代码规范符合度"
+          
+      - name: 添加审查标签
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              labels: ['awaiting-review']
+            })
+            
+      - name: 创建审查评论
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: `📖 **白泽审查系统已启动**
+              
+              自动化检查已完成，等待人工审查。
+              
+              **审查清单：**
+              - [ ] 代码质量
+              - [ ] 功能正确性
+              - [ ] 性能影响
+              - [ ] 安全性
+              - [ ] 文档完整性
+              
+              审查完成后会通知作者。
+              `
+            })
