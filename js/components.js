@@ -21,7 +21,6 @@ const components = {
   characterCard: null,
   articleCard: null,
   projectCard: null
-};
 
 // ========================================
 // 组件渲染

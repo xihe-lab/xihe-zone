@@ -297,12 +297,5 @@ function updateParallax(elements) {
 // 工具函数导出
 // ========================================
 
-  initScrollProgress,
-  initSmoothScroll,
-  initScrollAnimations,
-  initButtonEffects,
-  debounce,
-  throttle
-};
 
 console.log('⚙️ JavaScript 模块已加载');

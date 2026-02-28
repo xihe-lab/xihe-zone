@@ -18,7 +18,6 @@ const ANIMATION_CONFIG = {
   easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
   scrollThreshold: 50,
   parallaxStrength: 0.5
-};
 
 // ========================================
 // 初始化动画
