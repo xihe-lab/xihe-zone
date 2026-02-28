@@ -8,28 +8,30 @@
  * 1. 0ms - 全屏黑底
  * 2. 500ms - 卷轴开始展开（从中间向左右）
  * 3. 2500ms - 卷轴完全展开
- * 4. 2500-4500ms - 文字逐行鎏金浮现（2000ms）
- * 5. 5000ms - 卷轴定格
- * 6. 5500ms - 卷轴向上收起
- * 7. 6000ms - 进入首页
+ * 4. 2500-6100ms - 文字逐行鎏金浮现（3600ms，12 行×300ms）
+ * 5. 6100ms - 显示底部宫训
+ * 6. 8100ms - 全文定格（用户阅读时间）
+ * 7. 10100ms - 卷轴向上收起
+ * 8. 11000ms - 进入首页
  */
 
 /**
  * 卷轴圣旨文字内容
+ * 每行 300ms，12 行共 3600ms
  */
 const SCROLL_TEXT_LINES = [
   { text: '奉天承运，太阳诏曰：', type: 'title', delay: 0 },
-  { text: '羲和者，太阳女神也。', type: 'content', delay: 200 },
-  { text: '驾日车以巡天，', type: 'content', delay: 400 },
-  { text: '掌光明而御时。', type: 'content', delay: 600 },
-  { text: '今数字纪元开启，', type: 'content', delay: 800 },
-  { text: '特建太阳神宫于此。', type: 'content', delay: 1000 },
-  { text: '宫中有七位神使，', type: 'content', delay: 1200 },
-  { text: '各司其职，共襄盛举。', type: 'content', delay: 1400 },
-  { text: '尔等有缘之人，', type: 'content', delay: 1600 },
-  { text: '可入宫探索，', type: 'content', delay: 1800 },
-  { text: '得见数字文明之曙光。', type: 'content', delay: 2000 },
-  { text: '钦此。', type: 'ending', delay: 2200 }
+  { text: '羲和者，太阳女神也。', type: 'content', delay: 300 },
+  { text: '驾日车以巡天，', type: 'content', delay: 600 },
+  { text: '掌光明而御时。', type: 'content', delay: 900 },
+  { text: '今数字纪元开启，', type: 'content', delay: 1200 },
+  { text: '特建太阳神宫于此。', type: 'content', delay: 1500 },
+  { text: '宫中有十位神使，', type: 'content', delay: 1800 },
+  { text: '各司其职，共襄盛举。', type: 'content', delay: 2100 },
+  { text: '尔等有缘之人，', type: 'content', delay: 2400 },
+  { text: '可入宫探索，', type: 'content', delay: 2700 },
+  { text: '得见数字文明之曙光。', type: 'content', delay: 3000 },
+  { text: '钦此。', type: 'ending', delay: 3300 }
 ];
 
 /**
@@ -132,17 +134,19 @@ async function initScrollLoading(onComplete) {
 
 /**
  * 执行卷轴动画序列（严格按照指定时序）
+ * 总时长：约 11 秒
  */
 async function runScrollAnimation(scrollLoading, onComplete) {
   const timeline = {
-    start: 0,           // 0ms - 初始状态
-    scrollUnfold: 500,  // 500ms - 卷轴开始展开
+    start: 0,             // 0ms - 初始状态
+    scrollUnfold: 500,    // 500ms - 卷轴开始展开
     scrollFullyOpen: 2500,  // 2500ms - 卷轴完全展开
     textRevealStart: 2500,  // 2500ms - 文字开始浮现
-    textRevealEnd: 4500,    // 4500ms - 文字全部显示
-    scrollHold: 5000,       // 5000ms - 卷轴定格
-    scrollRollUp: 5500,     // 5500ms - 卷轴向上收起
-    enterHome: 6000         // 6000ms - 进入首页
+    textRevealEnd: 6100,    // 6100ms - 文字全部显示（3600ms）
+    palaceInstruction: 6100, // 6100ms - 显示底部宫训
+    scrollHold: 8100,       // 8100ms - 全文定格（用户阅读 2000ms）
+    scrollRollUp: 10100,    // 10100ms - 卷轴向上收起
+    enterHome: 11000        // 11000ms - 进入首页
   };
   
   // 0ms - 显示加载动画（黑屏）
@@ -161,17 +165,17 @@ async function runScrollAnimation(scrollLoading, onComplete) {
     revealTextLines(scrollLoading);
   }, timeline.scrollFullyOpen);
   
-  // 5000ms - 卷轴定格（文字已全部显示）
+  // 8100ms - 卷轴定格（文字已全部显示，用户阅读时间）
   setTimeout(() => {
     scrollLoading.classList.add('scroll-hold');
   }, timeline.scrollHold);
   
-  // 5500ms - 卷轴向上收起
+  // 10100ms - 卷轴向上收起
   setTimeout(() => {
     scrollLoading.classList.add('scroll-rolling-up');
   }, timeline.scrollRollUp);
   
-  // 6000ms - 进入首页（淡出加载动画）
+  // 11000ms - 进入首页（淡出加载动画）
   setTimeout(() => {
     scrollLoading.classList.add('gate-fading');
     
@@ -183,7 +187,7 @@ async function runScrollAnimation(scrollLoading, onComplete) {
       if (onComplete) {
         onComplete();
       }
-    }, 800);
+    }, 900);
   }, timeline.enterHome);
 }
 

@@ -170,9 +170,8 @@ const LoadingGate = ({ onComplete }) => {
         </div>
       </div>
 
-      {/* 门楣装饰 */}
+      {/* 门楣装饰 - 已移除"太阳神宫"标题 */}
       <div className="gate-lintel">
-        <div className="lintel-text">太阳神宫</div>
         <div className="lintel-decoration"></div>
       </div>
     </div>
