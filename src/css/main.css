@@ -931,6 +931,19 @@ a:hover {
   flex-shrink: 0;
 }
 
+/* 豆包链接样式 */
+.doubao-link {
+  color: var(--sun-gold);
+  text-decoration: none;
+  transition: var(--transition-smooth);
+  font-weight: 500;
+}
+
+.doubao-link:hover {
+  color: var(--sun-gold-light);
+  text-decoration: underline;
+}
+
 .footer-copyright {
   color: var(--text-tertiary);
   font-size: 0.8125rem;
