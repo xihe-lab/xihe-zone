@@ -30,7 +30,6 @@ const components = {
 /**
  * 渲染所有组件
  */
-export function renderComponents() {
   console.log('⚙️ 组件系统初始化 - 墨子技术实现 · 设计系统 v1.0');
   
   // 注册组件模板
@@ -367,7 +366,6 @@ function createFooter() {
 /**
  * 渲染组件
  */
-export function renderComponent(componentName, props = {}) {
   const component = components[componentName];
   if (!component) {
     console.warn(`组件 ${componentName} 未注册`);
@@ -392,14 +390,12 @@ export function renderComponent(componentName, props = {}) {
 /**
  * 批量渲染组件列表
  */
-export function renderComponentList(componentName, items) {
   return items.map(item => renderComponent(componentName, item)).join('');
 }
 
 /**
  * 动态创建组件实例
  */
-export function createComponentInstance(componentName, props = {}) {
   const component = components[componentName];
   if (!component) {
     console.warn(`组件 ${componentName} 不存在`);

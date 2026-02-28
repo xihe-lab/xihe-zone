@@ -297,7 +297,6 @@ function updateParallax(elements) {
 // 工具函数导出
 // ========================================
 
-export {
   initScrollProgress,
   initSmoothScroll,
   initScrollAnimations,
