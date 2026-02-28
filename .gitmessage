@@ -1,0 +1,33 @@
+# <type>(<scope>): <subject>
+
+# --- 示例 ---
+# feat(page): 添加新的首页模块
+# fix(design): 修复设计文件路径问题
+# docs(config): 更新配置文件说明
+
+# --- Type 类型 ---
+# feat     - 新功能
+# fix      - 修复 bug
+# docs     - 文档更新
+# style    - 代码格式（不影响代码运行）
+# refactor - 重构
+# test     - 测试相关
+# chore    - 构建过程或辅助工具变动
+# perf     - 性能优化
+# ci       - CI/CD 配置
+# build    - 构建系统或外部依赖
+
+# --- Scope 范围（xihe-zone）---
+# page       - 前端代码
+# design     - 设计文件
+# config     - 配置文件
+# action     - GitHub Actions
+# component  - 组件开发
+# style      - 样式文件
+
+# --- 正文（可选）---
+# 详细描述变更内容和原因
+
+# --- 页脚（可选）---
+# Refs: #123
+# Breaks: <描述破坏性变更>
