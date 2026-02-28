@@ -4,7 +4,7 @@
  */
 
 class TeamTasksBoard {
-  constructor(containerId, dataPath = '/src/data/tasks.json') {
+  constructor(containerId, dataPath = '/data/tasks.json') {
     this.container = document.getElementById(containerId);
     this.dataPath = dataPath;
     this.data = null;
