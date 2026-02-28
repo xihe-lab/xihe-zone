@@ -793,11 +793,61 @@ a:hover {
   text-decoration: none;
 }
 
+/* 联系方式 */
+.footer-contact {
+  margin: 2rem 0;
+  padding: 1.5rem;
+  background: rgba(245, 158, 11, 0.05);
+  border-radius: 8px;
+}
+
+.contact-title {
+  color: var(--text-primary);
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+.contact-links {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.contact-link {
+  color: var(--text-tertiary);
+  text-decoration: none;
+  transition: var(--transition-smooth);
+}
+
+.contact-link:hover {
+  color: var(--sun-gold);
+  text-decoration: none;
+}
+
+/* 仓库信息 */
+.footer-repo {
+  margin: 1.5rem 0;
+  color: var(--text-tertiary);
+  font-size: 0.875rem;
+}
+
+.repo-link {
+  color: var(--sun-gold);
+  text-decoration: none;
+  transition: var(--transition-smooth);
+}
+
+.repo-link:hover {
+  text-decoration: underline;
+}
+
 .footer-copyright {
   color: var(--text-tertiary);
   font-size: 0.875rem;
   padding-top: 2rem;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: 2rem;
 }
 
 /* ========================================
