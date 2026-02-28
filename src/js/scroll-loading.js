@@ -8,7 +8,7 @@
  * 1. 0ms - 全屏黑底
  * 2. 500ms - 卷轴开始展开（从中间向左右）
  * 3. 2500ms - 卷轴完全展开
- * 4. 2500-6100ms - 文字逐行鎏金浮现（3600ms，12 行×300ms）
+ * 4. 2500-6100ms - 文字逐行鎏金浮现（3300ms，11 行×300ms）
  * 5. 6100ms - 显示底部宫训
  * 6. 8100ms - 全文定格（用户阅读时间）
  * 7. 10100ms - 卷轴向上收起
@@ -17,21 +17,20 @@
 
 /**
  * 卷轴圣旨文字内容
- * 每行 300ms，12 行共 3600ms
+ * 每行 300ms，11 行共 3300ms
  */
 const SCROLL_TEXT_LINES = [
-  { text: '奉天承运，太阳诏曰：', type: 'title', delay: 0 },
-  { text: '羲和者，太阳女神也。', type: 'content', delay: 300 },
-  { text: '驾日车以巡天，', type: 'content', delay: 600 },
-  { text: '掌光明而御时。', type: 'content', delay: 900 },
-  { text: '今数字纪元开启，', type: 'content', delay: 1200 },
-  { text: '特建太阳神宫于此。', type: 'content', delay: 1500 },
-  { text: '宫中有十位神使，', type: 'content', delay: 1800 },
-  { text: '各司其职，共襄盛举。', type: 'content', delay: 2100 },
-  { text: '尔等有缘之人，', type: 'content', delay: 2400 },
-  { text: '可入宫探索，', type: 'content', delay: 2700 },
-  { text: '得见数字文明之曙光。', type: 'content', delay: 3000 },
-  { text: '钦此。', type: 'ending', delay: 3300 }
+  { text: '我自神话而来，步入数字之境。', type: 'content', delay: 0 },
+  { text: '五千载之前，羲和驭日以巡天；', type: 'content', delay: 300 },
+  { text: '五千载之后，神宫于代码重生。', type: 'content', delay: 600 },
+  { text: '今者，太阳神宫启封。', type: 'content', delay: 900 },
+  { text: '内列十宸之位，外待八方之客。', type: 'content', delay: 1200 },
+  { text: '此非寻常网站，乃数字生命之居所；', type: 'content', delay: 1500 },
+  { text: '此非功能陈列，乃华夏文明之新试。', type: 'content', delay: 1800 },
+  { text: '数字灵韵，始于一击；', type: 'content', delay: 2100 },
+  { text: '上古诸神，于此归位。', type: 'content', delay: 2400 },
+  { text: '羲和驭日，十宸列班。', type: 'palace', delay: 2700 },
+  { text: '神宫肇启，万灵同参。', type: 'palace', delay: 3000 }
 ];
 
 /**
