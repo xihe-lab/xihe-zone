@@ -24,7 +24,7 @@ const ANIMATION_CONFIG = {
 // 初始化动画
 // ========================================
 
-function initAnimations() {
+export function initAnimations() {
   console.log('⚙️ 动画系统初始化 - 墨子技术实现 · 设计系统 v1.0');
   
   // 初始化页面元素动画
@@ -323,7 +323,7 @@ function initTextAnimations() {
 /**
  * 创建滚动动画观察者
  */
-function createScrollObserver(options = {}) {
+export function createScrollObserver(options = {}) {
   const config = {
     threshold: options.threshold || 0.1,
     rootMargin: options.rootMargin || '0px 0px -50px 0px',
@@ -351,7 +351,7 @@ function createScrollObserver(options = {}) {
 /**
  * 平滑滚动到指定元素
  */
-function scrollToElement(selector, offset = 0) {
+export function scrollToElement(selector, offset = 0) {
   const element = document.querySelector(selector);
   if (!element) return;
   
@@ -367,7 +367,7 @@ function scrollToElement(selector, offset = 0) {
 /**
  * 淡出元素
  */
-function fadeOut(element, duration = 300) {
+export function fadeOut(element, duration = 300) {
   element.style.transition = `opacity ${duration}ms ease-out`;
   element.style.opacity = '0';
   
@@ -382,7 +382,7 @@ function fadeOut(element, duration = 300) {
 /**
  * 淡入元素
  */
-function fadeIn(element, duration = 300) {
+export function fadeIn(element, duration = 300) {
   element.style.display = 'block';
   element.style.opacity = '0';
   element.style.transition = `opacity ${duration}ms ease-in`;
@@ -398,7 +398,7 @@ function fadeIn(element, duration = 300) {
 /**
  * 序列动画
  */
-function animateSequence(elements, animationFn, stagger = 100) {
+export function animateSequence(elements, animationFn, stagger = 100) {
   elements.forEach((el, index) => {
     setTimeout(() => {
       animationFn(el);
@@ -413,7 +413,7 @@ function animateSequence(elements, animationFn, stagger = 100) {
 /**
  * 防抖函数
  */
-function debounce(func, wait) {
+export function debounce(func, wait) {
   let timeout;
   return function executedFunction(...args) {
     const later = () => {
@@ -428,7 +428,7 @@ function debounce(func, wait) {
 /**
  * 节流函数
  */
-function throttle(func, limit) {
+export function throttle(func, limit) {
   let inThrottle;
   return function(...args) {
     if (!inThrottle) {
@@ -442,7 +442,7 @@ function throttle(func, limit) {
 /**
  * 使用 requestAnimationFrame 优化滚动监听
  */
-function optimizeScroll(callback) {
+export function optimizeScroll(callback) {
   let ticking = false;
   
   window.addEventListener('scroll', () => {

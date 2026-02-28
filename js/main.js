@@ -294,7 +294,16 @@ function updateParallax(elements) {
 }
 
 // ========================================
-// 工具函数
+// 工具函数导出
 // ========================================
 
-console.log('⚙️ JavaScript 已加载 - 太阳神宫启动');
+export {
+  initScrollProgress,
+  initSmoothScroll,
+  initScrollAnimations,
+  initButtonEffects,
+  debounce,
+  throttle
+};
+
+console.log('⚙️ JavaScript 模块已加载');
