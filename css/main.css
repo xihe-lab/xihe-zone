@@ -763,16 +763,31 @@ a:hover {
    ======================================== */
 
 .footer {
-  background: var(--bg-secondary);
+  background: linear-gradient(180deg, var(--bg-secondary) 0%, rgba(15, 15, 15, 0.95) 100%);
   border-top: 1px solid rgba(245, 158, 11, 0.2);
-  padding: 3rem 1.5rem;
+  padding: 4rem 1.5rem 2rem;
   margin-top: 5rem;
+  position: relative;
+}
+
+.footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--sun-gold), transparent);
 }
 
 .footer-content {
   max-width: 1200px;
   margin: 0 auto;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .footer-links {
@@ -780,12 +795,25 @@ a:hover {
   justify-content: center;
   flex-wrap: wrap;
   gap: 2rem;
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
 }
 
 .footer-link {
   color: var(--text-tertiary);
   transition: var(--transition-smooth);
+  position: relative;
+  padding: 0.25rem 0;
+}
+
+.footer-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--sun-gold);
+  transition: width 0.3s ease;
 }
 
 .footer-link:hover {
@@ -793,61 +821,143 @@ a:hover {
   text-decoration: none;
 }
 
-/* 联系方式 */
+.footer-link:hover::after {
+  width: 100%;
+}
+
+/* 联系方式区域 */
 .footer-contact {
-  margin: 2rem 0;
-  padding: 1.5rem;
-  background: rgba(245, 158, 11, 0.05);
-  border-radius: 8px;
+  margin-bottom: 2rem;
 }
 
 .contact-title {
   color: var(--text-primary);
   font-size: 1rem;
+  font-weight: 600;
   margin-bottom: 1rem;
+  letter-spacing: 0.05em;
 }
 
 .contact-links {
   display: flex;
-  gap: 1.5rem;
   justify-content: center;
   flex-wrap: wrap;
+  gap: 1.5rem;
 }
 
 .contact-link {
   color: var(--text-tertiary);
-  text-decoration: none;
   transition: var(--transition-smooth);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .contact-link:hover {
   color: var(--sun-gold);
   text-decoration: none;
+  transform: translateY(-2px);
 }
 
-/* 仓库信息 */
+/* 仓库地址 */
 .footer-repo {
-  margin: 1.5rem 0;
+  margin-bottom: 2rem;
+}
+
+.footer-repo p {
   color: var(--text-tertiary);
   font-size: 0.875rem;
+  margin-bottom: 0.75rem;
 }
 
 .repo-link {
   color: var(--sun-gold);
-  text-decoration: none;
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  padding: 0.5rem 1rem;
+  background: rgba(245, 158, 11, 0.05);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  border-radius: 6px;
   transition: var(--transition-smooth);
+  display: inline-block;
 }
 
 .repo-link:hover {
+  background: rgba(245, 158, 11, 0.1);
+  border-color: var(--sun-gold);
+  text-decoration: none;
+  transform: translateY(-2px);
+}
+
+/* 社交图标 */
+.footer-social {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+}
+
+.social-link {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(245, 158, 11, 0.05);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  border-radius: 50%;
+  color: var(--sun-gold);
+  transition: var(--transition-smooth);
+  text-decoration: none;
+}
+
+.social-link:hover {
+  background: rgba(245, 158, 11, 0.15);
+  border-color: var(--sun-gold);
+  color: var(--sun-gold-light);
+  transform: translateY(-4px) scale(1.1);
+  box-shadow: 0 8px 20px rgba(245, 158, 11, 0.3);
+  text-decoration: none;
+}
+
+.social-link:active {
+  transform: translateY(-2px) scale(1.05);
+}
+
+.social-link svg {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+/* 豆包链接样式 */
+.doubao-link {
+  color: var(--sun-gold);
+  text-decoration: none;
+  transition: var(--transition-smooth);
+  font-weight: 500;
+}
+
+.doubao-link:hover {
+  color: var(--sun-gold-light);
   text-decoration: underline;
 }
 
 .footer-copyright {
   color: var(--text-tertiary);
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   padding-top: 2rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  margin-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  line-height: 1.8;
+}
+
+.footer-copyright p {
+  margin-bottom: 0.5rem;
+}
+
+.footer-copyright p:last-child {
+  margin-bottom: 0;
 }
 
 /* ========================================
@@ -884,7 +994,7 @@ a:hover {
 .delay-500 { transition-delay: 0.5s; }
 
 /* ========================================
-   十二、响应式优化
+   十八、响应式优化
    ======================================== */
 
 @media (max-width: 768px) {
@@ -903,9 +1013,34 @@ a:hover {
     text-align: center;
   }
   
+  .footer {
+    padding: 3rem 1rem 1.5rem;
+  }
+  
   .footer-links {
     flex-direction: column;
     gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  
+  .footer-social {
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  
+  .social-link {
+    width: 44px;
+    height: 44px;
+  }
+  
+  .social-link svg {
+    width: 22px;
+    height: 22px;
+  }
+  
+  .contact-links {
+    flex-direction: column;
+    gap: 0.75rem;
   }
   
   .scroll-progress {
@@ -914,7 +1049,7 @@ a:hover {
 }
 
 /* ========================================
-   十三、工具类
+   十九、工具类
    ======================================== */
 
 .text-gradient {
@@ -946,12 +1081,247 @@ a:hover {
 }
 
 /* ========================================
-   十四、神话小队任务看板
+   十四、总序样式优化
+   ======================================== */
+
+/* 总序容器 - 居中 + 鎏金边框装饰 */
+.preamble-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.preamble-card {
+  background: linear-gradient(145deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+  border: 2px solid rgba(245, 158, 11, 0.3);
+  border-radius: 16px;
+  padding: 3rem 2rem;
+  position: relative;
+  max-width: 600px;
+  box-shadow: 
+    0 0 40px rgba(245, 158, 11, 0.1),
+    inset 0 0 60px rgba(245, 158, 11, 0.05);
+  overflow: hidden;
+}
+
+/* 鎏金边框装饰 */
+.preamble-card::before {
+  content: '';
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  right: 8px;
+  bottom: 8px;
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  border-radius: 10px;
+  pointer-events: none;
+}
+
+/* 四角装饰 */
+.preamble-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 20px 20px, rgba(245, 158, 11, 0.15) 0%, transparent 10px),
+    radial-gradient(circle at calc(100% - 20px) 20px, rgba(245, 158, 11, 0.15) 0%, transparent 10px),
+    radial-gradient(circle at 20px calc(100% - 20px), rgba(245, 158, 11, 0.15) 0%, transparent 10px),
+    radial-gradient(circle at calc(100% - 20px) calc(100% - 20px), rgba(245, 158, 11, 0.15) 0%, transparent 10px);
+  pointer-events: none;
+}
+
+.preamble-quote {
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 2.5vw, 1.5rem);
+  text-align: center;
+  color: var(--text-secondary);
+  line-height: 2;
+  margin: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.preamble-quote p {
+  margin-bottom: 0.5rem;
+}
+
+.preamble-quote p:last-child {
+  margin-bottom: 0;
+}
+
+/* 总序标题样式 */
+#preamble .section-title {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+/* ========================================
+   十五、众神卡片样式优化
+   ======================================== */
+
+/* 众神网格布局 - 桌面端 4 列 */
+.gods-grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1.5rem;
+  width: 100%;
+}
+
+@media (min-width: 640px) {
+  .gods-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .gods-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+  }
+}
+
+/* 众神卡片 */
+.god-card {
+  background: linear-gradient(145deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  border-radius: 16px;
+  padding: 1.5rem;
+  transition: var(--transition-smooth);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 280px;
+}
+
+/* 顶部鎏金装饰线 */
+.god-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--gradient-golden);
+  opacity: 0;
+  transition: var(--transition-smooth);
+}
+
+.god-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  border-color: rgba(245, 158, 11, 0.5);
+  box-shadow: 
+    0 12px 40px rgba(245, 158, 11, 0.15),
+    0 0 60px rgba(245, 158, 11, 0.08);
+}
+
+.god-card:hover::before {
+  opacity: 1;
+}
+
+/* 众神卡片头部 */
+.god-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(245, 158, 11, 0.15);
+}
+
+.god-emoji {
+  font-size: 2.5rem;
+  filter: drop-shadow(0 0 10px rgba(245, 158, 11, 0.5));
+  flex-shrink: 0;
+  transition: var(--transition-bounce);
+}
+
+.god-card:hover .god-emoji {
+  transform: scale(1.15);
+}
+
+.god-name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+  font-family: var(--font-display);
+}
+
+.god-title {
+  font-size: 0.875rem;
+  color: var(--sun-gold);
+  font-weight: 500;
+  margin: 0.25rem 0 0 0;
+  opacity: 0.9;
+}
+
+/* 众神卡片内容 */
+.god-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.god-content p {
+  font-family: var(--font-display);
+  font-size: 0.9375rem;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.8;
+  text-align: center;
+}
+
+/* 移动端优化 - 滑动展示 */
+@media (max-width: 639px) {
+  .gods-grid {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 1rem;
+    padding: 0.5rem 1rem 1.5rem;
+    margin: 0 -1rem;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  
+  .gods-grid::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .god-card {
+    min-width: 280px;
+    max-width: 320px;
+    scroll-snap-align: start;
+    flex-shrink: 0;
+  }
+  
+  /* 滑动提示 */
+  #gods::after {
+    content: '← 滑动查看更多众神 →';
+    display: block;
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--text-tertiary);
+    margin-top: 0.75rem;
+    opacity: 0.7;
+  }
+}
+
+/* ========================================
+   十六、神话小队任务看板
    ======================================== */
 
 .tasks-board {
-  max-width: 1400px;
+  max-width: 1600px;
   margin: 0 auto;
+  padding: 0 1rem;
 }
 
 .tasks-grid {
@@ -960,40 +1330,62 @@ a:hover {
   gap: 1.5rem;
 }
 
-@media (min-width: 640px) {
-  .tasks-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (min-width: 1024px) {
+/* 平板端 3 列 */
+@media (min-width: 768px) {
   .tasks-grid {
     grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
   }
 }
 
-/* 任务卡片 - 提高优先级 */
-#teamTasksBoard .task-card,
-.tasks-board .task-card,
+/* 桌面端 4 列 */
+@media (min-width: 1280px) {
+  .tasks-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+  }
+}
+
+/* 任务卡片 */
 .task-card {
-  background: linear-gradient(145deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%) !important;
-  border: 1px solid rgba(245, 158, 11, 0.2) !important;
-  border-radius: 12px !important;
-  overflow: hidden !important;
-  transition: var(--transition-smooth) !important;
-  display: block !important;
-  visibility: visible !important;
-  opacity: 1 !important;
+  background: linear-gradient(145deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: var(--transition-smooth);
+  position: relative;
+}
+
+.task-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--gradient-golden);
+  opacity: 0;
+  transition: var(--transition-smooth);
 }
 
 .task-card:hover {
-  transform: translateY(-4px);
-  border-color: rgba(245, 158, 11, 0.4);
-  box-shadow: var(--shadow-card);
+  transform: translateY(-6px) scale(1.02);
+  border-color: rgba(245, 158, 11, 0.5);
+  box-shadow: 
+    0 12px 40px rgba(245, 158, 11, 0.15),
+    0 0 60px rgba(245, 158, 11, 0.08);
+}
+
+.task-card:hover::before {
+  opacity: 1;
 }
 
 .task-card.collapsed .task-card-body {
   display: none;
+}
+
+.task-card.collapsed {
+  transform: translateY(0);
 }
 
 /* 任务卡片头部 */
@@ -1002,20 +1394,37 @@ a:hover {
   justify-content: space-between;
   align-items: center;
   padding: 1.25rem;
-  background: rgba(245, 158, 11, 0.05);
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.08) 0%, rgba(245, 158, 11, 0.02) 100%);
   border-bottom: 1px solid rgba(245, 158, 11, 0.1);
   cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.task-card-header:hover {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.12) 0%, rgba(245, 158, 11, 0.05) 100%);
 }
 
 .member-info {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.875rem;
+  flex: 1;
+  min-width: 0;
 }
 
 .member-emoji {
-  font-size: 2rem;
-  filter: drop-shadow(0 0 8px rgba(245, 158, 11, 0.4));
+  font-size: 2.25rem;
+  filter: drop-shadow(0 0 10px rgba(245, 158, 11, 0.5));
+  flex-shrink: 0;
+  transition: var(--transition-bounce);
+}
+
+.task-card:hover .member-emoji {
+  transform: scale(1.1);
+}
+
+.member-details {
+  min-width: 0;
 }
 
 .member-name {
@@ -1023,44 +1432,67 @@ a:hover {
   font-weight: 700;
   color: var(--text-primary);
   margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .member-role {
   font-size: 0.75rem;
   color: var(--sun-gold);
-  margin: 0;
+  margin: 0.25rem 0 0 0;
   font-weight: 500;
+  opacity: 0.9;
 }
 
 /* 折叠按钮 */
 .toggle-btn {
   background: rgba(245, 158, 11, 0.1);
   border: 1px solid rgba(245, 158, 11, 0.3);
-  border-radius: 6px;
-  width: 32px;
-  height: 32px;
+  border-radius: 8px;
+  width: 36px;
+  height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   transition: var(--transition-smooth);
   color: var(--sun-gold);
+  flex-shrink: 0;
+  margin-left: 0.75rem;
 }
 
 .toggle-btn:hover {
-  background: rgba(245, 158, 11, 0.2);
+  background: rgba(245, 158, 11, 0.25);
   border-color: var(--sun-gold);
+  transform: scale(1.1);
+}
+
+.toggle-btn:active {
+  transform: scale(0.95);
 }
 
 .toggle-icon {
-  width: 16px;
-  height: 16px;
-  transition: transform 0.3s ease;
+  width: 18px;
+  height: 18px;
+  transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
 /* 任务卡片主体 */
 .task-card-body {
   padding: 1.25rem;
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .task-section {
@@ -1075,11 +1507,13 @@ a:hover {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 0.875rem;
-  font-weight: 600;
+  font-size: 0.8125rem;
+  font-weight: 700;
   margin-bottom: 0.75rem;
   padding-bottom: 0.5rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
 }
 
 .section-icon {
@@ -1088,10 +1522,13 @@ a:hover {
 
 .task-count {
   background: rgba(255, 255, 255, 0.1);
-  padding: 0.125rem 0.5rem;
+  padding: 0.125rem 0.625rem;
   border-radius: 9999px;
-  font-size: 0.75rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
   margin-left: auto;
+  min-width: 24px;
+  text-align: center;
 }
 
 /* 待办事项标题 - 橙色 */
@@ -1124,45 +1561,60 @@ a:hover {
 .task-item {
   display: flex;
   align-items: flex-start;
-  gap: 0.5rem;
-  padding: 0.5rem 0;
-  font-size: 0.875rem;
+  gap: 0.625rem;
+  padding: 0.625rem 0;
+  font-size: 0.8125rem;
   line-height: 1.5;
+  transition: var(--transition-smooth);
+}
+
+.task-item:hover {
+  transform: translateX(4px);
 }
 
 .task-item.empty {
   color: var(--text-tertiary);
   font-style: italic;
   justify-content: center;
-  padding: 1rem 0;
+  padding: 1.25rem 0;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 6px;
+  margin: 0.25rem 0;
 }
 
 /* 待办事项样式 - 橙色/黄色 */
 .task-item.todo .task-bullet {
   color: #FB923C;
-  font-size: 0.75rem;
+  font-size: 0.5rem;
   line-height: 1.5;
   flex-shrink: 0;
+  margin-top: 0.375rem;
+  filter: drop-shadow(0 0 4px rgba(251, 146, 60, 0.5));
 }
 
 .task-item.todo .task-text {
   color: var(--text-secondary);
+  flex: 1;
 }
 
 /* 已办事项样式 - 绿色 */
 .task-item.done .task-bullet {
   color: #10B981;
-  font-size: 0.75rem;
+  font-size: 0.6875rem;
   line-height: 1.5;
   flex-shrink: 0;
   font-weight: bold;
+  margin-top: 0.25rem;
+  filter: drop-shadow(0 0 4px rgba(16, 185, 129, 0.5));
 }
 
 .task-item.done .task-text {
   color: var(--text-tertiary);
   text-decoration: line-through;
   text-decoration-color: #10B981;
-  text-decoration-thickness: 1px;
+  text-decoration-thickness: 2px;
+  text-decoration-style: solid;
+  flex: 1;
 }
 
 /* 任务底部 */
@@ -1192,19 +1644,27 @@ a:hover {
 }
 
 /* 移动端优化 */
-@media (max-width: 640px) {
+@media (max-width: 767px) {
   .tasks-grid {
     display: flex;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     gap: 1rem;
-    padding-bottom: 1rem;
+    padding: 0.5rem 1rem 1.5rem;
+    margin: 0 -1rem;
     -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  
+  .tasks-grid::-webkit-scrollbar {
+    display: none;
   }
   
   .task-card {
     min-width: 280px;
+    max-width: 320px;
     scroll-snap-align: start;
+    flex-shrink: 0;
   }
   
   .task-card-header {
@@ -1215,14 +1675,19 @@ a:hover {
     padding: 1rem;
   }
   
+  .member-emoji {
+    font-size: 1.75rem;
+  }
+  
   /* 移动端滑动提示 */
   .tasks-board::after {
-    content: '← 滑动查看更多 →';
+    content: '← 滑动查看更多成员 →';
     display: block;
     text-align: center;
     font-size: 0.75rem;
     color: var(--text-tertiary);
-    margin-top: 0.5rem;
+    margin-top: 0.75rem;
+    opacity: 0.7;
   }
 }
 
