@@ -1,15 +1,17 @@
 /* ========================================
-   太阳神宫 · 日光光晕加载动画样式
+   羲和实验室 · 日光光晕加载动画样式（合规版）
    设计：鲁班 🔨
    技术：墨子 ⚙️
    
    动画时序：
    1. 0ms - 全屏黑底
    2. 500ms - 中央金色光点缓缓亮起
-   3. 1000ms - 形成日光光晕
-   4. 1500ms - 日光光晕向外扫屏展开
-   5. 2500ms - 文字逐行渐显（10 行×300ms = 3000ms）
-   6. 5500ms - 动画结束，进入首页
+   3. 1500ms - 形成日光光晕
+   4. 2500ms - 日光光晕向外扫屏展开
+   5. 3000ms - 文字开始逐行渐显（3 行主文字 + 1 行底部小字）
+   6. 3000-5000ms - 文字逐行显示
+   7. 7000ms - 全文定格（用户阅读）
+   8. 8000ms - 淡出进入首页
    ======================================== */
 
 /* ========================================
@@ -136,7 +138,7 @@
 
 .sun-glow-loading.gate-visible .sun-glow-layer {
   animation: glow-expand 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-  animation-delay: 1s;
+  animation-delay: 1.5s;
 }
 
 @keyframes glow-expand {
@@ -169,7 +171,7 @@
 
 .sun-glow-loading.gate-visible .sun-glow-wave {
   animation: wave-sweep 2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-  animation-delay: 1.5s;
+  animation-delay: 2.5s;
 }
 
 @keyframes wave-sweep {
@@ -186,7 +188,7 @@
   }
 }
 
-/* 外层光晕装饰 */
+/* 外层光晕装饰（科技感线条） */
 .sun-glow-outer {
   position: absolute;
   width: 100%;
@@ -234,7 +236,7 @@
   border-radius: 50%;
   opacity: 0;
   animation: rays-appear 1s ease-out forwards;
-  animation-delay: 1.2s;
+  animation-delay: 1.8s;
 }
 
 @keyframes rays-appear {
@@ -257,14 +259,14 @@
   z-index: 20;
   text-align: center;
   padding: 2rem;
-  max-width: 800px;
+  max-width: 900px;
   opacity: 0;
   transform: translateY(20px);
 }
 
 .sun-glow-loading.gate-visible .sun-glow-text-container {
   animation: text-container-appear 0.8s ease-out forwards;
-  animation-delay: 2.5s;
+  animation-delay: 2.8s;
 }
 
 @keyframes text-container-appear {
@@ -278,90 +280,69 @@
   }
 }
 
-/* 文字行样式 */
+/* 文字行通用样式 */
 .sun-glow-line {
   font-family: 'Noto Serif SC', 'Songti SC', 'STSong', serif;
-  font-size: clamp(1.125rem, 2.5vw, 1.5rem);
-  line-height: 2;
-  margin: 0.5rem 0;
+  font-size: clamp(1.25rem, 2.8vw, 1.75rem);
+  line-height: 2.2;
+  margin: 0.75rem 0;
   opacity: 0;
-  transform: translateY(10px);
+  transform: translateY(15px);
   color: #FCD34D;
   text-shadow: 0 0 20px rgba(245, 158, 11, 0.5);
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
 }
 
-/* 文字逐行渐显（9 行文字） */
-.sun-glow-loading.gate-visible .sun-glow-line:nth-child(1) {
-  animation: line-fade-in 0.8s ease-out forwards;
-  animation-delay: 2.8s;
-}
-
-.sun-glow-loading.gate-visible .sun-glow-line:nth-child(2) {
-  animation: line-fade-in 0.8s ease-out forwards;
-  animation-delay: 3.1s;
-}
-
-.sun-glow-loading.gate-visible .sun-glow-line:nth-child(3) {
-  animation: line-fade-in 0.8s ease-out forwards;
-  animation-delay: 3.4s;
-}
-
-.sun-glow-loading.gate-visible .sun-glow-line:nth-child(4) {
-  animation: line-fade-in 0.8s ease-out forwards;
-  animation-delay: 3.7s;
-}
-
-.sun-glow-loading.gate-visible .sun-glow-line:nth-child(5) {
-  animation: line-fade-in 0.8s ease-out forwards;
-  animation-delay: 4.0s;
-}
-
-.sun-glow-loading.gate-visible .sun-glow-line:nth-child(6) {
-  animation: line-fade-in 0.8s ease-out forwards;
-  animation-delay: 4.3s;
-}
-
-.sun-glow-loading.gate-visible .sun-glow-line:nth-child(7) {
-  animation: line-fade-in 0.8s ease-out forwards;
-  animation-delay: 4.6s;
-}
-
-.sun-glow-loading.gate-visible .sun-glow-line:nth-child(8) {
-  animation: line-fade-in 0.8s ease-out forwards;
-  animation-delay: 4.9s;
-}
-
-.sun-glow-loading.gate-visible .sun-glow-line:nth-child(9) {
-  animation: line-fade-in 0.8s ease-out forwards;
-  animation-delay: 5.2s;
-}
-
-@keyframes line-fade-in {
-  0% {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* 文字微光效果 */
-.sun-glow-line {
+/* 主文字行样式 */
+.sun-glow-line.main {
+  font-weight: 400;
   background: linear-gradient(
     90deg,
     rgba(245, 158, 11, 0.3) 0%,
-    rgba(252, 211, 77, 0.8) 50%,
+    rgba(252, 211, 77, 0.9) 50%,
     rgba(245, 158, 11, 0.3) 100%
   );
   background-size: 200% 100%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+}
+
+/* 底部小字样式 */
+.sun-glow-line.bottom {
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  font-weight: 500;
+  margin-top: 1.5rem;
+  letter-spacing: 0.12em;
+  color: #F59E0B;
+  text-shadow: 0 0 15px rgba(245, 158, 11, 0.4);
+  background: linear-gradient(
+    90deg,
+    rgba(245, 158, 11, 0.4) 0%,
+    rgba(252, 211, 77, 0.8) 50%,
+    rgba(245, 158, 11, 0.4) 100%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* 文字渐显动画 */
+.sun-glow-line.line-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 文字微光效果（科技感） */
+.sun-glow-line.main {
   animation: text-shimmer 3s ease-in-out infinite;
-  animation-delay: calc(2.8s + (var(--line-index, 0) * 0.3s));
+}
+
+.sun-glow-line.bottom {
+  animation: text-shimmer 3s ease-in-out infinite;
+  animation-delay: 0.5s;
 }
 
 @keyframes text-shimmer {
@@ -373,22 +354,8 @@
   }
 }
 
-/* 特殊行样式 */
-.sun-glow-line.highlight {
-  font-size: clamp(1.25rem, 3vw, 1.75rem);
-  font-weight: 700;
-  text-shadow: 0 0 30px rgba(245, 158, 11, 0.7);
-}
-
-.sun-glow-line.ending {
-  font-size: clamp(1.25rem, 3vw, 1.75rem);
-  font-weight: 700;
-  margin-top: 1.5rem;
-  letter-spacing: 0.1em;
-}
-
 /* ========================================
-   五、背景装饰粒子
+   五、背景装饰粒子（科技感光点）
    ======================================== */
 
 .sun-glow-particles {
@@ -403,11 +370,11 @@
 
 .particle {
   position: absolute;
-  width: 4px;
-  height: 4px;
-  background: rgba(245, 158, 11, 0.6);
+  width: 3px;
+  height: 3px;
+  background: rgba(245, 158, 11, 0.7);
   border-radius: 50%;
-  box-shadow: 0 0 10px rgba(245, 158, 11, 0.8);
+  box-shadow: 0 0 12px rgba(245, 158, 11, 0.9);
   opacity: 0;
 }
 
@@ -468,16 +435,12 @@
   }
 
   .sun-glow-line {
-    font-size: clamp(1rem, 3vw, 1.25rem);
-    line-height: 1.8;
+    font-size: clamp(1.1rem, 3.2vw, 1.5rem);
+    line-height: 2;
   }
 
-  .sun-glow-line.highlight {
-    font-size: clamp(1.125rem, 3.5vw, 1.5rem);
-  }
-
-  .sun-glow-line.ending {
-    font-size: clamp(1.125rem, 3vw, 1.5rem);
+  .sun-glow-line.bottom {
+    font-size: clamp(0.9rem, 2.5vw, 1.1rem);
   }
 }
 
