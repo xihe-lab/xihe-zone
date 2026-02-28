@@ -169,16 +169,20 @@ class TeamTasksBoard {
 function initTeamTasksBoard() {
   const tasksContainer = document.getElementById('teamTasksBoard');
   if (tasksContainer) {
+    console.log('🌞 初始化任务看板...');
     window.teamTasksBoard = new TeamTasksBoard('teamTasksBoard');
+    console.log('✅ 任务看板初始化完成');
+  } else {
+    console.error('❌ 未找到 teamTasksBoard 容器');
   }
 }
 
-// 检查 DOM 是否已就绪，处理脚本在 body 底部的情况
+// 立即执行一次（处理脚本在 body 底部的情况）
+initTeamTasksBoard();
+
+// 同时也监听 DOMContentLoaded（处理脚本在 head 的情况）
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', initTeamTasksBoard);
-} else {
-  // DOM 已就绪，直接初始化
-  initTeamTasksBoard();
 }
 
 // 导出供外部使用
