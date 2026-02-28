@@ -864,219 +864,7 @@ a:hover {
 }
 
 /* ========================================
-   十三、任务看板组件
-   ======================================== */
-
-.tasks-board {
-  width: 100%;
-}
-
-.tasks-grid {
-  display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  gap: 1.5rem;
-}
-
-@media (min-width: 768px) {
-  .tasks-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (min-width: 1024px) {
-  .tasks-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-/* 任务卡片 */
-.task-card {
-  background: linear-gradient(145deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
-  border: 1px solid rgba(245, 158, 11, 0.2);
-  border-radius: 12px;
-  padding: 1.5rem;
-  transition: var(--transition-smooth);
-  overflow: hidden;
-}
-
-.task-card:hover {
-  transform: translateY(-4px);
-  border-color: rgba(245, 158, 11, 0.5);
-  box-shadow: var(--shadow-card);
-}
-
-.task-card.collapsed .task-card-body {
-  display: none;
-}
-
-/* 卡片头部 */
-.task-card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid rgba(245, 158, 11, 0.2);
-  margin-bottom: 1rem;
-}
-
-.member-info {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.member-emoji {
-  font-size: 2.5rem;
-  filter: drop-shadow(0 0 10px rgba(245, 158, 11, 0.5));
-}
-
-.member-name {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: var(--text-primary);
-  margin: 0;
-}
-
-.member-role {
-  color: var(--sun-gold);
-  font-size: 0.875rem;
-  font-weight: 500;
-  margin: 0;
-}
-
-/* 切换按钮 */
-.toggle-btn {
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  padding: 0.5rem;
-  color: var(--text-tertiary);
-  transition: var(--transition-smooth);
-}
-
-.toggle-btn:hover {
-  color: var(--sun-gold);
-}
-
-.toggle-icon {
-  width: 20px;
-  height: 20px;
-  transition: transform 0.3s ease;
-}
-
-/* 卡片主体 */
-.task-card-body {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.task-section {
-  background: rgba(245, 158, 11, 0.05);
-  border-radius: 8px;
-  padding: 1rem;
-}
-
-.task-section-title {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.875rem;
-  font-weight: 600;
-  margin-bottom: 0.75rem;
-  color: var(--text-secondary);
-}
-
-.todo-title {
-  color: var(--sun-orange);
-}
-
-.done-title {
-  color: var(--accent-green);
-}
-
-.section-icon {
-  font-size: 1rem;
-}
-
-.task-count {
-  margin-left: auto;
-  background: rgba(245, 158, 11, 0.2);
-  padding: 0.125rem 0.5rem;
-  border-radius: 9999px;
-  font-size: 0.75rem;
-  color: var(--sun-gold);
-}
-
-/* 任务列表 */
-.task-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.task-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.5rem;
-  font-size: 0.875rem;
-  color: var(--text-tertiary);
-}
-
-.task-item.todo {
-  color: var(--text-secondary);
-}
-
-.task-item.done {
-  color: var(--text-tertiary);
-}
-
-.task-item.empty {
-  font-style: italic;
-  opacity: 0.6;
-}
-
-.task-bullet {
-  flex-shrink: 0;
-  font-size: 0.75rem;
-  line-height: 1.4;
-}
-
-.task-item.todo .task-bullet {
-  color: var(--sun-orange);
-}
-
-.task-item.done .task-bullet {
-  color: var(--accent-green);
-}
-
-.task-text {
-  line-height: 1.4;
-}
-
-/* 卡片底部 */
-.tasks-footer {
-  margin-top: 2rem;
-  text-align: center;
-}
-
-.last-updated {
-  font-size: 0.875rem;
-  color: var(--text-tertiary);
-}
-
-/* 错误状态 */
-.tasks-error {
-  text-align: center;
-  padding: 3rem;
-  color: var(--text-tertiary);
-}
-
-/* ========================================
-   十四、工具类
+   十三、工具类
    ======================================== */
 
 .text-gradient {
@@ -1105,4 +893,291 @@ a:hover {
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border-width: 0;
+}
+
+/* ========================================
+   十四、神话小队任务看板
+   ======================================== */
+
+.tasks-board {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.tasks-grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .tasks-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .tasks-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* 任务卡片 */
+.task-card {
+  background: linear-gradient(145deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: var(--transition-smooth);
+}
+
+.task-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(245, 158, 11, 0.4);
+  box-shadow: var(--shadow-card);
+}
+
+.task-card.collapsed .task-card-body {
+  display: none;
+}
+
+/* 任务卡片头部 */
+.task-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem;
+  background: rgba(245, 158, 11, 0.05);
+  border-bottom: 1px solid rgba(245, 158, 11, 0.1);
+  cursor: pointer;
+}
+
+.member-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.member-emoji {
+  font-size: 2rem;
+  filter: drop-shadow(0 0 8px rgba(245, 158, 11, 0.4));
+}
+
+.member-name {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.member-role {
+  font-size: 0.75rem;
+  color: var(--sun-gold);
+  margin: 0;
+  font-weight: 500;
+}
+
+/* 折叠按钮 */
+.toggle-btn {
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  border-radius: 6px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  color: var(--sun-gold);
+}
+
+.toggle-btn:hover {
+  background: rgba(245, 158, 11, 0.2);
+  border-color: var(--sun-gold);
+}
+
+.toggle-icon {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.3s ease;
+}
+
+/* 任务卡片主体 */
+.task-card-body {
+  padding: 1.25rem;
+}
+
+.task-section {
+  margin-bottom: 1.25rem;
+}
+
+.task-section:last-child {
+  margin-bottom: 0;
+}
+
+.task-section-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.section-icon {
+  font-size: 1rem;
+}
+
+.task-count {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0.125rem 0.5rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  margin-left: auto;
+}
+
+/* 待办事项标题 - 橙色 */
+.todo-title {
+  color: #FB923C;
+}
+
+.todo-title .task-count {
+  background: rgba(251, 146, 60, 0.15);
+  color: #FB923C;
+}
+
+/* 已办事项标题 - 绿色 */
+.done-title {
+  color: #10B981;
+}
+
+.done-title .task-count {
+  background: rgba(16, 185, 129, 0.15);
+  color: #10B981;
+}
+
+/* 任务列表 */
+.task-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.task-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  padding: 0.5rem 0;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.task-item.empty {
+  color: var(--text-tertiary);
+  font-style: italic;
+  justify-content: center;
+  padding: 1rem 0;
+}
+
+/* 待办事项样式 - 橙色/黄色 */
+.task-item.todo .task-bullet {
+  color: #FB923C;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  flex-shrink: 0;
+}
+
+.task-item.todo .task-text {
+  color: var(--text-secondary);
+}
+
+/* 已办事项样式 - 绿色 */
+.task-item.done .task-bullet {
+  color: #10B981;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  flex-shrink: 0;
+  font-weight: bold;
+}
+
+.task-item.done .task-text {
+  color: var(--text-tertiary);
+  text-decoration: line-through;
+  text-decoration-color: #10B981;
+  text-decoration-thickness: 1px;
+}
+
+/* 任务底部 */
+.tasks-footer {
+  text-align: center;
+  padding: 1.5rem;
+  margin-top: 1rem;
+}
+
+.last-updated {
+  font-size: 0.875rem;
+  color: var(--text-tertiary);
+  background: rgba(255, 255, 255, 0.05);
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  display: inline-block;
+}
+
+/* 错误状态 */
+.tasks-error {
+  text-align: center;
+  padding: 3rem;
+  background: rgba(220, 38, 38, 0.1);
+  border: 1px solid rgba(220, 38, 38, 0.3);
+  border-radius: 12px;
+  color: #FCA5A5;
+}
+
+/* 移动端优化 */
+@media (max-width: 640px) {
+  .tasks-grid {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 1rem;
+    padding-bottom: 1rem;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .task-card {
+    min-width: 280px;
+    scroll-snap-align: start;
+  }
+  
+  .task-card-header {
+    padding: 1rem;
+  }
+  
+  .task-card-body {
+    padding: 1rem;
+  }
+  
+  /* 移动端滑动提示 */
+  .tasks-board::after {
+    content: '← 滑动查看更多 →';
+    display: block;
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--text-tertiary);
+    margin-top: 0.5rem;
+  }
+}
+
+/* 减少动画偏好 */
+@media (prefers-reduced-motion: reduce) {
+  .task-card {
+    transition: none;
+  }
+  
+  .toggle-icon {
+    transition: none;
+  }
 }
