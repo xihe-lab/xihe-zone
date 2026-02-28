@@ -1,0 +1,500 @@
+/* ========================================
+   羲和实验室 · 日光光晕加载动画样式（合规版）
+   设计：鲁班 🔨
+   技术：墨子 ⚙️
+   
+   动画时序：
+   1. 0ms - 全屏黑底
+   2. 500ms - 中央金色光点缓缓亮起
+   3. 1500ms - 形成日光光晕
+   4. 2500ms - 日光光晕向外扫屏展开
+   5. 3000ms - 文字开始逐行渐显（3 行主文字 + 1 行底部小字）
+   6. 3000-5000ms - 文字逐行显示
+   7. 7000ms - 全文定格（用户阅读）
+   8. 8000ms - 淡出进入首页
+   ======================================== */
+
+/* ========================================
+   一、主容器
+   ======================================== */
+
+.sun-glow-loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #000000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease;
+}
+
+.sun-glow-loading.gate-visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.sun-glow-loading.gate-fading {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.8s ease-in-out;
+}
+
+/* ========================================
+   二、全屏黑底背景
+   ======================================== */
+
+.sun-glow-blackout {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #000000;
+  z-index: 1;
+}
+
+/* ========================================
+   三、日光光晕效果
+   ======================================== */
+
+.sun-glow-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+/* 中央光点 */
+.sun-core-dot {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: radial-gradient(
+    circle,
+    #FCD34D 0%,
+    #F59E0B 50%,
+    #D97706 80%,
+    transparent 100%
+  );
+  border-radius: 50%;
+  box-shadow: 
+    0 0 30px rgba(245, 158, 11, 0.8),
+    0 0 60px rgba(245, 158, 11, 0.5),
+    0 0 90px rgba(245, 158, 11, 0.3);
+  opacity: 0;
+  transform: scale(0);
+}
+
+.sun-glow-loading.gate-visible .sun-core-dot {
+  animation: core-emerge 1s ease-out forwards;
+  animation-delay: 0.5s;
+}
+
+@keyframes core-emerge {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* 日光光晕层 */
+.sun-glow-layer {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    circle,
+    rgba(245, 158, 11, 0.4) 0%,
+    rgba(245, 158, 11, 0.2) 20%,
+    rgba(245, 158, 11, 0.1) 40%,
+    rgba(245, 158, 11, 0.05) 60%,
+    transparent 80%
+  );
+  border-radius: 50%;
+  opacity: 0;
+  transform: scale(0);
+}
+
+.sun-glow-loading.gate-visible .sun-glow-layer {
+  animation: glow-expand 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation-delay: 1.5s;
+}
+
+@keyframes glow-expand {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(2.5);
+  }
+}
+
+/* 扫屏光波 */
+.sun-glow-wave {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 3px solid rgba(245, 158, 11, 0.6);
+  box-shadow: 
+    0 0 40px rgba(245, 158, 11, 0.4),
+    inset 0 0 40px rgba(245, 158, 11, 0.2);
+  opacity: 0;
+  transform: scale(0);
+}
+
+.sun-glow-loading.gate-visible .sun-glow-wave {
+  animation: wave-sweep 2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation-delay: 2.5s;
+}
+
+@keyframes wave-sweep {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(3);
+  }
+}
+
+/* 外层光晕装饰（科技感线条） */
+.sun-glow-outer {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    rgba(245, 158, 11, 0.08) 10deg,
+    transparent 20deg,
+    rgba(245, 158, 11, 0.08) 30deg,
+    transparent 40deg,
+    rgba(245, 158, 11, 0.08) 50deg,
+    transparent 60deg,
+    rgba(245, 158, 11, 0.08) 70deg,
+    transparent 80deg,
+    rgba(245, 158, 11, 0.08) 90deg,
+    transparent 100deg,
+    rgba(245, 158, 11, 0.08) 110deg,
+    transparent 120deg,
+    rgba(245, 158, 11, 0.08) 130deg,
+    transparent 140deg,
+    rgba(245, 158, 11, 0.08) 150deg,
+    transparent 160deg,
+    rgba(245, 158, 11, 0.08) 170deg,
+    transparent 180deg,
+    rgba(245, 158, 11, 0.08) 190deg,
+    transparent 200deg,
+    rgba(245, 158, 11, 0.08) 210deg,
+    transparent 220deg,
+    rgba(245, 158, 11, 0.08) 230deg,
+    transparent 240deg,
+    rgba(245, 158, 11, 0.08) 250deg,
+    transparent 260deg,
+    rgba(245, 158, 11, 0.08) 270deg,
+    transparent 280deg,
+    rgba(245, 158, 11, 0.08) 290deg,
+    transparent 300deg,
+    rgba(245, 158, 11, 0.08) 310deg,
+    transparent 320deg,
+    rgba(245, 158, 11, 0.08) 330deg,
+    transparent 340deg,
+    rgba(245, 158, 11, 0.08) 350deg,
+    transparent 360deg
+  );
+  border-radius: 50%;
+  opacity: 0;
+  animation: rays-appear 1s ease-out forwards;
+  animation-delay: 1.8s;
+}
+
+@keyframes rays-appear {
+  0% {
+    opacity: 0;
+    transform: scale(0.5) rotate(0deg);
+  }
+  100% {
+    opacity: 0.6;
+    transform: scale(1.5) rotate(180deg);
+  }
+}
+
+/* ========================================
+   四、文字内容区域
+   ======================================== */
+
+.sun-glow-text-container {
+  position: relative;
+  z-index: 20;
+  text-align: center;
+  padding: 2rem;
+  max-width: 900px;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.sun-glow-loading.gate-visible .sun-glow-text-container {
+  animation: text-container-appear 0.8s ease-out forwards;
+  animation-delay: 2.8s;
+}
+
+@keyframes text-container-appear {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 文字行通用样式 */
+.sun-glow-line {
+  font-family: 'Noto Serif SC', 'Songti SC', 'STSong', serif;
+  font-size: clamp(1.25rem, 2.8vw, 1.75rem);
+  line-height: 2.2;
+  margin: 0.75rem 0;
+  opacity: 0;
+  transform: translateY(15px);
+  color: #FCD34D;
+  text-shadow: 0 0 20px rgba(245, 158, 11, 0.5);
+  letter-spacing: 0.08em;
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+/* 主文字行样式 */
+.sun-glow-line.main {
+  font-weight: 400;
+  background: linear-gradient(
+    90deg,
+    rgba(245, 158, 11, 0.3) 0%,
+    rgba(252, 211, 77, 0.9) 50%,
+    rgba(245, 158, 11, 0.3) 100%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* 底部小字样式 */
+.sun-glow-line.bottom {
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  font-weight: 500;
+  margin-top: 1.5rem;
+  letter-spacing: 0.12em;
+  color: #F59E0B;
+  text-shadow: 0 0 15px rgba(245, 158, 11, 0.4);
+  background: linear-gradient(
+    90deg,
+    rgba(245, 158, 11, 0.4) 0%,
+    rgba(252, 211, 77, 0.8) 50%,
+    rgba(245, 158, 11, 0.4) 100%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* 文字渐显动画 */
+.sun-glow-line.line-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 文字微光效果（科技感） */
+.sun-glow-line.main {
+  animation: text-shimmer 3s ease-in-out infinite;
+}
+
+.sun-glow-line.bottom {
+  animation: text-shimmer 3s ease-in-out infinite;
+  animation-delay: 0.5s;
+}
+
+@keyframes text-shimmer {
+  0%, 100% {
+    background-position: -200% center;
+  }
+  50% {
+    background-position: 200% center;
+  }
+}
+
+/* ========================================
+   五、背景装饰粒子（科技感光点）
+   ======================================== */
+
+.sun-glow-particles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.particle {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: rgba(245, 158, 11, 0.7);
+  border-radius: 50%;
+  box-shadow: 0 0 12px rgba(245, 158, 11, 0.9);
+  opacity: 0;
+}
+
+.particle:nth-child(1) {
+  top: 20%;
+  left: 30%;
+  animation: particle-float 3s ease-in-out infinite;
+  animation-delay: 1s;
+}
+
+.particle:nth-child(2) {
+  top: 40%;
+  left: 70%;
+  animation: particle-float 3.5s ease-in-out infinite;
+  animation-delay: 1.5s;
+}
+
+.particle:nth-child(3) {
+  top: 60%;
+  left: 20%;
+  animation: particle-float 4s ease-in-out infinite;
+  animation-delay: 2s;
+}
+
+.particle:nth-child(4) {
+  top: 80%;
+  left: 60%;
+  animation: particle-float 3.2s ease-in-out infinite;
+  animation-delay: 2.5s;
+}
+
+.particle:nth-child(5) {
+  top: 30%;
+  left: 80%;
+  animation: particle-float 3.8s ease-in-out infinite;
+  animation-delay: 3s;
+}
+
+@keyframes particle-float {
+  0%, 100% {
+    opacity: 0;
+    transform: translateY(0) scale(0);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-20px) scale(1);
+  }
+}
+
+/* ========================================
+   六、响应式设计
+   ======================================== */
+
+@media (max-width: 768px) {
+  .sun-glow-text-container {
+    padding: 1.5rem;
+    max-width: 90vw;
+  }
+
+  .sun-glow-line {
+    font-size: clamp(1.1rem, 3.2vw, 1.5rem);
+    line-height: 2;
+  }
+
+  .sun-glow-line.bottom {
+    font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+  }
+}
+
+/* ========================================
+   七、无障碍支持
+   ======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .sun-glow-loading,
+  .sun-core-dot,
+  .sun-glow-layer,
+  .sun-glow-wave,
+  .sun-glow-outer,
+  .sun-glow-text-container,
+  .sun-glow-line,
+  .particle {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .sun-glow-loading.gate-visible {
+    opacity: 1;
+  }
+
+  .sun-glow-text-container {
+    opacity: 1;
+    transform: none;
+  }
+
+  .sun-glow-line {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ========================================
+   八、性能优化
+   ======================================== */
+
+/* GPU 加速 */
+.sun-glow-container,
+.sun-core-dot,
+.sun-glow-layer,
+.sun-glow-wave,
+.sun-glow-text-container,
+.sun-glow-line {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  will-change: transform, opacity;
+}
+
+/* 硬件加速提示 */
+@supports (-webkit-overflow-scrolling: touch) {
+  .sun-glow-loading {
+    will-change: opacity;
+  }
+}
