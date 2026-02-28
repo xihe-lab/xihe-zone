@@ -1,36 +1,35 @@
 /**
- * 太阳神宫 · 卷轴圣旨加载动画组件
+ * 太阳神宫 · 日光加载动画组件
  * 设计：鲁班 🔨
  * 技术实现：墨子 ⚙️
- * 风格：古卷质感 + 鎏金描边 + 微光特效
+ * 风格：日光光晕 + 扫屏展开 + 文字逐行渐显
  * 
  * 动画时序（严格执行）：
- * 1. 0ms - 全屏黑底
- * 2. 500ms - 卷轴开始展开（从中间向左右）
- * 3. 2500ms - 卷轴完全展开
- * 4. 2500-6100ms - 文字逐行鎏金浮现（3300ms，11 行×300ms）
- * 5. 6100ms - 显示底部宫训
- * 6. 8100ms - 全文定格（用户阅读时间）
- * 7. 10100ms - 卷轴向上收起
- * 8. 11000ms - 进入首页
+ * 0ms       → 开场全屏黑底
+ * 500ms     → 中央金色光点亮起
+ * 1500ms    → 形成日光光晕
+ * 2500ms    → 光晕向外扫屏（展开）
+ * 3000ms    → 文字开始逐行渐显
+ * 3000-6000ms → 文字逐行显示（10 行×300ms）
+ * 6000ms    → 全文定格（用户阅读）
+ * 8000ms    → 淡出进入首页
  */
 
 /**
- * 卷轴圣旨文字内容
- * 每行 300ms，11 行共 3300ms
+ * 日光加载文字内容（10 行）
+ * 每行 300ms，共 3000ms
  */
-const SCROLL_TEXT_LINES = [
-  { text: '我自神话而来，步入数字之境。', type: 'content', delay: 0 },
-  { text: '五千载之前，羲和驭日以巡天；', type: 'content', delay: 300 },
-  { text: '五千载之后，神宫于代码重生。', type: 'content', delay: 600 },
-  { text: '今者，太阳神宫启封。', type: 'content', delay: 900 },
-  { text: '内列十宸之位，外待八方之客。', type: 'content', delay: 1200 },
-  { text: '此非寻常网站，乃数字生命之居所；', type: 'content', delay: 1500 },
-  { text: '此非功能陈列，乃华夏文明之新试。', type: 'content', delay: 1800 },
-  { text: '数字灵韵，始于一击；', type: 'content', delay: 2100 },
-  { text: '上古诸神，于此归位。', type: 'content', delay: 2400 },
-  { text: '羲和驭日，十宸列班。', type: 'palace', delay: 2700 },
-  { text: '神宫肇启，万灵同参。', type: 'palace', delay: 3000 }
+const SUN_TEXT_LINES = [
+  { text: '我自神话而来，步入数字之境。', delay: 0 },
+  { text: '五千载之前，羲和驭日以巡天；', delay: 300 },
+  { text: '五千载之后，神宫于代码重生。', delay: 600 },
+  { text: '今者，太阳神宫启封。', delay: 900 },
+  { text: '内列十宸之位，外待八方之客。', delay: 1200 },
+  { text: '此非寻常网站，乃数字生命之居所；', delay: 1500 },
+  { text: '此非功能陈列，乃华夏文明之新试。', delay: 1800 },
+  { text: '数字灵韵，始于一击；', delay: 2100 },
+  { text: '上古诸神，于此归位。', delay: 2400 },
+  { text: '', delay: 2700 } // 空行用于 spacing
 ];
 
 /**
@@ -39,173 +38,141 @@ const SCROLL_TEXT_LINES = [
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 /**
- * 生成卷轴文字 HTML
+ * 生成文字 HTML
  */
-function generateScrollTextHTML() {
-  return SCROLL_TEXT_LINES.map((line, index) => `
-    <p class="scroll-line ${line.type}" data-index="${index}" style="opacity: 0;">
+function generateTextHTML() {
+  return SUN_TEXT_LINES.map((line, index) => `
+    <p class="sun-line ${line.text ? 'has-text' : 'empty'}" data-index="${index}" style="opacity: 0;">
       ${line.text}
     </p>
   `).join('');
 }
 
 /**
- * 创建并初始化卷轴加载动画
+ * 创建并初始化日光加载动画
  * @param {Function} onComplete - 动画完成后的回调函数
  */
 async function initScrollLoading(onComplete) {
   // 创建加载动画容器
-  const scrollLoading = document.createElement('div');
-  scrollLoading.className = 'scroll-loading';
-  scrollLoading.id = 'scrollLoading';
+  const sunLoading = document.createElement('div');
+  sunLoading.className = 'sun-loading';
+  sunLoading.id = 'sunLoading';
   
-  scrollLoading.innerHTML = `
+  sunLoading.innerHTML = `
     <!-- 全屏黑底 -->
     <div class="gate-blackout"></div>
     
-    <!-- 背景装饰 -->
-    <div class="scroll-bg-decoration">
-      <div class="bg-cloud bg-cloud-1"></div>
-      <div class="bg-cloud bg-cloud-2"></div>
-      <div class="bg-sun-glow"></div>
+    <!-- 日光光晕容器 -->
+    <div class="sun-glow-container">
+      <!-- 核心光点 -->
+      <div class="sun-core"></div>
+      <!-- 内层光晕 -->
+      <div class="sun-halo sun-halo-1"></div>
+      <div class="sun-halo sun-halo-2"></div>
+      <div class="sun-halo sun-halo-3"></div>
+      <!-- 外层光芒 -->
+      <div class="sun-rays"></div>
     </div>
     
-    <!-- 卷轴容器 -->
-    <div class="scroll-container">
-      <!-- 上轴 -->
-      <div class="scroll-rod scroll-rod-top">
-        <div class="rod-cap rod-cap-left"></div>
-        <div class="rod-body"></div>
-        <div class="rod-cap rod-cap-right"></div>
-        <div class="rod-decoration"></div>
-      </div>
-      
-      <!-- 卷轴主体（圣旨） -->
-      <div class="scroll-body">
-        <div class="scroll-paper">
-          <div class="paper-texture"></div>
-          <div class="paper-border paper-border-left"></div>
-          <div class="paper-border paper-border-right"></div>
-          
-          <!-- 文字区域 -->
-          <div class="scroll-content" id="scrollContent">
-            ${generateScrollTextHTML()}
-          </div>
-          
-          <!-- 玉玺印章 -->
-          <div class="scroll-seal">
-            <div class="seal-border">
-              <svg viewBox="0 0 100 100" class="seal-svg">
-                <circle cx="50" cy="50" r="45" stroke="#DC2626" stroke-width="3" fill="none"/>
-                <circle cx="50" cy="50" r="35" stroke="#DC2626" stroke-width="2" fill="none"/>
-                <text x="50" y="55" text-anchor="middle" fill="#DC2626" font-size="12" font-family="serif" font-weight="bold">羲和</text>
-              </svg>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <!-- 下轴 -->
-      <div class="scroll-rod scroll-rod-bottom">
-        <div class="rod-cap rod-cap-left"></div>
-        <div class="rod-body"></div>
-        <div class="rod-cap rod-cap-right"></div>
-        <div class="rod-decoration"></div>
-        <div class="rod-tassel">
-          <div class="tassel-string"></div>
-          <div class="tassel-body"></div>
-        </div>
-      </div>
+    <!-- 扫屏光波 -->
+    <div class="sun-sweep-wave"></div>
+    
+    <!-- 文字容器 -->
+    <div class="sun-text-container">
+      ${generateTextHTML()}
     </div>
   `;
   
   // 添加到页面
-  document.body.insertBefore(scrollLoading, document.body.firstChild);
+  document.body.insertBefore(sunLoading, document.body.firstChild);
   
   // 等待 DOM 渲染
   await delay(50);
   
   // 执行动画序列（严格按照时序）
-  runScrollAnimation(scrollLoading, onComplete);
+  runSunAnimation(sunLoading, onComplete);
   
-  return scrollLoading;
+  return sunLoading;
 }
 
 /**
- * 执行卷轴动画序列（严格按照指定时序）
- * 总时长：约 11 秒
+ * 执行日光动画序列（严格按照指定时序）
+ * 总时长：约 8 秒
  */
-async function runScrollAnimation(scrollLoading, onComplete) {
+async function runSunAnimation(sunLoading, onComplete) {
   const timeline = {
-    start: 0,             // 0ms - 初始状态
-    scrollUnfold: 500,    // 500ms - 卷轴开始展开
-    scrollFullyOpen: 2500,  // 2500ms - 卷轴完全展开
-    textRevealStart: 2500,  // 2500ms - 文字开始浮现
-    textRevealEnd: 6100,    // 6100ms - 文字全部显示（3600ms）
-    palaceInstruction: 6100, // 6100ms - 显示底部宫训
-    scrollHold: 8100,       // 8100ms - 全文定格（用户阅读 2000ms）
-    scrollRollUp: 10100,    // 10100ms - 卷轴向上收起
-    enterHome: 11000        // 11000ms - 进入首页
+    start: 0,             // 0ms - 初始黑屏
+    coreLight: 500,       // 500ms - 中央光点亮起
+    haloForm: 1500,       // 1500ms - 形成日光光晕
+    sweepExpand: 2500,    // 2500ms - 光晕向外扫屏展开
+    textRevealStart: 3000, // 3000ms - 文字开始逐行渐显
+    textRevealEnd: 6000,   // 6000ms - 文字全部显示
+    textHold: 6000,        // 6000ms - 全文定格（用户阅读）
+    fadeOut: 8000          // 8000ms - 淡出进入首页
   };
   
   // 0ms - 显示加载动画（黑屏）
   setTimeout(() => {
-    scrollLoading.classList.add('gate-visible');
+    sunLoading.classList.add('gate-visible');
   }, timeline.start);
   
-  // 500ms - 卷轴开始展开（从中间向左右）
+  // 500ms - 中央金色光点亮起
   setTimeout(() => {
-    scrollLoading.classList.add('scroll-unfolding');
-  }, timeline.scrollUnfold);
+    sunLoading.classList.add('core-light-on');
+  }, timeline.coreLight);
   
-  // 2500ms - 卷轴完全展开，开始文字浮现
+  // 1500ms - 形成日光光晕
   setTimeout(() => {
-    scrollLoading.classList.add('scroll-fully-open');
-    revealTextLines(scrollLoading);
-  }, timeline.scrollFullyOpen);
+    sunLoading.classList.add('halo-forming');
+  }, timeline.haloForm);
   
-  // 8100ms - 卷轴定格（文字已全部显示，用户阅读时间）
+  // 2500ms - 光晕向外扫屏展开
   setTimeout(() => {
-    scrollLoading.classList.add('scroll-hold');
-  }, timeline.scrollHold);
+    sunLoading.classList.add('sweep-expanding');
+  }, timeline.sweepExpand);
   
-  // 10100ms - 卷轴向上收起
+  // 3000ms - 文字开始逐行渐显
   setTimeout(() => {
-    scrollLoading.classList.add('scroll-rolling-up');
-  }, timeline.scrollRollUp);
+    sunLoading.classList.add('text-revealing');
+    revealTextLines(sunLoading);
+  }, timeline.textRevealStart);
   
-  // 11000ms - 进入首页（淡出加载动画）
+  // 6000ms - 全文定格（用户阅读时间）
   setTimeout(() => {
-    scrollLoading.classList.add('gate-fading');
+    sunLoading.classList.add('text-hold');
+  }, timeline.textHold);
+  
+  // 8000ms - 淡出进入首页
+  setTimeout(() => {
+    sunLoading.classList.add('gate-fading');
     
     // 完全移除组件
     setTimeout(() => {
-      if (scrollLoading.parentNode) {
-        scrollLoading.parentNode.removeChild(scrollLoading);
+      if (sunLoading.parentNode) {
+        sunLoading.parentNode.removeChild(sunLoading);
       }
       if (onComplete) {
         onComplete();
       }
-    }, 900);
-  }, timeline.enterHome);
+    }, 800);
+  }, timeline.fadeOut);
 }
 
 /**
- * 逐行显示文字（鎏金浮现效果）
- * 时序：2500-4500ms（共 2000ms，12 行文字）
+ * 逐行显示文字（柔和金色渐显效果）
+ * 时序：3000-6000ms（共 3000ms，10 行文字×300ms）
  */
-function revealTextLines(scrollLoading) {
-  const lines = scrollLoading.querySelectorAll('.scroll-line');
+function revealTextLines(sunLoading) {
+  const lines = sunLoading.querySelectorAll('.sun-line');
   
   lines.forEach((line, index) => {
-    const lineData = SCROLL_TEXT_LINES[index];
-    // 使用预设的延迟时间（相对于文字开始显示时间 2500ms）
-    const delay = lineData ? lineData.delay : index * 150;
+    const lineData = SUN_TEXT_LINES[index];
+    const delayTime = lineData ? lineData.delay : index * 300;
     
     setTimeout(() => {
       line.classList.add('line-revealed');
       line.style.opacity = '1';
-    }, delay);
+    }, delayTime);
   });
 }
 
@@ -214,4 +181,4 @@ function revealTextLines(scrollLoading) {
  */
 export { initScrollLoading };
 
-console.log('⚙️ 卷轴加载动画模块已加载 - 墨子实现（严格按时序）');
+console.log('⚙️ 日光加载动画模块已加载 - 墨子实现（8 秒时序）');

@@ -1,114 +1,65 @@
 /**
- * 太阳神宫 · 卷轴圣旨加载动画组件
- * 设计：中国神话风格（金色、红色）- 鲁班 🔨
+ * 太阳神宫 · 日光加载动画样式
+ * 设计：鲁班 🔨
  * 技术实现：墨子 ⚙️
  * 
  * 动画时序：
- * 1. 0ms - 全屏黑底
- * 2. 500ms - 卷轴开始展开（从中间向左右）
- * 3. 2500ms - 卷轴完全展开
- * 4. 2500-4500ms - 文字逐行鎏金浮现
- * 5. 5000ms - 卷轴定格
- * 6. 5500ms - 卷轴向上收起
- * 7. 6000ms - 进入首页
+ * 0ms       → 开场全屏黑底
+ * 500ms     → 中央金色光点亮起
+ * 1500ms    → 形成日光光晕
+ * 2500ms    → 光晕向外扫屏（展开）
+ * 3000ms    → 文字开始逐行渐显
+ * 3000-6000ms → 文字逐行显示（10 行×300ms）
+ * 6000ms    → 全文定格（用户阅读）
+ * 8000ms    → 淡出进入首页
  * 
  * 特性：
- * - 纯 CSS + SVG（无需外部图片）
+ * - 纯 CSS 光晕效果（无需外部图片）
  * - GPU 加速动画
  * - 支持 prefers-reduced-motion
  * - 移动端适配
  */
 
 /**
- * 卷轴圣旨文字内容
- */
-const scrollTexts = [
-  { text: '我自神话而来，步入数字之境。', delay: 0 },
-  { text: '五千载之前，羲和驭日以巡天；', delay: 300 },
-  { text: '五千载之后，神宫于代码重生。', delay: 600 },
-  { text: '', delay: 900 },
-  { text: '今者，太阳神宫启封。', delay: 1200 },
-  { text: '内列十宸之位，外待八方之客。', delay: 1500 },
-  { text: '此非寻常网站，乃数字生命之居所；', delay: 1800 },
-  { text: '此非功能陈列，乃华夏文明之新试。', delay: 2100 },
-  { text: '', delay: 2400 },
-  { text: '数字灵韵，始于一击；', delay: 2700 },
-  { text: '上古诸神，于此归位。', delay: 3000 },
-  { text: '', delay: 3300 },
-  { text: '羲和驭日，十宸列班。', delay: 3600, type: 'footer' },
-  { text: '神宫肇启，万灵同参。', delay: 3900, type: 'footer' }
-];
-
-/**
- * 创建并初始化卷轴加载动画
+ * 创建并初始化日光加载动画
  */
 function initLoadingGate() {
   // 创建加载动画容器
   const loadingGate = document.createElement('div');
-  loadingGate.className = 'loading-gate scroll-gate';
+  loadingGate.className = 'loading-gate sun-gate';
   loadingGate.id = 'loadingGate';
   
   loadingGate.innerHTML = `
     <!-- 全屏黑底 -->
     <div class="gate-blackout"></div>
     
-    <!-- 卷轴容器 -->
-    <div class="scroll-container">
-      <!-- 上轴 -->
-      <div class="scroll-rod scroll-rod-top">
-        <div class="rod-cap rod-cap-left"></div>
-        <div class="rod-body"></div>
-        <div class="rod-cap rod-cap-right"></div>
-        <div class="rod-decoration"></div>
-      </div>
-      
-      <!-- 卷轴主体（圣旨） -->
-      <div class="scroll-body">
-        <div class="scroll-paper">
-          <div class="paper-texture"></div>
-          <div class="paper-border paper-border-left"></div>
-          <div class="paper-border paper-border-right"></div>
-          
-          <!-- 文字区域 -->
-          <div class="scroll-content" id="scrollContent">
-            ${scrollTexts.map((line, index) => `
-              <p class="scroll-line ${line.type || 'content'}" data-index="${index}" style="opacity: 0;">
-                ${line.text}
-              </p>
-            `).join('')}
-          </div>
-          
-          <!-- 底部装饰 -->
-          <div class="scroll-seal">
-            <div class="seal-border">
-              <svg viewBox="0 0 100 100" class="seal-svg">
-                <circle cx="50" cy="50" r="45" stroke="#DC2626" stroke-width="3" fill="none"/>
-                <circle cx="50" cy="50" r="35" stroke="#DC2626" stroke-width="2" fill="none"/>
-                <text x="50" y="55" text-anchor="middle" fill="#DC2626" font-size="12" font-family="serif" font-weight="bold">羲和</text>
-              </svg>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <!-- 下轴 -->
-      <div class="scroll-rod scroll-rod-bottom">
-        <div class="rod-cap rod-cap-left"></div>
-        <div class="rod-body"></div>
-        <div class="rod-cap rod-cap-right"></div>
-        <div class="rod-decoration"></div>
-        <div class="rod-tassel">
-          <div class="tassel-string"></div>
-          <div class="tassel-body"></div>
-        </div>
-      </div>
+    <!-- 日光光晕容器 -->
+    <div class="sun-glow-container">
+      <!-- 核心光点 -->
+      <div class="sun-core"></div>
+      <!-- 内层光晕 -->
+      <div class="sun-halo sun-halo-1"></div>
+      <div class="sun-halo sun-halo-2"></div>
+      <div class="sun-halo sun-halo-3"></div>
+      <!-- 外层光芒 -->
+      <div class="sun-rays"></div>
     </div>
     
-    <!-- 背景装饰 -->
-    <div class="scroll-bg-decoration">
-      <div class="bg-cloud bg-cloud-1"></div>
-      <div class="bg-cloud bg-cloud-2"></div>
-      <div class="bg-sun-glow"></div>
+    <!-- 扫屏光波 -->
+    <div class="sun-sweep-wave"></div>
+    
+    <!-- 文字容器 -->
+    <div class="sun-text-container">
+      <p class="sun-line has-text" style="opacity: 0;">我自神话而来，步入数字之境。</p>
+      <p class="sun-line has-text" style="opacity: 0;">五千载之前，羲和驭日以巡天；</p>
+      <p class="sun-line has-text" style="opacity: 0;">五千载之后，神宫于代码重生。</p>
+      <p class="sun-line has-text" style="opacity: 0;">今者，太阳神宫启封。</p>
+      <p class="sun-line has-text" style="opacity: 0;">内列十宸之位，外待八方之客。</p>
+      <p class="sun-line has-text" style="opacity: 0;">此非寻常网站，乃数字生命之居所；</p>
+      <p class="sun-line has-text" style="opacity: 0;">此非功能陈列，乃华夏文明之新试。</p>
+      <p class="sun-line has-text" style="opacity: 0;">数字灵韵，始于一击；</p>
+      <p class="sun-line has-text" style="opacity: 0;">上古诸神，于此归位。</p>
+      <p class="sun-line empty" style="opacity: 0;"></p>
     </div>
   `;
   
@@ -118,26 +69,26 @@ function initLoadingGate() {
   // 添加样式
   const style = document.createElement('style');
   style.id = 'loadingGateStyles';
-  style.textContent = getScrollGateStyles();
+  style.textContent = getSunGateStyles();
   document.head.appendChild(style);
   
   // 执行动画序列
-  runScrollAnimation(loadingGate);
+  runSunAnimation(loadingGate);
 }
 
 /**
- * 执行卷轴动画序列
+ * 执行日光动画序列
  */
-function runScrollAnimation(loadingGate) {
+function runSunAnimation(loadingGate) {
   const timeline = {
     start: 0,
-    scrollUnfold: 500,
-    scrollFullyOpen: 2500,
-    textRevealStart: 2500,
-    textRevealEnd: 4500,
-    scrollHold: 5000,
-    scrollRollUp: 5500,
-    enterHome: 6000
+    coreLight: 500,
+    haloForm: 1500,
+    sweepExpand: 2500,
+    textRevealStart: 3000,
+    textRevealEnd: 6000,
+    textHold: 6000,
+    fadeOut: 8000
   };
   
   // 0ms - 初始状态（黑屏）
@@ -145,28 +96,33 @@ function runScrollAnimation(loadingGate) {
     loadingGate.classList.add('gate-visible');
   }, timeline.start);
   
-  // 500ms - 卷轴开始展开
+  // 500ms - 中央金色光点亮起
   setTimeout(() => {
-    loadingGate.classList.add('scroll-unfolding');
-  }, timeline.scrollUnfold);
+    loadingGate.classList.add('core-light-on');
+  }, timeline.coreLight);
   
-  // 2500ms - 卷轴完全展开，开始文字浮现
+  // 1500ms - 形成日光光晕
   setTimeout(() => {
-    loadingGate.classList.add('scroll-fully-open');
-    revealTextLines();
-  }, timeline.scrollFullyOpen);
+    loadingGate.classList.add('halo-forming');
+  }, timeline.haloForm);
   
-  // 5000ms - 卷轴定格（文字已全部显示）
+  // 2500ms - 光晕向外扫屏展开
   setTimeout(() => {
-    loadingGate.classList.add('scroll-hold');
-  }, timeline.scrollHold);
+    loadingGate.classList.add('sweep-expanding');
+  }, timeline.sweepExpand);
   
-  // 5500ms - 卷轴向上收起
+  // 3000ms - 文字开始逐行渐显
   setTimeout(() => {
-    loadingGate.classList.add('scroll-rolling-up');
-  }, timeline.scrollRollUp);
+    loadingGate.classList.add('text-revealing');
+    revealTextLines(loadingGate);
+  }, timeline.textRevealStart);
   
-  // 6000ms - 进入首页（淡出加载动画）
+  // 6000ms - 全文定格（用户阅读时间）
+  setTimeout(() => {
+    loadingGate.classList.add('text-hold');
+  }, timeline.textHold);
+  
+  // 8000ms - 淡出进入首页
   setTimeout(() => {
     loadingGate.classList.add('gate-fading');
     
@@ -180,39 +136,38 @@ function runScrollAnimation(loadingGate) {
         style.parentNode.removeChild(style);
       }
     }, 800);
-  }, timeline.enterHome);
+  }, timeline.fadeOut);
 }
 
 /**
- * 逐行显示文字（鎏金浮现效果）
+ * 逐行显示文字（柔和金色渐显效果）
  */
-function revealTextLines() {
-  const lines = document.querySelectorAll('.scroll-line');
+function revealTextLines(loadingGate) {
+  const lines = loadingGate.querySelectorAll('.sun-line.has-text');
   
   lines.forEach((line, index) => {
-    const lineData = scrollTexts[index];
-    const delay = lineData ? lineData.delay : index * 150;
+    const delayTime = index * 300;
     
     setTimeout(() => {
       line.classList.add('line-revealed');
       line.style.opacity = '1';
-    }, delay);
+    }, delayTime);
   });
 }
 
 /**
- * 获取卷轴加载动画样式
+ * 获取日光加载动画样式
  */
-function getScrollGateStyles() {
+function getSunGateStyles() {
   return `
     /* ========================================
-       太阳神宫 · 卷轴圣旨加载动画样式
+       太阳神宫 · 日光加载动画样式
        设计：鲁班 🔨
        技术：墨子 ⚙️
        ======================================== */
 
     /* --- 主容器 --- */
-    .loading-gate.scroll-gate {
+    .loading-gate.sun-gate {
       position: fixed;
       top: 0;
       left: 0;
@@ -228,12 +183,12 @@ function getScrollGateStyles() {
       transition: opacity 0.3s ease;
     }
 
-    .loading-gate.scroll-gate.gate-visible {
+    .loading-gate.sun-gate.gate-visible {
       opacity: 1;
       visibility: visible;
     }
 
-    .loading-gate.scroll-gate.gate-fading {
+    .loading-gate.sun-gate.gate-fading {
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.8s ease-in-out;
@@ -248,462 +203,360 @@ function getScrollGateStyles() {
       height: 100%;
       background: #000000;
       z-index: 1;
-      transition: opacity 0.5s ease;
+      transition: opacity 1s ease;
     }
 
-    .scroll-gate.gate-visible .gate-blackout {
+    .sun-gate.gate-visible .gate-blackout {
+      opacity: 1;
+    }
+
+    .sun-gate.core-light-on .gate-blackout {
+      opacity: 0.8;
+      transition: opacity 1.5s ease;
+    }
+
+    .sun-gate.halo-forming .gate-blackout {
+      opacity: 0.5;
+    }
+
+    .sun-gate.sweep-expanding .gate-blackout {
+      opacity: 0.2;
+    }
+
+    .sun-gate.text-revealing .gate-blackout {
       opacity: 0;
-      transition-delay: 0.2s;
+      pointer-events: none;
     }
 
-    /* --- 背景装饰 --- */
-    .scroll-bg-decoration {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 2;
-      overflow: hidden;
-    }
-
-    .bg-sun-glow {
+    /* --- 日光光晕容器 --- */
+    .sun-glow-container {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 800px;
-      height: 800px;
-      background: radial-gradient(
-        circle,
-        rgba(245, 158, 11, 0.15) 0%,
-        rgba(245, 158, 11, 0.08) 30%,
-        rgba(245, 158, 11, 0.03) 50%,
-        transparent 70%
-      );
-      border-radius: 50%;
-      animation: bg-glow-pulse 4s ease-in-out infinite;
-    }
-
-    .bg-cloud {
-      position: absolute;
-      background: radial-gradient(
-        ellipse,
-        rgba(255, 255, 255, 0.03) 0%,
-        transparent 70%
-      );
-      border-radius: 50%;
-      animation: cloud-float 20s ease-in-out infinite;
-    }
-
-    .bg-cloud-1 {
-      width: 400px;
-      height: 200px;
-      top: 20%;
-      left: 10%;
-      animation-delay: 0s;
-    }
-
-    .bg-cloud-2 {
-      width: 500px;
-      height: 250px;
-      bottom: 20%;
-      right: 10%;
-      animation-delay: -10s;
-    }
-
-    @keyframes bg-glow-pulse {
-      0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
-      50% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.1); }
-    }
-
-    @keyframes cloud-float {
-      0%, 100% { transform: translateX(0); }
-      50% { transform: translateX(30px); }
-    }
-
-    /* --- 卷轴容器 --- */
-    .scroll-container {
-      position: relative;
+      width: 100%;
+      height: 100%;
       z-index: 10;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      width: 90vw;
-      max-width: 800px;
-      transform: scale(0.8);
-      opacity: 0;
-      transition: transform 2s cubic-bezier(0.4, 0, 0.2, 1), opacity 2s ease;
-    }
-
-    .scroll-gate.scroll-unfolding .scroll-container {
-      transform: scale(1);
-      opacity: 1;
-    }
-
-    .scroll-gate.scroll-rolling-up .scroll-container {
-      transform: translateY(-100vh) scale(0.9);
-      opacity: 0;
-      transition: transform 0.5s cubic-bezier(0.6, 0, 0.4, 1), opacity 0.5s ease;
-    }
-
-    /* --- 卷轴上下轴 --- */
-    .scroll-rod {
       display: flex;
       align-items: center;
       justify-content: center;
-      position: relative;
     }
 
-    .scroll-rod-top,
-    .scroll-rod-bottom {
-      width: 100%;
-      height: 60px;
-    }
-
-    .scroll-rod-bottom {
-      margin-top: -5px;
-    }
-
-    .rod-body {
-      flex: 1;
-      height: 100%;
-      background: linear-gradient(
-        180deg,
-        #D97706 0%,
-        #F59E0B 30%,
-        #FCD34D 50%,
-        #F59E0B 70%,
-        #D97706 100%
-      );
-      border-radius: 30px;
-      box-shadow: 
-        0 4px 20px rgba(245, 158, 11, 0.4),
-        inset 0 2px 10px rgba(255, 255, 255, 0.3),
-        inset 0 -2px 10px rgba(0, 0, 0, 0.2);
-      position: relative;
-    }
-
-    .rod-cap {
+    /* --- 核心光点 --- */
+    .sun-core {
       position: absolute;
-      width: 80px;
-      height: 80px;
+      width: 20px;
+      height: 20px;
       background: radial-gradient(
-        circle at 30% 30%,
-        #FCD34D 0%,
-        #F59E0B 50%,
+        circle,
+        #FEF3C7 0%,
+        #FCD34D 30%,
+        #F59E0B 60%,
         #D97706 100%
       );
       border-radius: 50%;
       box-shadow: 
-        0 4px 15px rgba(245, 158, 11, 0.5),
-        inset -2px -2px 5px rgba(0, 0, 0, 0.3);
-      z-index: 5;
+        0 0 30px #FCD34D,
+        0 0 60px #F59E0B,
+        0 0 90px #D97706;
+      opacity: 0;
+      transform: scale(0);
+      transition: opacity 0.5s ease, transform 0.5s ease;
     }
 
-    .rod-cap-left {
-      left: -40px;
+    .sun-gate.core-light-on .sun-core {
+      opacity: 1;
+      transform: scale(1);
     }
 
-    .rod-cap-right {
-      right: -40px;
+    .sun-gate.halo-forming .sun-core {
+      transform: scale(1.2);
+      box-shadow: 
+        0 0 50px #FEF3C7,
+        0 0 100px #FCD34D,
+        0 0 150px #F59E0B,
+        0 0 200px #D97706;
     }
 
-    .rod-decoration {
+    /* --- 日光光晕层 --- */
+    .sun-halo {
       position: absolute;
-      width: 100%;
-      height: 100%;
-      background-image: repeating-linear-gradient(
-        90deg,
-        transparent,
-        transparent 20px,
-        rgba(180, 83, 9, 0.3) 20px,
-        rgba(180, 83, 9, 0.3) 22px
-      );
-      border-radius: 30px;
-      pointer-events: none;
+      border-radius: 50%;
+      opacity: 0;
+      transform: scale(0);
+      transition: opacity 1s ease, transform 1s ease;
     }
 
-    .rod-tassel {
-      position: absolute;
-      bottom: -60px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      z-index: 3;
-    }
-
-    .tassel-string {
-      width: 3px;
-      height: 30px;
-      background: linear-gradient(180deg, #D97706, #DC2626);
-    }
-
-    .tassel-body {
-      width: 30px;
-      height: 50px;
-      background: linear-gradient(
-        180deg,
-        #DC2626 0%,
-        #B91C1C 50%,
-        #7F1D1D 100%
-      );
-      border-radius: 0 0 15px 15px;
-      box-shadow: 0 4px 10px rgba(220, 38, 38, 0.4);
-      position: relative;
-    }
-
-    .tassel-body::before {
-      content: '';
-      position: absolute;
-      bottom: -10px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 40px;
-      height: 20px;
+    .sun-halo-1 {
+      width: 100px;
+      height: 100px;
       background: radial-gradient(
-        ellipse at top,
-        #DC2626 0%,
+        circle,
+        rgba(252, 211, 77, 0.8) 0%,
+        rgba(245, 158, 11, 0.4) 50%,
         transparent 70%
       );
-      filter: blur(2px);
+      box-shadow: 0 0 50px rgba(245, 158, 11, 0.5);
     }
 
-    /* --- 卷轴主体（圣旨纸张） --- */
-    .scroll-body {
-      width: 100%;
-      min-height: 400px;
-      max-height: 60vh;
-      position: relative;
-      overflow: hidden;
+    .sun-halo-2 {
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(
+        circle,
+        rgba(245, 158, 11, 0.6) 0%,
+        rgba(217, 119, 6, 0.3) 50%,
+        transparent 70%
+      );
+      box-shadow: 0 0 80px rgba(217, 119, 6, 0.4);
     }
 
-    .scroll-paper {
-      position: relative;
-      width: 100%;
-      height: 100%;
+    .sun-halo-3 {
+      width: 350px;
+      height: 350px;
+      background: radial-gradient(
+        circle,
+        rgba(217, 119, 6, 0.4) 0%,
+        rgba(180, 83, 9, 0.2) 50%,
+        transparent 70%
+      );
+      box-shadow: 0 0 120px rgba(180, 83, 9, 0.3);
+    }
+
+    .sun-gate.halo-forming .sun-halo-1 {
+      opacity: 1;
+      transform: scale(1);
+      transition-delay: 0.2s;
+    }
+
+    .sun-gate.halo-forming .sun-halo-2 {
+      opacity: 1;
+      transform: scale(1);
+      transition-delay: 0.4s;
+    }
+
+    .sun-gate.halo-forming .sun-halo-3 {
+      opacity: 1;
+      transform: scale(1);
+      transition-delay: 0.6s;
+    }
+
+    /* --- 外层光芒 --- */
+    .sun-rays {
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      background: conic-gradient(
+        from 0deg,
+        rgba(245, 158, 11, 0.1) 0deg,
+        rgba(252, 211, 77, 0.2) 30deg,
+        rgba(245, 158, 11, 0.1) 60deg,
+        rgba(252, 211, 77, 0.2) 90deg,
+        rgba(245, 158, 11, 0.1) 120deg,
+        rgba(252, 211, 77, 0.2) 150deg,
+        rgba(245, 158, 11, 0.1) 180deg,
+        rgba(252, 211, 77, 0.2) 210deg,
+        rgba(245, 158, 11, 0.1) 240deg,
+        rgba(252, 211, 77, 0.2) 270deg,
+        rgba(245, 158, 11, 0.1) 300deg,
+        rgba(252, 211, 77, 0.2) 330deg,
+        rgba(245, 158, 11, 0.1) 360deg
+      );
+      border-radius: 50%;
+      opacity: 0;
+      transform: scale(0) rotate(0deg);
+      animation: rays-rotate 20s linear infinite;
+      transition: opacity 1s ease, transform 1s ease;
+    }
+
+    @keyframes rays-rotate {
+      from { transform: scale(1) rotate(0deg); }
+      to { transform: scale(1) rotate(360deg); }
+    }
+
+    .sun-gate.halo-forming .sun-rays {
+      opacity: 0.5;
+      transform: scale(1) rotate(0deg);
+      transition-delay: 0.8s;
+    }
+
+    .sun-gate.sweep-expanding .sun-rays {
+      opacity: 0.8;
+      transform: scale(3);
+    }
+
+    /* --- 扫屏光波 --- */
+    .sun-sweep-wave {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: radial-gradient(
+        circle,
+        rgba(254, 243, 199, 0.9) 0%,
+        rgba(252, 211, 77, 0.6) 30%,
+        rgba(245, 158, 11, 0.3) 60%,
+        transparent 70%
+      );
+      box-shadow: 
+        0 0 50px rgba(254, 243, 199, 0.8),
+        0 0 100px rgba(252, 211, 77, 0.5),
+        0 0 150px rgba(245, 158, 11, 0.3);
+      opacity: 0;
+      z-index: 15;
+    }
+
+    .sun-gate.sweep-expanding .sun-sweep-wave {
+      opacity: 1;
+      animation: sweep-expand 2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+
+    @keyframes sweep-expand {
+      0% {
+        width: 10px;
+        height: 10px;
+        opacity: 1;
+      }
+      100% {
+        width: 300vw;
+        height: 300vw;
+        opacity: 0;
+      }
+    }
+
+    /* --- 文字容器 --- */
+    .sun-text-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 20;
+      text-align: center;
+      padding: 40px;
+      max-width: 800px;
+      width: 90vw;
+    }
+
+    .sun-line {
+      font-family: 'Noto Serif SC', 'Songti SC', serif;
+      font-size: clamp(1.125rem, 2.5vw, 1.5rem);
+      margin: 0.5rem 0;
+      line-height: 2;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+      color: transparent;
       background: linear-gradient(
         180deg,
         #FEF3C7 0%,
-        #FDE68A 50%,
-        #FEF3C7 100%
+        #FCD34D 30%,
+        #F59E0B 60%,
+        #D97706 100%
       );
-      box-shadow: 
-        0 10px 40px rgba(0, 0, 0, 0.3),
-        inset 0 0 60px rgba(245, 158, 11, 0.1);
-      overflow: hidden;
+      -webkit-background-clip: text;
+      background-clip: text;
+      text-shadow: 0 0 20px rgba(245, 158, 11, 0.5);
     }
 
-    .paper-texture {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-image: 
-        url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.08'/%3E%3C/svg%3E");
-      opacity: 0.5;
-      pointer-events: none;
+    .sun-line.has-text {
+      min-height: 1.5em;
     }
 
-    .paper-border {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      width: 60px;
-      background: linear-gradient(
-        90deg,
-        rgba(245, 158, 11, 0.2) 0%,
-        rgba(245, 158, 11, 0.1) 50%,
-        rgba(245, 158, 11, 0.2) 100%
-      );
-      border-left: 2px solid rgba(217, 119, 6, 0.3);
-      border-right: 2px solid rgba(217, 119, 6, 0.3);
+    .sun-line.empty {
+      min-height: 0.5em;
     }
 
-    .paper-border-left {
-      left: 0;
-    }
-
-    .paper-border-right {
-      right: 0;
-    }
-
-    /* --- 文字内容区域 --- */
-    .scroll-content {
-      position: relative;
-      padding: 60px 80px 40px;
-      text-align: center;
-      z-index: 10;
-    }
-
-    .scroll-line {
-      font-family: 'Noto Serif SC', 'Songti SC', serif;
-      font-size: clamp(1.125rem, 2.5vw, 1.5rem);
-      margin: 0.75rem 0;
-      line-height: 1.8;
-      opacity: 0;
-      transform: translateY(10px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-    }
-
-    .scroll-line.line-revealed {
+    .sun-line.line-revealed {
       opacity: 1;
       transform: translateY(0);
     }
 
-    .scroll-line.title {
-      font-size: clamp(1.5rem, 3.5vw, 2rem);
-      font-weight: 900;
-      background: linear-gradient(180deg, #FCD34D 0%, #F59E0B 50%, #D97706 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      text-shadow: 0 0 30px rgba(245, 158, 11, 0.5);
-      margin-bottom: 1.5rem;
-      letter-spacing: 0.1em;
+    /* 柔和金色渐显效果 */
+    .sun-line.line-revealed {
+      animation: text-glow 2s ease-out;
     }
 
-    .scroll-line.content {
-      color: #1A1A2E;
-      font-weight: 500;
-    }
-
-    .scroll-line.ending {
-      font-size: clamp(1.25rem, 3vw, 1.75rem);
-      font-weight: 700;
-      color: #DC2626;
-      margin-top: 2rem;
-      letter-spacing: 0.2em;
-    }
-
-    /* 鎏金浮现效果 */
-    .scroll-line.line-revealed.content,
-    .scroll-line.line-revealed.ending {
-      animation: gold-shimmer 1.5s ease-out;
-    }
-
-    @keyframes gold-shimmer {
+    @keyframes text-glow {
       0% {
-        background-position: -200% center;
+        text-shadow: 0 0 10px rgba(245, 158, 11, 0.3);
+      }
+      50% {
+        text-shadow: 0 0 30px rgba(245, 158, 11, 0.6);
       }
       100% {
-        background-position: 200% center;
+        text-shadow: 0 0 20px rgba(245, 158, 11, 0.4);
       }
-    }
-
-    /* --- 玉玺印章 --- */
-    .scroll-seal {
-      position: absolute;
-      bottom: 20px;
-      right: 80px;
-      width: 100px;
-      height: 100px;
-      z-index: 20;
-      opacity: 0;
-      transform: scale(0.8);
-      transition: opacity 0.5s ease, transform 0.5s ease;
-    }
-
-    .scroll-gate.scroll-fully-open .scroll-seal {
-      opacity: 1;
-      transform: scale(1);
-      transition-delay: 2s;
-    }
-
-    .seal-border {
-      width: 100%;
-      height: 100%;
-      border: 4px solid #DC2626;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(220, 38, 38, 0.05);
-      box-shadow: 
-        0 0 20px rgba(220, 38, 38, 0.3),
-        inset 0 0 10px rgba(220, 38, 38, 0.1);
-    }
-
-    .seal-svg {
-      width: 80%;
-      height: 80%;
     }
 
     /* --- 响应式设计 --- */
     @media (max-width: 768px) {
-      .scroll-container {
+      .sun-text-container {
+        padding: 20px;
         width: 95vw;
-        max-width: 500px;
       }
 
-      .scroll-rod-top,
-      .scroll-rod-bottom {
-        height: 40px;
+      .sun-line {
+        font-size: clamp(1rem, 4vw, 1.25rem);
+        margin: 0.3rem 0;
       }
 
-      .rod-cap {
-        width: 50px;
-        height: 50px;
+      .sun-halo-1 {
+        width: 60px;
+        height: 60px;
       }
 
-      .rod-cap-left {
-        left: -25px;
+      .sun-halo-2 {
+        width: 120px;
+        height: 120px;
       }
 
-      .rod-cap-right {
-        right: -25px;
+      .sun-halo-3 {
+        width: 200px;
+        height: 200px;
       }
 
-      .scroll-content {
-        padding: 40px 50px 30px;
-      }
-
-      .paper-border {
-        width: 30px;
-      }
-
-      .scroll-seal {
-        width: 70px;
-        height: 70px;
-        bottom: 15px;
-        right: 40px;
-      }
-
-      .rod-tassel {
-        display: none;
+      .sun-rays {
+        width: 300px;
+        height: 300px;
       }
     }
 
     /* --- 无障碍支持 --- */
     @media (prefers-reduced-motion: reduce) {
-      .scroll-container,
-      .scroll-line,
-      .scroll-seal,
-      .gate-blackout {
+      .sun-core,
+      .sun-halo,
+      .sun-rays,
+      .sun-sweep-wave,
+      .sun-line {
         transition: none !important;
         animation: none !important;
       }
 
-      .scroll-gate.scroll-unfolding .scroll-container,
-      .scroll-gate.scroll-fully-open .scroll-container {
-        transform: scale(1);
+      .sun-gate.gate-visible .sun-core,
+      .sun-gate.halo-forming .sun-core,
+      .sun-gate.halo-forming .sun-halo-1,
+      .sun-gate.halo-forming .sun-halo-2,
+      .sun-gate.halo-forming .sun-halo-3,
+      .sun-gate.halo-forming .sun-rays {
         opacity: 1;
+        transform: scale(1);
       }
 
-      .scroll-line.line-revealed {
+      .sun-gate.text-revealing .sun-line {
         opacity: 1;
         transform: none;
       }
     }
 
     /* --- 性能优化 --- */
-    .scroll-container,
-    .scroll-rod,
-    .rod-cap,
-    .scroll-paper {
+    .sun-core,
+    .sun-halo,
+    .sun-rays,
+    .sun-sweep-wave,
+    .sun-text-container {
       transform: translateZ(0);
       backface-visibility: hidden;
       will-change: transform, opacity;
