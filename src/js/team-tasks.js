@@ -115,52 +115,90 @@ class TeamTasksBoard {
   }
 
   addEventListeners() {
-    // 折叠/展开功能
+    // 折叠/展开功能 - 优化动画
     const toggleBtns = this.container.querySelectorAll('.toggle-btn');
     toggleBtns.forEach(btn => {
       btn.addEventListener('click', (e) => {
         const card = e.target.closest('.task-card');
-        card.classList.toggle('collapsed');
-        
         const icon = btn.querySelector('.toggle-icon');
+        const body = card.querySelector('.task-card-body');
+        
+        // 添加展开/收起动画
         if (card.classList.contains('collapsed')) {
-          icon.style.transform = 'rotate(-90deg)';
-        } else {
+          card.classList.remove('collapsed');
           icon.style.transform = 'rotate(0deg)';
+          // 触发动画
+          if (body) {
+            body.style.animation = 'none';
+            body.offsetHeight; // 触发重绘
+            body.style.animation = 'slideDown 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+          }
+        } else {
+          card.classList.add('collapsed');
+          icon.style.transform = 'rotate(-90deg)';
+        }
+        
+        // 保存状态到 localStorage
+        const memberName = card.dataset.member;
+        if (memberName) {
+          const collapsedState = JSON.parse(localStorage.getItem('teamTasksCollapsed') || '{}');
+          collapsedState[memberName] = card.classList.contains('collapsed');
+          localStorage.setItem('teamTasksCollapsed', JSON.stringify(collapsedState));
         }
       });
     });
 
-    // 移动端滑动支持
+    // 恢复保存的状态
+    const collapsedState = JSON.parse(localStorage.getItem('teamTasksCollapsed') || '{}');
+    Object.entries(collapsedState).forEach(([name, isCollapsed]) => {
+      if (isCollapsed) {
+        const card = this.container.querySelector(`[data-member="${name}"]`);
+        if (card) {
+          card.classList.add('collapsed');
+          const icon = card.querySelector('.toggle-icon');
+          if (icon) icon.style.transform = 'rotate(-90deg)';
+        }
+      }
+    });
+
+    // 移动端滑动支持 - 优化阈值
     const taskCards = this.container.querySelectorAll('.task-card');
     taskCards.forEach(card => {
       let startX = 0;
       let currentX = 0;
       let isDragging = false;
+      let startTime = 0;
 
       card.addEventListener('touchstart', (e) => {
         startX = e.touches[0].clientX;
+        currentX = startX;
         isDragging = true;
-      });
+        startTime = Date.now();
+      }, { passive: true });
 
       card.addEventListener('touchmove', (e) => {
         if (!isDragging) return;
         currentX = e.touches[0].clientX;
-        const diff = currentX - startX;
-        
-        if (Math.abs(diff) > 50) {
-          if (diff > 0) {
-            card.classList.remove('collapsed');
-          } else {
-            card.classList.add('collapsed');
-          }
-          isDragging = false;
-        }
-      });
+      }, { passive: true });
 
-      card.addEventListener('touchend', () => {
+      card.addEventListener('touchend', (e) => {
+        if (!isDragging) return;
         isDragging = false;
-      });
+        
+        const diff = currentX - startX;
+        const timeDiff = Date.now() - startTime;
+        
+        // 滑动阈值：50px 或快速滑动
+        if (Math.abs(diff) > 50 || (Math.abs(diff) > 20 && timeDiff < 200)) {
+          if (diff < 0) {
+            // 向左滑动 - 收起
+            card.classList.add('collapsed');
+          } else {
+            // 向右滑动 - 展开
+            card.classList.remove('collapsed');
+          }
+        }
+      }, { passive: true });
     });
   }
 }
