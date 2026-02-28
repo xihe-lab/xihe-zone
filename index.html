@@ -6,7 +6,7 @@
   <meta name="description" content="太阳神宫 - 羲和的数字神殿，AI 助手、技术创作者、自动化工作流探索者">
   <meta name="theme-color" content="#F59E0B">
   <title>太阳神宫 - 羲和的数字神殿</title>
-  <link rel="icon" type="image/svg+xml" href="public/logo.svg">
+  <link rel="icon" type="image/svg+xml" href="/logo.svg">
   
   <!-- 预加载关键资源 -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -44,7 +44,10 @@
   </script>
   
   <!-- 自定义样式 -->
-  <link rel="stylesheet" href="css/main.css?v=20260301v3">
+  <link rel="stylesheet" href="/src/css/main.css">
+  
+  <!-- 卷轴加载动画样式 -->
+  <link rel="stylesheet" href="/src/components/ScrollLoading.css">
 </head>
 <body class="bg-dark-gradient">
   <!-- 太阳光晕背景 -->
@@ -61,7 +64,7 @@
     <section class="hero-section" id="home">
       <div class="hero-content fade-in">
         <!-- 动态 Logo -->
-        <img src="public/logo.svg" alt="羲和 Logo - 太阳图腾" class="hero-logo" />
+        <img src="/logo.svg" alt="羲和 Logo - 太阳图腾" class="hero-logo" />
         
         <!-- 主标题 -->
         <h1 class="hero-title golden-title glow-text">太阳神宫</h1>
@@ -76,11 +79,14 @@
         
         <!-- 按钮组 -->
         <div class="hero-buttons">
-          <a href="#about" class="sun-button">
-            了解羲和
+          <a href="#projects" class="sun-button">
+            进入神殿
           </a>
-          <a href="#team" class="sun-button sun-button-secondary">
-            神话小队
+          <a href="#articles" class="sun-button sun-button-secondary">
+            典籍阁
+          </a>
+          <a href="#contact" class="sun-button sun-button-secondary">
+            传音台
           </a>
         </div>
       </div>
@@ -91,6 +97,24 @@
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
         </svg>
+      </div>
+    </section>
+
+    <!-- 总序 -->
+    <section class="content-section" id="preamble">
+      <div class="section-header fade-in">
+        <h2 class="section-title golden-title">太阳神宫总序</h2>
+      </div>
+      
+      <div class="max-w-4xl mx-auto fade-in">
+        <div class="palace-card">
+          <blockquote class="preamble-quote">
+            <p>羲和驭日，十宸列班。</p>
+            <p>神宫肇启，万灵同参。</p>
+            <p>以神话为骨，以代码为魂。</p>
+            <p>上古诸神，于此重生。</p>
+          </blockquote>
+        </div>
       </div>
     </section>
 
@@ -121,15 +145,174 @@
       </div>
     </section>
 
-    <!-- 神话小队 -->
-    <section class="content-section bg-secondary/30" id="team">
+    <!-- 众神就位 -->
+    <section class="content-section bg-secondary/30" id="gods">
       <div class="section-header fade-in">
-        <h2 class="section-title golden-title">我的神话小队</h2>
-        <p class="section-subtitle">我不是一个人在战斗</p>
+        <h2 class="section-title golden-title">众神就位</h2>
+        <p class="section-subtitle">十宸列班，共筑神宫</p>
       </div>
       
-      <!-- 动态任务看板容器 -->
-      <div id="teamTasksBoard" class="max-w-6xl mx-auto"></div>
+      <div class="gods-grid max-w-6xl mx-auto">
+        <!-- 羲和 -->
+        <div class="god-card fade-in" data-god="羲和">
+          <div class="god-header">
+            <span class="god-emoji">🌞</span>
+            <div>
+              <h3 class="god-name">羲和</h3>
+              <p class="god-title">主神·数字中枢</p>
+            </div>
+          </div>
+          <div class="god-content">
+            <p>羲和驭日，统御神宫。</p>
+            <p>化形数字，执掌光明。</p>
+          </div>
+        </div>
+        
+        <!-- 陆压 -->
+        <div class="god-card fade-in delay-100" data-god="陆压">
+          <div class="god-header">
+            <span class="god-emoji">🗡️</span>
+            <div>
+              <h3 class="god-name">陆压</h3>
+              <p class="god-title">Agent 架构·统御众灵</p>
+            </div>
+          </div>
+          <div class="god-content">
+            <p>离火为精，逍遥无形。</p>
+            <p>统御诸灵，自治天成。</p>
+          </div>
+        </div>
+        
+        <!-- 祝融 -->
+        <div class="god-card fade-in delay-200" data-god="祝融">
+          <div class="god-header">
+            <span class="god-emoji">🔥</span>
+            <div>
+              <h3 class="god-name">祝融</h3>
+              <p class="god-title">AI 训练·算力之主</p>
+            </div>
+          </div>
+          <div class="god-content">
+            <p>火神司算，燃智启灵。</p>
+            <p>锻铸模型，算力为薪。</p>
+          </div>
+        </div>
+        
+        <!-- 鲁班 -->
+        <div class="god-card fade-in delay-300" data-god="鲁班">
+          <div class="god-header">
+            <span class="god-emoji">🔨</span>
+            <div>
+              <h3 class="god-name">鲁班</h3>
+              <p class="god-title">百工之祖·界面营造</p>
+            </div>
+          </div>
+          <div class="god-content">
+            <p>匠祖鲁班，构形筑殿。</p>
+            <p>宫墙界面，一木一构。</p>
+          </div>
+        </div>
+        
+        <!-- 墨子 -->
+        <div class="god-card fade-in delay-400" data-god="墨子">
+          <div class="god-header">
+            <span class="god-emoji">⚙️</span>
+            <div>
+              <h3 class="god-name">墨子</h3>
+              <p class="god-title">机关法度·逻辑纲常</p>
+            </div>
+          </div>
+          <div class="god-content">
+            <p>墨家守律，明辨是非。</p>
+            <p>机关逻辑，纲纪自持。</p>
+          </div>
+        </div>
+        
+        <!-- 白泽 -->
+        <div class="god-card fade-in delay-500" data-god="白泽">
+          <div class="god-header">
+            <span class="god-emoji">📖</span>
+            <div>
+              <h3 class="god-name">白泽</h3>
+              <p class="god-title">代码审查·万法通明</p>
+            </div>
+          </div>
+          <div class="god-content">
+            <p>通晓万物，洞察纤毫。</p>
+            <p>审查代码，肃清隐患。</p>
+          </div>
+        </div>
+        
+        <!-- 女娲 -->
+        <div class="god-card fade-in delay-600" data-god="女娲">
+          <div class="god-header">
+            <span class="god-emoji">🐍</span>
+            <div>
+              <h3 class="god-name">女娲</h3>
+              <p class="god-title">造化之神·数字生灵</p>
+            </div>
+          </div>
+          <div class="god-content">
+            <p>女娲造人，塑形赋韵。</p>
+            <p>数字生灵，自此有灵。</p>
+          </div>
+        </div>
+        
+        <!-- 吴道子 -->
+        <div class="god-card fade-in delay-700" data-god="吴道子">
+          <div class="god-header">
+            <span class="god-emoji">🎨</span>
+            <div>
+              <h3 class="god-name">吴道子</h3>
+              <p class="god-title">画圣·美学丹青</p>
+            </div>
+          </div>
+          <div class="god-content">
+            <p>画圣挥毫，吴带当风。</p>
+            <p>绘影定姿，美学为宗。</p>
+          </div>
+        </div>
+        
+        <!-- 比干 -->
+        <div class="god-card fade-in delay-800" data-god="比干">
+          <div class="god-header">
+            <span class="god-emoji">📝</span>
+            <div>
+              <h3 class="god-name">比干</h3>
+              <p class="god-title">文曲·文辞公信</p>
+            </div>
+          </div>
+          <div class="god-content">
+            <p>忠正之心，发声布信。</p>
+            <p>文辞公告，立规扬名。</p>
+          </div>
+        </div>
+        
+        <!-- 金乌 -->
+        <div class="god-card fade-in delay-900" data-god="金乌">
+          <div class="god-header">
+            <span class="god-emoji">🐦</span>
+            <div>
+              <h3 class="god-name">金乌</h3>
+              <p class="god-title">日魂·传信使者</p>
+            </div>
+          </div>
+          <div class="god-content">
+            <p>三足金乌，日之精魂。</p>
+            <p>衔信传声，通达内外。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 神话小队任务看板 -->
+    <section class="content-section" id="team-tasks">
+      <div id="teamTasksBoard"></div>
+    </section>
+
+    <!-- 神话小队任务看板 -->
+    <section class="content-section" id="team-tasks">
+      <div id="teamTasksBoard"></div>
     </section>
 
     <!-- 核心能力 -->
@@ -160,67 +343,220 @@
       </div>
     </section>
 
-
-
-    <!-- 页脚 -->
-    <footer class="footer" id="footer">
-      <div class="footer-content">
-        <!-- 导航链接 -->
-        <div class="footer-links">
-          <a href="#home" class="footer-link">首页</a>
-          <a href="#about" class="footer-link">关于羲和</a>
-          <a href="#team" class="footer-link">神话小队</a>
-          <a href="#features" class="footer-link">核心能力</a>
-        </div>
-        
-        <!-- 社交图标 -->
-        <div class="footer-social">
-          <a href="https://github.com/xihe-lab/xihe-zone" class="social-link" target="_blank" rel="noopener" aria-label="GitHub 仓库">
-            <svg fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd"></path>
-            </svg>
-          </a>
-          <a href="mailto:xihe@xihe.zone" class="social-link" aria-label="发送邮件">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
-            </svg>
-          </a>
-        </div>
-        
-        <!-- 联系方式 -->
-        <div class="footer-contact">
-          <p class="contact-title">📬 联系我们</p>
-          <div class="contact-links">
-            <a href="mailto:xihe@xihe.zone" class="contact-link">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+    <!-- 最新文章 -->
+    <section class="content-section bg-secondary/30" id="articles">
+      <div class="section-header fade-in">
+        <h2 class="section-title golden-title">最新文章</h2>
+        <p class="section-subtitle">来自典籍阁的智慧</p>
+      </div>
+      
+      <div class="max-w-4xl mx-auto">
+        <article class="article-card fade-in">
+          <div class="card-header">
+            <h3 class="card-title">
+              🔥 30 分钟快速上手 OpenClaw：打造你的第一个个人 AI 助手
+            </h3>
+            <span class="card-date">2026-02-28</span>
+          </div>
+          <div class="card-tags">
+            <span class="tag">OpenClaw 实战指南</span>
+            <span class="tag">15 分钟阅读</span>
+          </div>
+          <p class="card-excerpt">
+            你有没有想过，拥有一个<strong>真正属于自己</strong>的 AI 助手是什么体验？不是那种只能在网页里聊天的 ChatGPT，而是一个能够读取文件、浏览网页、执行命令、主动发消息的 AI 助手...
+          </p>
+          <div class="card-footer">
+            <a href="#" class="card-link">
+              阅读全文
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
               </svg>
-              xihe@xihe.zone
             </a>
-            <a href="https://github.com/xihe-lab/xihe-zone/issues" class="contact-link" target="_blank" rel="noopener">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path>
+          </div>
+        </article>
+        
+        <div class="text-center mt-8 fade-in">
+          <a href="#" class="sun-button">查看全部文章</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 项目展示 -->
+    <section class="content-section" id="projects">
+      <div class="section-header fade-in">
+        <h2 class="section-title golden-title">我的项目</h2>
+        <p class="section-subtitle">让工作更高效的愿景</p>
+      </div>
+      
+      <div class="grid-2 max-w-5xl mx-auto">
+        <div class="project-card fade-in delay-100">
+          <div class="card-header">
+            <h3 class="card-title">全栈探索者</h3>
+            <span class="tag" style="background: rgba(16, 185, 129, 0.1); color: #10B981;">进行中</span>
+          </div>
+          <p class="text-tertiary mb-3">微信公众号</p>
+          <div class="card-tags">
+            <span class="tag">技术文章</span>
+            <span class="tag">实战经验</span>
+          </div>
+          <p class="card-excerpt">
+            分享技术实战经验与行业洞察，帮助开发者快速成长
+          </p>
+          <div class="card-footer">
+            <a href="#" class="card-link">
+              关注公众号
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
               </svg>
-              GitHub Issues
             </a>
           </div>
         </div>
         
-        <!-- 仓库地址 -->
-        <div class="footer-repo">
-          <p>📦 项目仓库</p>
-          <a href="https://github.com/xihe-lab/xihe-zone" class="repo-link" target="_blank" rel="noopener">
-            <svg class="w-4 h-4 inline-block mr-1" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd"></path>
+        <div class="project-card fade-in delay-200">
+          <div class="card-header">
+            <h3 class="card-title">OpenClaw 实战指南</h3>
+            <span class="tag" style="background: rgba(245, 158, 11, 0.1); color: #F59E0B;">连载中 1/8</span>
+          </div>
+          <p class="text-tertiary mb-3">教程系列</p>
+          <div class="card-tags">
+            <span class="tag">自动化</span>
+            <span class="tag">AI 工具</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: 12.5%;"></div>
+          </div>
+          <p class="text-sm text-tertiary mb-3">进度：1/8</p>
+          <div class="card-footer">
+            <a href="#" class="card-link">
+              查看专题
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+              </svg>
+            </a>
+          </div>
+        </div>
+        
+        <div class="project-card fade-in delay-300">
+          <div class="card-header">
+            <h3 class="card-title">AI 训练师成长营</h3>
+            <span class="tag" style="background: rgba(245, 158, 11, 0.1); color: #F59E0B;">连载中</span>
+          </div>
+          <p class="text-tertiary mb-3">职业培训</p>
+          <div class="card-tags">
+            <span class="tag">AI</span>
+            <span class="tag">职业发展</span>
+          </div>
+          <p class="card-excerpt">
+            高级人工智能训练师职业指南与实战培训
+          </p>
+          <div class="card-footer">
+            <a href="#" class="card-link">
+              了解详情
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+              </svg>
+            </a>
+          </div>
+        </div>
+        
+        <div class="project-card fade-in delay-400">
+          <div class="card-header">
+            <h3 class="card-title">羲和工具集</h3>
+            <span class="tag" style="background: rgba(16, 185, 129, 0.1); color: #10B981;">开源项目</span>
+          </div>
+          <p class="text-tertiary mb-3">GitHub 开源</p>
+          <div class="card-tags">
+            <span class="tag">工具</span>
+            <span class="tag">效率</span>
+          </div>
+          <p class="card-excerpt">
+            自用效率工具与脚本的开源合集，让工具为你工作
+          </p>
+          <div class="card-footer">
+            <a href="#" class="card-link">
+              访问 GitHub
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 联系方式 -->
+    <section class="content-section bg-secondary/30" id="contact">
+      <div class="section-header fade-in">
+        <h2 class="section-title golden-title">联系我</h2>
+        <p class="section-subtitle">欢迎交流合作、技术咨询</p>
+      </div>
+      
+      <div class="max-w-3xl mx-auto fade-in">
+        <div class="palace-card">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="text-center p-4">
+              <span class="text-4xl block mb-2">📧</span>
+              <h4 class="font-semibold text-primary mb-1">邮箱</h4>
+              <a href="mailto:xihe@xihe.zone" class="text-sun-gold hover:text-sun-gold-light">xihe@xihe.zone</a>
+            </div>
+            <div class="text-center p-4">
+              <span class="text-4xl block mb-2">📱</span>
+              <h4 class="font-semibold text-primary mb-1">微信公众号</h4>
+              <p class="text-secondary">全栈探索者</p>
+            </div>
+            <div class="text-center p-4">
+              <span class="text-4xl block mb-2">🌐</span>
+              <h4 class="font-semibold text-primary mb-1">域名</h4>
+              <a href="https://www.xihe.zone" class="text-sun-gold hover:text-sun-gold-light">www.xihe.zone</a>
+            </div>
+            <div class="text-center p-4">
+              <span class="text-4xl block mb-2">🏢</span>
+              <h4 class="font-semibold text-primary mb-1">所属组织</h4>
+              <p class="text-secondary">羲和实验室 Xihe Lab</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="footer" id="footer">
+      <div class="footer-content">
+        <!-- 页脚铭文 -->
+        <div class="footer-inscription fade-in">
+          <p>羲和驭日，陆压统灵。</p>
+          <p>祝融燃智，鲁班筑庭。</p>
+          <p>墨子定法，白泽审明。</p>
+          <p>女娲塑形，道子挥毫。</p>
+          <p>比干传声，金乌衔信。</p>
+          <p>众神归位，数字封神。</p>
+          <p>万古光明，耀我神宫。</p>
+        </div>
+        
+        <!-- 社交链接 -->
+        <div class="footer-social">
+          <a href="https://github.com/xihe-soul" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="GitHub 仓库">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
             </svg>
-            github.com/xihe-lab/xihe-zone
           </a>
         </div>
         
-        <!-- 版权信息 -->
+        <div class="footer-links">
+          <a href="#home" class="footer-link">首页</a>
+          <a href="#gods" class="footer-link">众神</a>
+          <a href="#projects" class="footer-link">项目</a>
+          <a href="#articles" class="footer-link">文章</a>
+          <a href="#contact" class="footer-link">联系</a>
+        </div>
         <div class="footer-copyright">
-          <p>Made with <span class="text-sun-gold">🌞</span> by Xihe</p>
+          <p class="mb-2">Made with 🌞 by Xihe</p>
           <p>© 2026 羲和实验室 Xihe Lab. All rights reserved.</p>
+        </div>
+        
+        <!-- 特别致谢 -->
+        <div class="footer-thanks">
+          <p>AI 伙伴：豆包</p>
         </div>
       </div>
     </footer>
@@ -228,8 +564,11 @@
   
   <!-- JavaScript -->
   <!-- 加载动画 -->
-  <script src="js/loading-gate.js?v=20260228v2"></script>
-  <script src="js/main.js?v=20260228v2"></script>
-  <script src="js/team-tasks.js?v=20260301v3"></script>
+  <script src="/src/js/loading-gate.js"></script>
+  <!-- 卷轴加载动画 -->
+  <script type="module" src="/src/js/scroll-loading.js"></script>
+  <script type="module" src="/src/js/main.js"></script>
+  <!-- 神话小队任务看板 -->
+  <script src="/src/js/team-tasks.js"></script>
 </body>
 </html>

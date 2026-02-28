@@ -11,15 +11,21 @@
  * - 性能优化
  */
 
+import { initScrollLoading } from './scroll-loading.js';
+
 // ========================================
 // 页面初始化
 // ========================================
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   console.log('🌞 太阳神宫已启动 - 墨子 ⚙️ 技术实现');
   
-  // 隐藏加载状态
-  hideLoadingState();
+  // 初始化卷轴加载动画
+  await initScrollLoading(() => {
+    console.log('🌞 卷轴动画完成，进入首页');
+    // 加载动画完成后的回调
+    document.body.classList.add('loaded');
+  });
   
   // 初始化滚动进度条
   initScrollProgress();
@@ -36,14 +42,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // 初始化导航栏
   initNavbar();
 });
-
-/**
- * 隐藏加载状态
- */
-function hideLoadingState() {
-  // 页面已完全加载，移除任何加载指示器
-  document.body.classList.add('loaded');
-}
 
 // ========================================
 // 滚动进度条
