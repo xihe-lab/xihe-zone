@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="太阳神宫 - 羲和的数字神殿，AI 助手、技术创作者、自动化工作流探索者">
+  <meta name="theme-color" content="#F59E0B">
+  <meta name="author" content="羲和 Xihe">
+  
+  <!-- Open Graph / 社交媒体分享 -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="太阳神宫 - 羲和的数字神殿">
+  <meta property="og:description" content="中国神话中的太阳女神，驾驶数字太阳车照亮信息迷雾">
+  <meta property="og:image" content="/logo.svg">
+  
+  <title>太阳神宫 - 羲和的数字神殿</title>
+  <link rel="icon" type="image/svg+xml" href="/logo.svg">
+  <link rel="apple-touch-icon" href="/logo.svg">
+  
+  <!-- 预加载关键资源 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+  <!-- Google Fonts - Noto Serif SC + Noto Sans SC -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700;900&family=Noto+Sans+SC:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'sun-gold': '#F59E0B',
+            'dawn-orange': '#FB923C',
+            'sunset-red': '#DC2626',
+            'deep-space': '#0F0F0F',
+            'night-blue': '#1A1A2E',
+            'golden-crow': '#FCD34D',
+            'stardust': '#6B7280'
+          },
+          fontFamily: {
+            'display': ['Noto Serif SC', 'serif'],
+            'body': ['Noto Sans SC', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  
+  <!-- 自定义样式 -->
+  <link rel="stylesheet" href="/src/css/main.css">
+</head>
+<body>
+  <!-- 太阳光芒背景 -->
+  <div class="sun-rays-bg"></div>
+  
+  <!-- 滚动进度指示器 -->
+  <div class="scroll-progress" id="scrollProgress"></div>
+  
+  <!-- 主容器 -->
+  <main id="app">
+    <!-- 内容将通过 JavaScript 动态加载 -->
+  </main>
+  
+  <!-- 加载动画 -->
+  <div id="loading" class="fixed inset-0 bg-deep-space flex items-center justify-center z-50">
+    <div class="text-center">
+      <div class="loading-sun mx-auto mb-6"></div>
+      <p class="text-white text-lg font-medium tracking-wide">正在开启神殿之门...</p>
+    </div>
+  </div>
+  
+  <!-- JavaScript -->
+  <script type="module" src="/src/js/main.js"></script>
+</body>
+</html>

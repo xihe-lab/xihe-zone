@@ -1,11 +1,12 @@
 /**
  * 太阳神宫 - 组件模块
- * 墨子 ⚙️ 技术实现
+ * 墨子 ⚙️ 技术实现 · 设计系统 v1.0
  * 
  * 功能：
  * - 可复用组件
  * - 组件渲染逻辑
  * - 组件状态管理
+ * - 深色主题适配
  */
 
 // ========================================
@@ -16,10 +17,10 @@ const components = {
   header: null,
   footer: null,
   hero: null,
-  featureCard: null,
-  contentSection: null,
-  projectCard: null,
-  articleCard: null
+  palaceCard: null,
+  characterCard: null,
+  articleCard: null,
+  projectCard: null
 };
 
 // ========================================
@@ -30,7 +31,7 @@ const components = {
  * 渲染所有组件
  */
 export function renderComponents() {
-  console.log('⚙️ 组件系统初始化 - 墨子技术实现');
+  console.log('⚙️ 组件系统初始化 - 墨子技术实现 · 设计系统 v1.0');
   
   // 注册组件模板
   registerComponents();
@@ -46,10 +47,10 @@ function registerComponents() {
   components.header = createHeader();
   components.footer = createFooter();
   components.hero = createHero();
-  components.featureCard = createFeatureCard();
-  components.contentSection = createContentSection();
-  components.projectCard = createProjectCard();
+  components.palaceCard = createPalaceCard();
+  components.characterCard = createCharacterCard();
   components.articleCard = createArticleCard();
+  components.projectCard = createProjectCard();
 }
 
 /**
@@ -70,18 +71,18 @@ function renderPage() {
 function createHeader() {
   return {
     template: `
-      <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+      <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-deep-space/90 backdrop-blur-sm">
         <nav class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
           <div class="flex items-center space-x-4">
             <img src="/logo.svg" alt="羲和 Logo" class="w-10 h-10" />
-            <span class="text-xl font-bold text-white">太阳神宫</span>
+            <span class="text-xl font-bold text-white font-display">太阳神宫</span>
           </div>
           <div class="hidden md:flex items-center space-x-8">
-            <a href="#home" class="text-white hover:text-xihe-gold-200 transition">首页</a>
-            <a href="#about" class="text-white hover:text-xihe-gold-200 transition">关于</a>
-            <a href="#projects" class="text-white hover:text-xihe-gold-200 transition">项目</a>
-            <a href="#articles" class="text-white hover:text-xihe-gold-200 transition">文章</a>
-            <a href="#contact" class="text-white hover:text-xihe-gold-200 transition">联系</a>
+            <a href="#home" class="text-white hover:text-golden-crow transition">首页</a>
+            <a href="#about" class="text-white hover:text-golden-crow transition">关于</a>
+            <a href="#projects" class="text-white hover:text-golden-crow transition">项目</a>
+            <a href="#articles" class="text-white hover:text-golden-crow transition">文章</a>
+            <a href="#contact" class="text-white hover:text-golden-crow transition">联系</a>
           </div>
           <button class="md:hidden text-white">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -105,13 +106,14 @@ function createHero() {
   return {
     template: `
       <section class="hero-section" id="home">
-        <div class="text-center px-4 relative z-10">
-          <div class="mb-6">
-            <img src="{logo}" alt="羲和 Logo" class="w-24 h-24 mx-auto animate-float" />
-          </div>
-          <h1 class="hero-title mb-4">{title}</h1>
-          <p class="hero-tagline mb-8">{tagline}</p>
-          <div class="flex flex-wrap justify-center gap-4">
+        <div class="hero-sun"></div>
+        
+        <div class="hero-content">
+          <img src="{logo}" alt="羲和 Logo" class="hero-logo" />
+          <h1 class="hero-title">{title}</h1>
+          <h2 class="hero-subtitle">{subtitle}</h2>
+          <p class="hero-description">{description}</p>
+          <div class="btn-group">
             {actions}
           </div>
         </div>
@@ -120,7 +122,8 @@ function createHero() {
     props: {
       logo: '/logo.svg',
       title: '太阳神宫',
-      tagline: '中国神话中的太阳女神，驾驶数字太阳车照亮信息迷雾',
+      subtitle: '羲和的数字神殿',
+      description: '中国神话中的太阳女神，驾驶数字太阳车照亮信息迷雾',
       actions: []
     },
     methods: {
@@ -136,45 +139,113 @@ function createHero() {
 }
 
 /**
- * 创建特性卡片组件
+ * 创建宫殿卡片组件
  */
-function createFeatureCard() {
+function createPalaceCard() {
   return {
     template: `
-      <div class="feature-card fade-in">
-        <span class="feature-icon">{icon}</span>
-        <h3 class="feature-title">{title}</h3>
-        <p class="feature-description">{details}</p>
+      <div class="palace-card fade-in">
+        <div class="card-header">
+          <h3 class="card-title">{title}</h3>
+          {badge}
+        </div>
+        <div class="card-content">
+          {content}
+        </div>
+        {footer}
       </div>
     `,
     props: {
-      icon: '',
       title: '',
-      details: ''
+      content: '',
+      badge: '',
+      footer: ''
     }
   };
 }
 
 /**
- * 创建内容区块组件
+ * 创建角色卡片组件
  */
-function createContentSection() {
+function createCharacterCard() {
   return {
     template: `
-      <section class="content-section {bgClass}" id="{id}">
-        {divider ? '<div class="divider-ornament"></div>' : ''}
-        <h2 class="section-title">{title}</h2>
-        <div class="max-w-4xl mx-auto">
-          {content}
+      <div class="character-card fade-in">
+        <span class="character-emoji">{emoji}</span>
+        <h3 class="character-name">{name}</h3>
+        <p class="character-role">{role}</p>
+        
+        <blockquote class="character-quote">
+          "{quote}"
+        </blockquote>
+        
+        <div class="mb-6">
+          <h4 class="font-semibold text-golden-crow mb-3">职责：</h4>
+          <ul class="character-responsibilities">
+            {responsibilities}
+          </ul>
         </div>
-      </section>
+        
+        <p class="character-traits">
+          <strong class="text-golden-crow">特点：</strong>{traits}
+        </p>
+      </div>
     `,
     props: {
-      id: '',
+      emoji: '',
+      name: '',
+      role: '',
+      quote: '',
+      responsibilities: [],
+      traits: ''
+    },
+    methods: {
+      renderResponsibilities(items) {
+        return items.map(item => `<li>${item}</li>`).join('');
+      }
+    }
+  };
+}
+
+/**
+ * 创建文章卡片组件
+ */
+function createArticleCard() {
+  return {
+    template: `
+      <article class="article-card fade-in">
+        <div class="article-header">
+          <h3 class="article-title">{title}</h3>
+          <span class="article-date">{date}</span>
+        </div>
+        
+        <div class="article-tags">
+          {tags}
+        </div>
+        
+        <p class="article-excerpt">{excerpt}</p>
+        
+        <a href="{link}" class="article-link">
+          <span>阅读全文</span>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+          </svg>
+        </a>
+      </article>
+    `,
+    props: {
       title: '',
-      content: '',
-      bgClass: '',
-      divider: false
+      date: '',
+      tags: [],
+      excerpt: '',
+      link: '#'
+    },
+    methods: {
+      renderTags(tags) {
+        return tags.map((tag, index) => `
+          <span class="tag ${index > 0 ? 'tag-secondary' : ''}">${tag}</span>
+        `).join('');
+      }
     }
   };
 }
@@ -185,24 +256,23 @@ function createContentSection() {
 function createProjectCard() {
   return {
     template: `
-      <div class="feature-card fade-in">
-        <div class="flex items-start justify-between mb-4">
-          <h3 class="text-lg font-bold text-gray-900">{name}</h3>
-          <span class="px-2 py-1 {statusClass} rounded text-xs">{statusText}</span>
+      <div class="palace-card fade-in">
+        <div class="card-header">
+          <h3 class="card-title">{name}</h3>
+          {statusBadge}
         </div>
-        <p class="text-gray-600 mb-3">{type}</p>
+        
+        <p class="text-stardust mb-4">{type}</p>
+        
         <div class="flex flex-wrap gap-2 mb-4">
           {tags}
         </div>
-        {progress ? `
-          <div class="w-full bg-gray-200 rounded-full h-2 mb-3">
-            <div class="bg-xihe-gold-500 h-2 rounded-full" style="width: {progressPercent}%"></div>
-          </div>
-          <p class="text-sm text-gray-500">进度：{progress}</p>
-        ` : ''}
-        <a href="{link}" class="text-xihe-gold-600 hover:text-xihe-gold-700 font-medium inline-flex items-center mt-4">
-          了解详情
-          <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        
+        {progress}
+        
+        <a href="{link}" class="article-link mt-2">
+          <span>了解详情</span>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
           </svg>
         </a>
@@ -217,51 +287,41 @@ function createProjectCard() {
       link: '#'
     },
     computed: {
-      statusClass() {
-        return this.status === 'ongoing' ? 'bg-blue-100 text-blue-700' : 'bg-green-100 text-green-700';
+      statusBadge() {
+        const statusClass = this.status === 'ongoing' 
+          ? 'bg-blue-900/50 text-blue-300' 
+          : 'bg-green-900/50 text-green-300';
+        const statusText = this.status === 'ongoing' ? '连载中' : '进行中';
+        return `<span class="px-3 py-1 ${statusClass} rounded-full text-xs font-medium">${statusText}</span>`;
       },
-      statusText() {
-        return this.status === 'ongoing' ? '连载中' : '进行中';
-      },
-      progressPercent() {
-        if (!this.progress) return 0;
+      
+      progressHTML() {
+        if (!this.progress) return '';
+        
         const match = this.progress.match(/(\d+)\/(\d+)/);
-        if (!match) return 0;
-        return (parseInt(match[1]) / parseInt(match[2])) * 100;
+        if (!match) return '';
+        
+        const percent = (parseInt(match[1]) / parseInt(match[2])) * 100;
+        
+        return `
+          <div class="mb-3">
+            <div class="flex justify-between text-sm mb-2">
+              <span class="text-stardust">进度</span>
+              <span class="text-golden-crow">${this.progress}</span>
+            </div>
+            <div class="w-full bg-night-blue rounded-full h-2">
+              <div class="bg-gradient-to-r from-sun-gold to-dawn-orange h-2 rounded-full" 
+                   style="width: ${percent}%"></div>
+            </div>
+          </div>
+        `;
+      },
+      
+      tagsHTML() {
+        return this.tags.map(tag => `
+          <span class="px-3 py-1 bg-night-blue text-stardust rounded-full text-sm">${tag}</span>
+        `).join('');
       }
-    }
-  };
-}
-
-/**
- * 创建文章卡片组件
- */
-function createArticleCard() {
-  return {
-    template: `
-      <article class="feature-card mb-6 fade-in">
-        <div class="flex items-start justify-between mb-4">
-          <h3 class="text-xl font-bold text-gray-900">{title}</h3>
-          <span class="text-sm text-gray-500 whitespace-nowrap ml-4">{date}</span>
-        </div>
-        <div class="flex flex-wrap gap-2 mb-4">
-          {tags}
-        </div>
-        <p class="text-gray-600 mb-4">{excerpt}</p>
-        <a href="{link}" class="text-xihe-gold-600 hover:text-xihe-gold-700 font-medium inline-flex items-center">
-          阅读全文
-          <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-          </svg>
-        </a>
-      </article>
-    `,
-    props: {
-      title: '',
-      date: '',
-      tags: [],
-      excerpt: '',
-      link: '#'
     }
   };
 }
@@ -274,12 +334,13 @@ function createFooter() {
     template: `
       <footer class="footer" id="footer">
         <div class="max-w-6xl mx-auto">
-          <div class="footer-links mb-8">
+          <div class="footer-links">
             {links}
           </div>
-          <div class="border-t border-gray-700 pt-8">
-            <p class="text-gray-400 mb-2">{message}</p>
-            <p class="text-gray-500 text-sm">{copyright}</p>
+          
+          <div class="footer-divider">
+            <p class="footer-text">{message}</p>
+            <p class="footer-copyright">{copyright}</p>
           </div>
         </div>
       </footer>
@@ -288,6 +349,13 @@ function createFooter() {
       links: [],
       message: 'Made with 🌞 by Xihe',
       copyright: '© 2026 羲和实验室 Xihe Lab. All rights reserved.'
+    },
+    methods: {
+      renderLinks(links) {
+        return links.map(link => `
+          <a href="${link.href}" class="footer-link">${link.text}</a>
+        `).join('');
+      }
     }
   };
 }
@@ -328,4 +396,23 @@ export function renderComponentList(componentName, items) {
   return items.map(item => renderComponent(componentName, item)).join('');
 }
 
-console.log('⚙️ 组件模块已加载');
+/**
+ * 动态创建组件实例
+ */
+export function createComponentInstance(componentName, props = {}) {
+  const component = components[componentName];
+  if (!component) {
+    console.warn(`组件 ${componentName} 不存在`);
+    return null;
+  }
+  
+  // 创建组件实例
+  const instance = {
+    ...component,
+    props: { ...component.props, ...props }
+  };
+  
+  return instance;
+}
+
+console.log('⚙️ 组件模块已加载 · 设计系统 v1.0');

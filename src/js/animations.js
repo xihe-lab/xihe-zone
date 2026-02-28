@@ -1,11 +1,12 @@
 /**
  * 太阳神宫 - 动画模块
- * 墨子 ⚙️ 技术实现
+ * 墨子 ⚙️ 技术实现 · 设计系统 v1.0
  * 
  * 功能：
  * - 页面过渡动画
  * - 滚动视差效果
  * - 交互动画
+ * - 太阳光晕特效
  */
 
 // ========================================
@@ -24,7 +25,7 @@ const ANIMATION_CONFIG = {
 // ========================================
 
 export function initAnimations() {
-  console.log('⚙️ 动画系统初始化 - 墨子技术实现');
+  console.log('⚙️ 动画系统初始化 - 墨子技术实现 · 设计系统 v1.0');
   
   // 初始化页面元素动画
   initElementAnimations();
@@ -35,8 +36,14 @@ export function initAnimations() {
   // 初始化按钮交互
   initButtonEffects();
   
+  // 初始化卡片悬停效果
+  initCardEffects();
+  
   // 初始化导航栏效果
   initNavbarEffect();
+  
+  // 初始化文字渐变动画
+  initTextAnimations();
 }
 
 /**
@@ -47,17 +54,29 @@ function initElementAnimations() {
   const heroTitle = document.querySelector('.hero-title');
   if (heroTitle) {
     animateIn(heroTitle, {
-      delay: 200,
-      duration: 800
+      delay: 300,
+      duration: 1000,
+      offsetY: 50
     });
   }
   
-  // Hero 标签动画
-  const heroTagline = document.querySelector('.hero-tagline');
-  if (heroTagline) {
-    animateIn(heroTagline, {
-      delay: 400,
-      duration: 800
+  // Hero 副标题动画
+  const heroSubtitle = document.querySelector('.hero-subtitle');
+  if (heroSubtitle) {
+    animateIn(heroSubtitle, {
+      delay: 500,
+      duration: 800,
+      offsetY: 40
+    });
+  }
+  
+  // Hero 描述动画
+  const heroDescription = document.querySelector('.hero-description');
+  if (heroDescription) {
+    animateIn(heroDescription, {
+      delay: 700,
+      duration: 800,
+      offsetY: 30
     });
   }
   
@@ -65,25 +84,36 @@ function initElementAnimations() {
   const heroButtons = document.querySelectorAll('.hero-section .btn');
   heroButtons.forEach((btn, index) => {
     animateIn(btn, {
-      delay: 600 + (index * 100),
-      duration: 600
+      delay: 900 + (index * 150),
+      duration: 600,
+      offsetY: 20
     });
   });
+  
+  // Hero Logo 动画
+  const heroLogo = document.querySelector('.hero-logo');
+  if (heroLogo) {
+    animateIn(heroLogo, {
+      delay: 100,
+      duration: 800,
+      scale: 0.8
+    });
+  }
 }
 
 /**
  * 元素淡入动画
  */
 function animateIn(element, options = {}) {
-  const { delay = 0, duration = 600 } = options;
+  const { delay = 0, duration = 600, offsetY = 30, scale = 1 } = options;
   
   element.style.opacity = '0';
-  element.style.transform = 'translateY(30px)';
+  element.style.transform = `translateY(${offsetY}px) scale(${scale})`;
   element.style.transition = `opacity ${duration}ms ${ANIMATION_CONFIG.easing}, transform ${duration}ms ${ANIMATION_CONFIG.easing}`;
   
   setTimeout(() => {
     element.style.opacity = '1';
-    element.style.transform = 'translateY(0)';
+    element.style.transform = 'translateY(0) scale(1)';
   }, delay);
 }
 
@@ -128,7 +158,7 @@ function initButtonEffects() {
   const buttons = document.querySelectorAll('.btn');
   
   buttons.forEach(button => {
-    // 悬停效果增强
+    // 悬停效果增强 - 太阳光晕
     button.addEventListener('mouseenter', (e) => {
       const rect = button.getBoundingClientRect();
       const x = e.clientX - rect.left;
@@ -137,25 +167,19 @@ function initButtonEffects() {
       // 创建光晕效果
       const glow = document.createElement('div');
       glow.className = 'btn-glow';
-      glow.style.cssText = `
-        position: absolute;
-        width: 100px;
-        height: 100px;
-        background: radial-gradient(circle, rgba(245, 158, 11, 0.3), transparent);
-        border-radius: 50%;
-        pointer-events: none;
-        left: ${x - 50}px;
-        top: ${y - 50}px;
-        transition: opacity 0.3s ease;
-      `;
+      glow.style.left = `${x - 50}px`;
+      glow.style.top = `${y - 50}px`;
       
       button.style.position = 'relative';
       button.appendChild(glow);
       
       setTimeout(() => {
-        glow.style.opacity = '0';
-        setTimeout(() => glow.remove(), 300);
-      }, 500);
+        glow.style.opacity = '1';
+        setTimeout(() => {
+          glow.style.opacity = '0';
+          setTimeout(() => glow.remove(), 300);
+        }, 300);
+      }, 10);
     });
     
     // 点击波纹效果
@@ -168,7 +192,7 @@ function initButtonEffects() {
       ripple.className = 'btn-ripple';
       ripple.style.cssText = `
         position: absolute;
-        background: rgba(255, 255, 255, 0.5);
+        background: rgba(245, 158, 11, 0.4);
         border-radius: 50%;
         width: 20px;
         height: 20px;
@@ -198,9 +222,56 @@ function initButtonEffects() {
           opacity: 0;
         }
       }
+      
+      @keyframes shine {
+        to {
+          background-position: 200% center;
+        }
+      }
     `;
     document.head.appendChild(style);
   }
+}
+
+/**
+ * 初始化卡片悬停效果
+ */
+function initCardEffects() {
+  const cards = document.querySelectorAll('.palace-card, .character-card, .article-card');
+  
+  cards.forEach(card => {
+    card.addEventListener('mouseenter', (e) => {
+      // 添加微光效果
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      const shimmer = document.createElement('div');
+      shimmer.style.cssText = `
+        position: absolute;
+        width: 200px;
+        height: 200px;
+        background: radial-gradient(circle, rgba(245, 158, 11, 0.1), transparent);
+        border-radius: 50%;
+        pointer-events: none;
+        left: ${x - 100}px;
+        top: ${y - 100}px;
+        transition: opacity 0.3s ease;
+        z-index: 0;
+      `;
+      
+      card.style.position = 'relative';
+      card.insertBefore(shimmer, card.firstChild);
+      
+      setTimeout(() => {
+        shimmer.style.opacity = '1';
+        setTimeout(() => {
+          shimmer.style.opacity = '0';
+          setTimeout(() => shimmer.remove(), 300);
+        }, 500);
+      }, 10);
+    });
+  });
 }
 
 /**
@@ -231,6 +302,18 @@ function initNavbarEffect() {
     
     lastScroll = currentScroll;
   }, { passive: true });
+}
+
+/**
+ * 初始化文字动画
+ */
+function initTextAnimations() {
+  // 金色标题效果
+  const goldenTitles = document.querySelectorAll('.golden-title, .section-title, .hero-title');
+  
+  goldenTitles.forEach(title => {
+    title.style.backgroundSize = '200% auto';
+  });
 }
 
 // ========================================
@@ -312,6 +395,17 @@ export function fadeIn(element, duration = 300) {
   });
 }
 
+/**
+ * 序列动画
+ */
+export function animateSequence(elements, animationFn, stagger = 100) {
+  elements.forEach((el, index) => {
+    setTimeout(() => {
+      animationFn(el);
+    }, index * stagger);
+  });
+}
+
 // ========================================
 // 性能优化
 // ========================================
@@ -345,4 +439,21 @@ export function throttle(func, limit) {
   };
 }
 
-console.log('⚙️ 动画模块已加载');
+/**
+ * 使用 requestAnimationFrame 优化滚动监听
+ */
+export function optimizeScroll(callback) {
+  let ticking = false;
+  
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        callback();
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }, { passive: true });
+}
+
+console.log('⚙️ 动画模块已加载 · 设计系统 v1.0');
