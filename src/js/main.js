@@ -11,7 +11,7 @@
  * - 性能优化
  */
 
-import { initScrollLoading } from './scroll-loading.js';
+import { initSunGlowLoading } from './sunglow-loading.js';
 
 // ========================================
 // 页面初始化
@@ -20,9 +20,9 @@ import { initScrollLoading } from './scroll-loading.js';
 document.addEventListener('DOMContentLoaded', async () => {
   console.log('🌞 太阳神宫已启动 - 墨子 ⚙️ 技术实现');
   
-  // 初始化卷轴加载动画
-  await initScrollLoading(() => {
-    console.log('🌞 卷轴动画完成，进入首页');
+  // 初始化日光光晕加载动画
+  await initSunGlowLoading(() => {
+    console.log('🌞 日光光晕动画完成，进入首页');
     // 加载动画完成后的回调
     document.body.classList.add('loaded');
   });

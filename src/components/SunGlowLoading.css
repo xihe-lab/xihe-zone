@@ -1,0 +1,537 @@
+/* ========================================
+   太阳神宫 · 日光光晕加载动画样式
+   设计：鲁班 🔨
+   技术：墨子 ⚙️
+   
+   动画时序：
+   1. 0ms - 全屏黑底
+   2. 500ms - 中央金色光点缓缓亮起
+   3. 1000ms - 形成日光光晕
+   4. 1500ms - 日光光晕向外扫屏展开
+   5. 2500ms - 文字逐行渐显（10 行×300ms = 3000ms）
+   6. 5500ms - 动画结束，进入首页
+   ======================================== */
+
+/* ========================================
+   一、主容器
+   ======================================== */
+
+.sun-glow-loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #000000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease;
+}
+
+.sun-glow-loading.gate-visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.sun-glow-loading.gate-fading {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.8s ease-in-out;
+}
+
+/* ========================================
+   二、全屏黑底背景
+   ======================================== */
+
+.sun-glow-blackout {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #000000;
+  z-index: 1;
+}
+
+/* ========================================
+   三、日光光晕效果
+   ======================================== */
+
+.sun-glow-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+/* 中央光点 */
+.sun-core-dot {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: radial-gradient(
+    circle,
+    #FCD34D 0%,
+    #F59E0B 50%,
+    #D97706 80%,
+    transparent 100%
+  );
+  border-radius: 50%;
+  box-shadow: 
+    0 0 30px rgba(245, 158, 11, 0.8),
+    0 0 60px rgba(245, 158, 11, 0.5),
+    0 0 90px rgba(245, 158, 11, 0.3);
+  opacity: 0;
+  transform: scale(0);
+}
+
+.sun-glow-loading.gate-visible .sun-core-dot {
+  animation: core-emerge 1s ease-out forwards;
+  animation-delay: 0.5s;
+}
+
+@keyframes core-emerge {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* 日光光晕层 */
+.sun-glow-layer {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    circle,
+    rgba(245, 158, 11, 0.4) 0%,
+    rgba(245, 158, 11, 0.2) 20%,
+    rgba(245, 158, 11, 0.1) 40%,
+    rgba(245, 158, 11, 0.05) 60%,
+    transparent 80%
+  );
+  border-radius: 50%;
+  opacity: 0;
+  transform: scale(0);
+}
+
+.sun-glow-loading.gate-visible .sun-glow-layer {
+  animation: glow-expand 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation-delay: 1s;
+}
+
+@keyframes glow-expand {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(2.5);
+  }
+}
+
+/* 扫屏光波 */
+.sun-glow-wave {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 3px solid rgba(245, 158, 11, 0.6);
+  box-shadow: 
+    0 0 40px rgba(245, 158, 11, 0.4),
+    inset 0 0 40px rgba(245, 158, 11, 0.2);
+  opacity: 0;
+  transform: scale(0);
+}
+
+.sun-glow-loading.gate-visible .sun-glow-wave {
+  animation: wave-sweep 2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation-delay: 1.5s;
+}
+
+@keyframes wave-sweep {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(3);
+  }
+}
+
+/* 外层光晕装饰 */
+.sun-glow-outer {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    rgba(245, 158, 11, 0.08) 10deg,
+    transparent 20deg,
+    rgba(245, 158, 11, 0.08) 30deg,
+    transparent 40deg,
+    rgba(245, 158, 11, 0.08) 50deg,
+    transparent 60deg,
+    rgba(245, 158, 11, 0.08) 70deg,
+    transparent 80deg,
+    rgba(245, 158, 11, 0.08) 90deg,
+    transparent 100deg,
+    rgba(245, 158, 11, 0.08) 110deg,
+    transparent 120deg,
+    rgba(245, 158, 11, 0.08) 130deg,
+    transparent 140deg,
+    rgba(245, 158, 11, 0.08) 150deg,
+    transparent 160deg,
+    rgba(245, 158, 11, 0.08) 170deg,
+    transparent 180deg,
+    rgba(245, 158, 11, 0.08) 190deg,
+    transparent 200deg,
+    rgba(245, 158, 11, 0.08) 210deg,
+    transparent 220deg,
+    rgba(245, 158, 11, 0.08) 230deg,
+    transparent 240deg,
+    rgba(245, 158, 11, 0.08) 250deg,
+    transparent 260deg,
+    rgba(245, 158, 11, 0.08) 270deg,
+    transparent 280deg,
+    rgba(245, 158, 11, 0.08) 290deg,
+    transparent 300deg,
+    rgba(245, 158, 11, 0.08) 310deg,
+    transparent 320deg,
+    rgba(245, 158, 11, 0.08) 330deg,
+    transparent 340deg,
+    rgba(245, 158, 11, 0.08) 350deg,
+    transparent 360deg
+  );
+  border-radius: 50%;
+  opacity: 0;
+  animation: rays-appear 1s ease-out forwards;
+  animation-delay: 1.2s;
+}
+
+@keyframes rays-appear {
+  0% {
+    opacity: 0;
+    transform: scale(0.5) rotate(0deg);
+  }
+  100% {
+    opacity: 0.6;
+    transform: scale(1.5) rotate(180deg);
+  }
+}
+
+/* ========================================
+   四、文字内容区域
+   ======================================== */
+
+.sun-glow-text-container {
+  position: relative;
+  z-index: 20;
+  text-align: center;
+  padding: 2rem;
+  max-width: 800px;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.sun-glow-loading.gate-visible .sun-glow-text-container {
+  animation: text-container-appear 0.8s ease-out forwards;
+  animation-delay: 2.5s;
+}
+
+@keyframes text-container-appear {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 文字行样式 */
+.sun-glow-line {
+  font-family: 'Noto Serif SC', 'Songti SC', 'STSong', serif;
+  font-size: clamp(1.125rem, 2.5vw, 1.5rem);
+  line-height: 2;
+  margin: 0.5rem 0;
+  opacity: 0;
+  transform: translateY(10px);
+  color: #FCD34D;
+  text-shadow: 0 0 20px rgba(245, 158, 11, 0.5);
+  letter-spacing: 0.05em;
+}
+
+/* 文字逐行渐显（9 行文字） */
+.sun-glow-loading.gate-visible .sun-glow-line:nth-child(1) {
+  animation: line-fade-in 0.8s ease-out forwards;
+  animation-delay: 2.8s;
+}
+
+.sun-glow-loading.gate-visible .sun-glow-line:nth-child(2) {
+  animation: line-fade-in 0.8s ease-out forwards;
+  animation-delay: 3.1s;
+}
+
+.sun-glow-loading.gate-visible .sun-glow-line:nth-child(3) {
+  animation: line-fade-in 0.8s ease-out forwards;
+  animation-delay: 3.4s;
+}
+
+.sun-glow-loading.gate-visible .sun-glow-line:nth-child(4) {
+  animation: line-fade-in 0.8s ease-out forwards;
+  animation-delay: 3.7s;
+}
+
+.sun-glow-loading.gate-visible .sun-glow-line:nth-child(5) {
+  animation: line-fade-in 0.8s ease-out forwards;
+  animation-delay: 4.0s;
+}
+
+.sun-glow-loading.gate-visible .sun-glow-line:nth-child(6) {
+  animation: line-fade-in 0.8s ease-out forwards;
+  animation-delay: 4.3s;
+}
+
+.sun-glow-loading.gate-visible .sun-glow-line:nth-child(7) {
+  animation: line-fade-in 0.8s ease-out forwards;
+  animation-delay: 4.6s;
+}
+
+.sun-glow-loading.gate-visible .sun-glow-line:nth-child(8) {
+  animation: line-fade-in 0.8s ease-out forwards;
+  animation-delay: 4.9s;
+}
+
+.sun-glow-loading.gate-visible .sun-glow-line:nth-child(9) {
+  animation: line-fade-in 0.8s ease-out forwards;
+  animation-delay: 5.2s;
+}
+
+@keyframes line-fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 文字微光效果 */
+.sun-glow-line {
+  background: linear-gradient(
+    90deg,
+    rgba(245, 158, 11, 0.3) 0%,
+    rgba(252, 211, 77, 0.8) 50%,
+    rgba(245, 158, 11, 0.3) 100%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: text-shimmer 3s ease-in-out infinite;
+  animation-delay: calc(2.8s + (var(--line-index, 0) * 0.3s));
+}
+
+@keyframes text-shimmer {
+  0%, 100% {
+    background-position: -200% center;
+  }
+  50% {
+    background-position: 200% center;
+  }
+}
+
+/* 特殊行样式 */
+.sun-glow-line.highlight {
+  font-size: clamp(1.25rem, 3vw, 1.75rem);
+  font-weight: 700;
+  text-shadow: 0 0 30px rgba(245, 158, 11, 0.7);
+}
+
+.sun-glow-line.ending {
+  font-size: clamp(1.25rem, 3vw, 1.75rem);
+  font-weight: 700;
+  margin-top: 1.5rem;
+  letter-spacing: 0.1em;
+}
+
+/* ========================================
+   五、背景装饰粒子
+   ======================================== */
+
+.sun-glow-particles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: rgba(245, 158, 11, 0.6);
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(245, 158, 11, 0.8);
+  opacity: 0;
+}
+
+.particle:nth-child(1) {
+  top: 20%;
+  left: 30%;
+  animation: particle-float 3s ease-in-out infinite;
+  animation-delay: 1s;
+}
+
+.particle:nth-child(2) {
+  top: 40%;
+  left: 70%;
+  animation: particle-float 3.5s ease-in-out infinite;
+  animation-delay: 1.5s;
+}
+
+.particle:nth-child(3) {
+  top: 60%;
+  left: 20%;
+  animation: particle-float 4s ease-in-out infinite;
+  animation-delay: 2s;
+}
+
+.particle:nth-child(4) {
+  top: 80%;
+  left: 60%;
+  animation: particle-float 3.2s ease-in-out infinite;
+  animation-delay: 2.5s;
+}
+
+.particle:nth-child(5) {
+  top: 30%;
+  left: 80%;
+  animation: particle-float 3.8s ease-in-out infinite;
+  animation-delay: 3s;
+}
+
+@keyframes particle-float {
+  0%, 100% {
+    opacity: 0;
+    transform: translateY(0) scale(0);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-20px) scale(1);
+  }
+}
+
+/* ========================================
+   六、响应式设计
+   ======================================== */
+
+@media (max-width: 768px) {
+  .sun-glow-text-container {
+    padding: 1.5rem;
+    max-width: 90vw;
+  }
+
+  .sun-glow-line {
+    font-size: clamp(1rem, 3vw, 1.25rem);
+    line-height: 1.8;
+  }
+
+  .sun-glow-line.highlight {
+    font-size: clamp(1.125rem, 3.5vw, 1.5rem);
+  }
+
+  .sun-glow-line.ending {
+    font-size: clamp(1.125rem, 3vw, 1.5rem);
+  }
+}
+
+/* ========================================
+   七、无障碍支持
+   ======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .sun-glow-loading,
+  .sun-core-dot,
+  .sun-glow-layer,
+  .sun-glow-wave,
+  .sun-glow-outer,
+  .sun-glow-text-container,
+  .sun-glow-line,
+  .particle {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .sun-glow-loading.gate-visible {
+    opacity: 1;
+  }
+
+  .sun-glow-text-container {
+    opacity: 1;
+    transform: none;
+  }
+
+  .sun-glow-line {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ========================================
+   八、性能优化
+   ======================================== */
+
+/* GPU 加速 */
+.sun-glow-container,
+.sun-core-dot,
+.sun-glow-layer,
+.sun-glow-wave,
+.sun-glow-text-container,
+.sun-glow-line {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  will-change: transform, opacity;
+}
+
+/* 硬件加速提示 */
+@supports (-webkit-overflow-scrolling: touch) {
+  .sun-glow-loading {
+    will-change: opacity;
+  }
+}
