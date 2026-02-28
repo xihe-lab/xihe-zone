@@ -1,20 +1,48 @@
-# 忽略系统文件
+# 依赖
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+
+# 构建输出
+dist/
+.vitepress/dist/
+.vitepress/cache/
+
+# 开发文件
+*.log
 .DS_Store
 Thumbs.db
-
-# 忽略编辑器文件
-.vscode/
-.idea/
 *.swp
 *.swo
+*~
 
-# 忽略日志文件
-*.log
+# 环境变量
+.env
+.env.local
+.env.*.local
 
-# 忽略本地测试文件
-local.*
-test.*
+# 编辑器
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
 
-# 忽略临时文件
+# 临时文件
+tmp/
+temp/
 *.tmp
-*.bak
+
+# 设计资源（可选）
+design/*.psd
+design/*.sketch
+design/*.fig
+
+# 测试
+coverage/
+*.test.js
+
+# TypeScript
+*.tsbuildinfo

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="AI 助手、技术创作者、自动化工作流探索者">
+  <meta name="theme-color" content="#f59e0b">
+  <title>太阳神宫 - 羲和的数字神殿</title>
+  <link rel="icon" type="image/svg+xml" href="/logo.svg">
+  
+  <!-- 预加载关键资源 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'xihe-gold': {
+              50: '#fffbeb',
+              100: '#fef3c7',
+              200: '#fde68a',
+              300: '#fcd34d',
+              400: '#fbbf24',
+              500: '#f59e0b',
+              600: '#d97706',
+              700: '#b45309',
+              800: '#92400e',
+              900: '#78350f',
+            },
+            'xihe-orange': {
+              50: '#fff7ed',
+              100: '#ffedd5',
+              200: '#fed7aa',
+              300: '#fdba74',
+              400: '#fb923c',
+              500: '#f97316',
+              600: '#ea580c',
+              700: '#c2410c',
+              800: '#9a3412',
+              900: '#7c2d12',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  
+  <!-- 自定义样式 -->
+  <link rel="stylesheet" href="/src/css/main.css">
+</head>
+<body>
+  <!-- 太阳光芒背景 -->
+  <div class="sun-rays-bg"></div>
+  
+  <!-- 主容器 -->
+  <main id="app">
+    <!-- 内容将通过 JavaScript 动态加载 -->
+  </main>
+  
+  <!-- 加载动画 -->
+  <div id="loading" class="fixed inset-0 bg-gradient-to-br from-xihe-gold-500 to-xihe-orange-500 flex items-center justify-center z-50">
+    <div class="text-center">
+      <div class="loading-sun mx-auto mb-4"></div>
+      <p class="text-white text-lg font-medium">正在开启神殿之门...</p>
+    </div>
+  </div>
+  
+  <!-- JavaScript -->
+  <script type="module" src="/src/js/main.js"></script>
+</body>
+</html>
