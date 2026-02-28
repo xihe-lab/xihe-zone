@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>任务看板测试</title>
+  <style>
+    body { background: #0F0F0F; color: #fff; font-family: sans-serif; padding: 20px; }
+    .task-card { background: #1A1A2E; border: 1px solid rgba(245, 158, 11, 0.2); border-radius: 12px; padding: 20px; margin: 10px 0; }
+    .member-info { display: flex; align-items: center; gap: 10px; }
+    .member-emoji { font-size: 2rem; }
+    .member-name { font-size: 1.2rem; font-weight: bold; color: #F59E0B; }
+    .member-role { color: #9CA3AF; font-size: 0.9rem; }
+    .task-list { list-style: none; padding: 0; margin: 10px 0; }
+    .task-item { display: flex; align-items: center; gap: 8px; padding: 5px 0; }
+    .todo .task-bullet { color: #FB923C; }
+    .done .task-bullet { color: #10B981; }
+  </style>
+</head>
+<body>
+  <h1>任务看板测试</h1>
+  <div id="teamTasksBoard"></div>
+  
+  <script>
+    fetch('/data/tasks.json?v=' + Date.now())
+      .then(r => r.json())
+      .then(data => {
+        console.log('数据加载成功:', data);
+        const container = document.getElementById('teamTasksBoard');
+        container.innerHTML = data.members.map(m => `
+          <div class="task-card">
+            <div class="member-info">
+              <span class="member-emoji">${m.emoji}</span>
+              <div>
+                <div class="member-name">${m.name}</div>
+                <div class="member-role">${m.role}</div>
+              </div>
+            </div>
+            <ul class="task-list">
+              ${m.todos.map(t => `<li class="task-item todo"><span>●</span> ${t}</li>`).join('')}
+              ${m.dones.map(d => `<li class="task-item done"><span>✓</span> ${d}</li>`).join('')}
+            </ul>
+          </div>
+        `).join('');
+      })
+      .catch(e => {
+        console.error('加载失败:', e);
+        document.getElementById('teamTasksBoard').innerHTML = '<p>加载失败：' + e + '</p>';
+      });
+  </script>
+</body>
+</html>
