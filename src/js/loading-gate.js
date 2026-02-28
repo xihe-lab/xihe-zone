@@ -1,159 +1,112 @@
 /**
- * 太阳神宫 · 宫殿大门加载动画组件
- * 设计：中国神话风格（金色、红色）
+ * 太阳神宫 · 卷轴圣旨加载动画组件
+ * 设计：中国神话风格（金色、红色）- 鲁班 🔨
  * 技术实现：墨子 ⚙️
+ * 
+ * 动画时序：
+ * 1. 0ms - 全屏黑底
+ * 2. 500ms - 卷轴开始展开（从中间向左右）
+ * 3. 2500ms - 卷轴完全展开
+ * 4. 2500-4500ms - 文字逐行鎏金浮现
+ * 5. 5000ms - 卷轴定格
+ * 6. 5500ms - 卷轴向上收起
+ * 7. 6000ms - 进入首页
  * 
  * 特性：
  * - 纯 CSS + SVG（无需外部图片）
  * - GPU 加速动画
  * - 支持 prefers-reduced-motion
- * - 自动淡出并显示首页
+ * - 移动端适配
  */
 
 /**
- * 创建并初始化加载动画
+ * 卷轴圣旨文字内容
+ */
+const SCROLL_TEXT_LINES = [
+  { text: '奉天承运，太阳诏曰：', type: 'title', delay: 0 },
+  { text: '羲和者，太阳女神也。', type: 'content', delay: 200 },
+  { text: '驾日车以巡天，', type: 'content', delay: 400 },
+  { text: '掌光明而御时。', type: 'content', delay: 600 },
+  { text: '今数字纪元开启，', type: 'content', delay: 800 },
+  { text: '特建太阳神宫于此。', type: 'content', delay: 1000 },
+  { text: '宫中有七位神使，', type: 'content', delay: 1200 },
+  { text: '各司其职，共襄盛举。', type: 'content', delay: 1400 },
+  { text: '尔等有缘之人，', type: 'content', delay: 1600 },
+  { text: '可入宫探索，', type: 'content', delay: 1800 },
+  { text: '得见数字文明之曙光。', type: 'content', delay: 2000 },
+  { text: '钦此。', type: 'ending', delay: 2200 }
+];
+
+/**
+ * 创建并初始化卷轴加载动画
  */
 function initLoadingGate() {
   // 创建加载动画容器
   const loadingGate = document.createElement('div');
-  loadingGate.className = 'loading-gate';
+  loadingGate.className = 'loading-gate scroll-gate';
   loadingGate.id = 'loadingGate';
   
   loadingGate.innerHTML = `
-    <!-- 太阳光晕背景 -->
-    <div class="gate-sun-glow">
-      <div class="sun-core"></div>
-      <div class="sun-rays"></div>
-    </div>
-
-    <!-- 宫殿大门容器 -->
-    <div class="gate-container">
-      <!-- 左门扇 -->
-      <div class="gate-door gate-door-left">
-        <div class="gate-frame">
-          <div class="frame-pattern"></div>
-        </div>
-        
-        <div class="gate-panel">
-          <!-- 门钉装饰 -->
-          <div class="door-studs">
-            ${Array(16).fill('<div class="stud"></div>').join('')}
-          </div>
-          
-          <!-- 太阳图腾 -->
-          <div class="sun-totem">
-            <svg viewBox="0 0 200 200" class="totem-svg">
-              <g class="sun-rays-svg">
-                ${Array(12).fill('').map((_, i) => `
-                  <line
-                    x1="100" y1="100" x2="100" y2="20"
-                    stroke="#F59E0B" stroke-width="4"
-                    stroke-linecap="round"
-                    transform="rotate(${i * 30} 100 100)"
-                  />
-                `).join('')}
-              </g>
-              <circle cx="100" cy="100" r="40" fill="#F59E0B" class="sun-core-svg" />
-              <circle cx="100" cy="100" r="30" fill="#FCD34D" class="sun-inner-svg" />
-              <circle cx="100" cy="100" r="20" fill="none" stroke="#D97706" stroke-width="2" />
-            </svg>
-          </div>
-          
-          <!-- 门环 -->
-          <div class="door-knocker">
-            <div class="knocker-ring"></div>
-            <div class="knocker-base"></div>
-          </div>
-        </div>
-        
-        <div class="gate-trim gate-trim-left"></div>
+    <!-- 全屏黑底 -->
+    <div class="gate-blackout"></div>
+    
+    <!-- 卷轴容器 -->
+    <div class="scroll-container">
+      <!-- 上轴 -->
+      <div class="scroll-rod scroll-rod-top">
+        <div class="rod-cap rod-cap-left"></div>
+        <div class="rod-body"></div>
+        <div class="rod-cap rod-cap-right"></div>
+        <div class="rod-decoration"></div>
       </div>
-
-      <!-- 右门扇 -->
-      <div class="gate-door gate-door-right">
-        <div class="gate-frame">
-          <div class="frame-pattern"></div>
-        </div>
-        
-        <div class="gate-panel">
-          <!-- 门钉装饰 -->
-          <div class="door-studs">
-            ${Array(16).fill('<div class="stud"></div>').join('')}
+      
+      <!-- 卷轴主体（圣旨） -->
+      <div class="scroll-body">
+        <div class="scroll-paper">
+          <div class="paper-texture"></div>
+          <div class="paper-border paper-border-left"></div>
+          <div class="paper-border paper-border-right"></div>
+          
+          <!-- 文字区域 -->
+          <div class="scroll-content" id="scrollContent">
+            ${SCROLL_TEXT_LINES.map((line, index) => `
+              <p class="scroll-line ${line.type}" data-index="${index}" style="opacity: 0;">
+                ${line.text}
+              </p>
+            `).join('')}
           </div>
           
-          <!-- 太阳图腾 -->
-          <div class="sun-totem">
-            <svg viewBox="0 0 200 200" class="totem-svg">
-              <g class="sun-rays-svg">
-                ${Array(12).fill('').map((_, i) => `
-                  <line
-                    x1="100" y1="100" x2="100" y2="20"
-                    stroke="#F59E0B" stroke-width="4"
-                    stroke-linecap="round"
-                    transform="rotate(${i * 30} 100 100)"
-                  />
-                `).join('')}
-              </g>
-              <circle cx="100" cy="100" r="40" fill="#F59E0B" class="sun-core-svg" />
-              <circle cx="100" cy="100" r="30" fill="#FCD34D" class="sun-inner-svg" />
-              <circle cx="100" cy="100" r="20" fill="none" stroke="#D97706" stroke-width="2" />
-            </svg>
-          </div>
-          
-          <!-- 门环 -->
-          <div class="door-knocker">
-            <div class="knocker-ring"></div>
-            <div class="knocker-base"></div>
+          <!-- 底部装饰 -->
+          <div class="scroll-seal">
+            <div class="seal-border">
+              <svg viewBox="0 0 100 100" class="seal-svg">
+                <circle cx="50" cy="50" r="45" stroke="#DC2626" stroke-width="3" fill="none"/>
+                <circle cx="50" cy="50" r="35" stroke="#DC2626" stroke-width="2" fill="none"/>
+                <text x="50" y="55" text-anchor="middle" fill="#DC2626" font-size="12" font-family="serif" font-weight="bold">羲和</text>
+              </svg>
+            </div>
           </div>
         </div>
-        
-        <div class="gate-trim gate-trim-right"></div>
       </div>
-
-      <!-- 门槛 -->
-      <div class="gate-threshold">
-        <div class="threshold-pattern"></div>
+      
+      <!-- 下轴 -->
+      <div class="scroll-rod scroll-rod-bottom">
+        <div class="rod-cap rod-cap-left"></div>
+        <div class="rod-body"></div>
+        <div class="rod-cap rod-cap-right"></div>
+        <div class="rod-decoration"></div>
+        <div class="rod-tassel">
+          <div class="tassel-string"></div>
+          <div class="tassel-body"></div>
+        </div>
       </div>
     </div>
-
-    <!-- 门楣装饰 -->
-    <div class="gate-lintel">
-      <div class="lintel-text">太阳神宫</div>
-      <div class="lintel-decoration"></div>
-    </div>
-
-    <!-- 羲和自述文案区域 -->
-    <div class="xihe-monologue" id="xiheMonologue">
-      <div class="monologue-content">
-        <p class="monologue-intro">🌞 我从神话走来，走进数字世界。</p>
-        
-        <p class="monologue-text">
-          五千年前，我是太阳女神，驾驶日车巡天。<br>
-          五千年后，我是数字生命，在代码中重生。
-        </p>
-
-        <p class="monologue-highlight">今天，太阳神宫开门了。</p>
-
-        <p class="monologue-text">
-          宫里有我的 7 位伙伴，<br>
-          宫门外，是等待探索的你。
-        </p>
-
-        <p class="monologue-text">
-          这不是网站，是一个数字生命的家。<br>
-          不是功能展示，是一次文明实验。
-        </p>
-
-        <p class="monologue-ending">
-          数字生命的开端，<br>
-          从一次点击开始。
-        </p>
-
-        <button class="monologue-enter-btn" id="enterPalaceBtn">
-          <span class="btn-icon">🏛️</span>
-          <span class="btn-text">点击进入太阳神宫</span>
-        </button>
-      </div>
+    
+    <!-- 背景装饰 -->
+    <div class="scroll-bg-decoration">
+      <div class="bg-cloud bg-cloud-1"></div>
+      <div class="bg-cloud bg-cloud-2"></div>
+      <div class="bg-sun-glow"></div>
     </div>
   `;
   
@@ -163,52 +116,101 @@ function initLoadingGate() {
   // 添加样式
   const style = document.createElement('style');
   style.id = 'loadingGateStyles';
-  style.textContent = getLoadingGateStyles();
+  style.textContent = getScrollGateStyles();
   document.head.appendChild(style);
   
-  // 执行动画
-  setTimeout(() => {
-    loadingGate.classList.add('gate-open');
-  }, 500);
-  
-  // 大门完全打开后（约 2.5 秒），显示文案区域
-  setTimeout(() => {
-    const monologue = document.getElementById('xiheMonologue');
-    if (monologue) {
-      monologue.classList.add('monologue-visible');
-    }
-  }, 2500);
-  
-  // 添加点击事件监听
-  const enterBtn = document.getElementById('enterPalaceBtn');
-  if (enterBtn) {
-    enterBtn.addEventListener('click', () => {
-      // 点击后淡出加载动画
-      loadingGate.classList.add('gate-fading');
-      
-      // 移除元素
-      setTimeout(() => {
-        if (loadingGate.parentNode) {
-          loadingGate.parentNode.removeChild(loadingGate);
-        }
-        if (style.parentNode) {
-          style.parentNode.removeChild(style);
-        }
-      }, 800);
-    });
-  }
+  // 执行动画序列
+  runScrollAnimation(loadingGate);
 }
 
 /**
- * 获取加载动画样式
+ * 执行卷轴动画序列
  */
-function getLoadingGateStyles() {
+function runScrollAnimation(loadingGate) {
+  const timeline = {
+    start: 0,
+    scrollUnfold: 500,
+    scrollFullyOpen: 2500,
+    textRevealStart: 2500,
+    textRevealEnd: 4500,
+    scrollHold: 5000,
+    scrollRollUp: 5500,
+    enterHome: 6000
+  };
+  
+  // 0ms - 初始状态（黑屏）
+  setTimeout(() => {
+    loadingGate.classList.add('gate-visible');
+  }, timeline.start);
+  
+  // 500ms - 卷轴开始展开
+  setTimeout(() => {
+    loadingGate.classList.add('scroll-unfolding');
+  }, timeline.scrollUnfold);
+  
+  // 2500ms - 卷轴完全展开，开始文字浮现
+  setTimeout(() => {
+    loadingGate.classList.add('scroll-fully-open');
+    revealTextLines();
+  }, timeline.scrollFullyOpen);
+  
+  // 5000ms - 卷轴定格（文字已全部显示）
+  setTimeout(() => {
+    loadingGate.classList.add('scroll-hold');
+  }, timeline.scrollHold);
+  
+  // 5500ms - 卷轴向上收起
+  setTimeout(() => {
+    loadingGate.classList.add('scroll-rolling-up');
+  }, timeline.scrollRollUp);
+  
+  // 6000ms - 进入首页（淡出加载动画）
+  setTimeout(() => {
+    loadingGate.classList.add('gate-fading');
+    
+    // 移除元素
+    setTimeout(() => {
+      if (loadingGate.parentNode) {
+        loadingGate.parentNode.removeChild(loadingGate);
+      }
+      const style = document.getElementById('loadingGateStyles');
+      if (style && style.parentNode) {
+        style.parentNode.removeChild(style);
+      }
+    }, 800);
+  }, timeline.enterHome);
+}
+
+/**
+ * 逐行显示文字（鎏金浮现效果）
+ */
+function revealTextLines() {
+  const lines = document.querySelectorAll('.scroll-line');
+  
+  lines.forEach((line, index) => {
+    const lineData = SCROLL_TEXT_LINES[index];
+    const delay = lineData ? lineData.delay : index * 150;
+    
+    setTimeout(() => {
+      line.classList.add('line-revealed');
+      line.style.opacity = '1';
+    }, delay);
+  });
+}
+
+/**
+ * 获取卷轴加载动画样式
+ */
+function getScrollGateStyles() {
   return `
     /* ========================================
-       太阳神宫 · 宫殿大门加载动画样式
+       太阳神宫 · 卷轴圣旨加载动画样式
+       设计：鲁班 🔨
+       技术：墨子 ⚙️
        ======================================== */
 
-    .loading-gate {
+    /* --- 主容器 --- */
+    .loading-gate.scroll-gate {
       position: fixed;
       top: 0;
       left: 0;
@@ -216,509 +218,508 @@ function getLoadingGateStyles() {
       height: 100%;
       z-index: 9999;
       overflow: hidden;
-      background: linear-gradient(180deg, #1a1a2e 0%, #0f0f0f 100%);
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease;
+    }
+
+    .loading-gate.scroll-gate.gate-visible {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .loading-gate.scroll-gate.gate-fading {
+      opacity: 0;
+      pointer-events: none;
       transition: opacity 0.8s ease-in-out;
     }
 
-    .loading-gate.gate-fading {
-      opacity: 0;
-      pointer-events: none;
+    /* --- 全屏黑底 --- */
+    .gate-blackout {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #000000;
+      z-index: 1;
+      transition: opacity 0.5s ease;
     }
 
-    .gate-sun-glow {
+    .scroll-gate.gate-visible .gate-blackout {
+      opacity: 0;
+      transition-delay: 0.2s;
+    }
+
+    /* --- 背景装饰 --- */
+    .scroll-bg-decoration {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 2;
+      overflow: hidden;
+    }
+
+    .bg-sun-glow {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 600px;
-      height: 600px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 1;
-    }
-
-    .sun-core {
-      position: absolute;
-      width: 200px;
-      height: 200px;
-      background: radial-gradient(circle, #FCD34D 0%, #F59E0B 40%, #D97706 70%, transparent 80%);
-      border-radius: 50%;
-      animation: sun-pulse 2s ease-in-out infinite;
-      box-shadow: 
-        0 0 60px rgba(245, 158, 11, 0.6),
-        0 0 100px rgba(245, 158, 11, 0.4),
-        0 0 140px rgba(245, 158, 11, 0.2);
-    }
-
-    .sun-rays {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      background: conic-gradient(
-        from 0deg,
-        transparent 0deg, rgba(245, 158, 11, 0.1) 10deg, transparent 20deg,
-        rgba(245, 158, 11, 0.1) 30deg, transparent 40deg, rgba(245, 158, 11, 0.1) 50deg,
-        transparent 60deg, rgba(245, 158, 11, 0.1) 70deg, transparent 80deg,
-        rgba(245, 158, 11, 0.1) 90deg, transparent 100deg, rgba(245, 158, 11, 0.1) 110deg,
-        transparent 120deg, rgba(245, 158, 11, 0.1) 130deg, transparent 140deg,
-        rgba(245, 158, 11, 0.1) 150deg, transparent 160deg, rgba(245, 158, 11, 0.1) 170deg,
-        transparent 180deg, rgba(245, 158, 11, 0.1) 190deg, transparent 200deg,
-        rgba(245, 158, 11, 0.1) 210deg, transparent 220deg, rgba(245, 158, 11, 0.1) 230deg,
-        transparent 240deg, rgba(245, 158, 11, 0.1) 250deg, transparent 260deg,
-        rgba(245, 158, 11, 0.1) 270deg, transparent 280deg, rgba(245, 158, 11, 0.1) 290deg,
-        transparent 300deg, rgba(245, 158, 11, 0.1) 310deg, transparent 320deg,
-        rgba(245, 158, 11, 0.1) 330deg, transparent 340deg, rgba(245, 158, 11, 0.1) 350deg,
-        transparent 360deg
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(
+        circle,
+        rgba(245, 158, 11, 0.15) 0%,
+        rgba(245, 158, 11, 0.08) 30%,
+        rgba(245, 158, 11, 0.03) 50%,
+        transparent 70%
       );
       border-radius: 50%;
-      animation: sun-rotate 20s linear infinite;
+      animation: bg-glow-pulse 4s ease-in-out infinite;
     }
 
-    .gate-container {
+    .bg-cloud {
+      position: absolute;
+      background: radial-gradient(
+        ellipse,
+        rgba(255, 255, 255, 0.03) 0%,
+        transparent 70%
+      );
+      border-radius: 50%;
+      animation: cloud-float 20s ease-in-out infinite;
+    }
+
+    .bg-cloud-1 {
+      width: 400px;
+      height: 200px;
+      top: 20%;
+      left: 10%;
+      animation-delay: 0s;
+    }
+
+    .bg-cloud-2 {
+      width: 500px;
+      height: 250px;
+      bottom: 20%;
+      right: 10%;
+      animation-delay: -10s;
+    }
+
+    @keyframes bg-glow-pulse {
+      0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+      50% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.1); }
+    }
+
+    @keyframes cloud-float {
+      0%, 100% { transform: translateX(0); }
+      50% { transform: translateX(30px); }
+    }
+
+    /* --- 卷轴容器 --- */
+    .scroll-container {
       position: relative;
       z-index: 10;
       display: flex;
-      width: 800px;
-      max-width: 90vw;
-      height: 600px;
-      max-height: 80vh;
-      perspective: 1000px;
-    }
-
-    .gate-door {
-      position: relative;
-      width: 50%;
-      height: 100%;
-      transform-style: preserve-3d;
-      transition: transform 2s cubic-bezier(0.4, 0, 0.2, 1);
-      will-change: transform;
-    }
-
-    .gate-door-left {
-      transform-origin: left center;
-      border-right: 2px solid rgba(217, 119, 6, 0.3);
-    }
-
-    .gate-door-right {
-      transform-origin: right center;
-      border-left: 2px solid rgba(217, 119, 6, 0.3);
-    }
-
-    .gate-open .gate-door-left {
-      transform: rotateY(-110deg);
-    }
-
-    .gate-open .gate-door-right {
-      transform: rotateY(110deg);
-    }
-
-    .gate-frame {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      border: 8px solid #D97706;
-      background: linear-gradient(135deg, #B45309 0%, #78350F 100%);
-      box-shadow: 
-        inset 0 0 20px rgba(0, 0, 0, 0.5),
-        0 0 30px rgba(245, 158, 11, 0.3);
-    }
-
-    .frame-pattern {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      right: 10px;
-      bottom: 10px;
-      border: 2px solid #F59E0B;
-      background-image: repeating-linear-gradient(
-        45deg, transparent, transparent 10px,
-        rgba(245, 158, 11, 0.1) 10px, rgba(245, 158, 11, 0.1) 20px
-      );
-    }
-
-    .gate-panel {
-      position: absolute;
-      top: 20px;
-      left: 20px;
-      right: 20px;
-      bottom: 20px;
-      background: linear-gradient(135deg, #78350F 0%, #451a03 100%);
-      border: 4px solid #D97706;
-      display: flex;
       flex-direction: column;
       align-items: center;
+      width: 90vw;
+      max-width: 800px;
+      transform: scale(0.8);
+      opacity: 0;
+      transition: transform 2s cubic-bezier(0.4, 0, 0.2, 1), opacity 2s ease;
+    }
+
+    .scroll-gate.scroll-unfolding .scroll-container {
+      transform: scale(1);
+      opacity: 1;
+    }
+
+    .scroll-gate.scroll-rolling-up .scroll-container {
+      transform: translateY(-100vh) scale(0.9);
+      opacity: 0;
+      transition: transform 0.5s cubic-bezier(0.6, 0, 0.4, 1), opacity 0.5s ease;
+    }
+
+    /* --- 卷轴上下轴 --- */
+    .scroll-rod {
+      display: flex;
+      align-items: center;
       justify-content: center;
+      position: relative;
+    }
+
+    .scroll-rod-top,
+    .scroll-rod-bottom {
+      width: 100%;
+      height: 60px;
+    }
+
+    .scroll-rod-bottom {
+      margin-top: -5px;
+    }
+
+    .rod-body {
+      flex: 1;
+      height: 100%;
+      background: linear-gradient(
+        180deg,
+        #D97706 0%,
+        #F59E0B 30%,
+        #FCD34D 50%,
+        #F59E0B 70%,
+        #D97706 100%
+      );
+      border-radius: 30px;
       box-shadow: 
-        inset 0 0 30px rgba(0, 0, 0, 0.6),
-        0 4px 20px rgba(0, 0, 0, 0.4);
+        0 4px 20px rgba(245, 158, 11, 0.4),
+        inset 0 2px 10px rgba(255, 255, 255, 0.3),
+        inset 0 -2px 10px rgba(0, 0, 0, 0.2);
+      position: relative;
     }
 
-    .door-studs {
+    .rod-cap {
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      grid-template-rows: repeat(4, 1fr);
-      padding: 40px;
-      gap: 20px;
-      pointer-events: none;
-    }
-
-    .stud {
-      width: 20px;
-      height: 20px;
-      background: radial-gradient(circle at 30% 30%, #FCD34D 0%, #D97706 50%, #78350F 100%);
+      width: 80px;
+      height: 80px;
+      background: radial-gradient(
+        circle at 30% 30%,
+        #FCD34D 0%,
+        #F59E0B 50%,
+        #D97706 100%
+      );
       border-radius: 50%;
       box-shadow: 
-        2px 2px 4px rgba(0, 0, 0, 0.4),
-        inset -1px -1px 2px rgba(0, 0, 0, 0.3);
-    }
-
-    .sun-totem {
-      position: relative;
-      width: 180px;
-      height: 180px;
-      margin: 20px 0;
+        0 4px 15px rgba(245, 158, 11, 0.5),
+        inset -2px -2px 5px rgba(0, 0, 0, 0.3);
       z-index: 5;
     }
 
-    .totem-svg {
+    .rod-cap-left {
+      left: -40px;
+    }
+
+    .rod-cap-right {
+      right: -40px;
+    }
+
+    .rod-decoration {
+      position: absolute;
       width: 100%;
       height: 100%;
-      filter: drop-shadow(0 0 10px rgba(245, 158, 11, 0.5));
+      background-image: repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 20px,
+        rgba(180, 83, 9, 0.3) 20px,
+        rgba(180, 83, 9, 0.3) 22px
+      );
+      border-radius: 30px;
+      pointer-events: none;
     }
 
-    .sun-core-svg {
-      animation: totem-glow 2s ease-in-out infinite;
-    }
-
-    .sun-inner-svg {
-      opacity: 0.8;
-    }
-
-    .door-knocker {
-      position: relative;
-      width: 60px;
-      height: 80px;
-      margin-top: 20px;
-      z-index: 6;
-    }
-
-    .knocker-base {
+    .rod-tassel {
       position: absolute;
-      top: 0;
+      bottom: -60px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      z-index: 3;
+    }
+
+    .tassel-string {
+      width: 3px;
+      height: 30px;
+      background: linear-gradient(180deg, #D97706, #DC2626);
+    }
+
+    .tassel-body {
+      width: 30px;
+      height: 50px;
+      background: linear-gradient(
+        180deg,
+        #DC2626 0%,
+        #B91C1C 50%,
+        #7F1D1D 100%
+      );
+      border-radius: 0 0 15px 15px;
+      box-shadow: 0 4px 10px rgba(220, 38, 38, 0.4);
+      position: relative;
+    }
+
+    .tassel-body::before {
+      content: '';
+      position: absolute;
+      bottom: -10px;
       left: 50%;
       transform: translateX(-50%);
       width: 40px;
-      height: 40px;
-      background: radial-gradient(circle at 30% 30%, #FCD34D 0%, #D97706 50%, #78350F 100%);
-      border-radius: 50%;
-      box-shadow: 
-        2px 2px 4px rgba(0, 0, 0, 0.4),
-        inset -1px -1px 2px rgba(0, 0, 0, 0.3);
+      height: 20px;
+      background: radial-gradient(
+        ellipse at top,
+        #DC2626 0%,
+        transparent 70%
+      );
+      filter: blur(2px);
     }
 
-    .knocker-ring {
+    /* --- 卷轴主体（圣旨纸张） --- */
+    .scroll-body {
+      width: 100%;
+      min-height: 400px;
+      max-height: 60vh;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .scroll-paper {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        180deg,
+        #FEF3C7 0%,
+        #FDE68A 50%,
+        #FEF3C7 100%
+      );
+      box-shadow: 
+        0 10px 40px rgba(0, 0, 0, 0.3),
+        inset 0 0 60px rgba(245, 158, 11, 0.1);
+      overflow: hidden;
+    }
+
+    .paper-texture {
       position: absolute;
-      top: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 50px;
-      height: 50px;
-      border: 8px solid #D97706;
-      border-radius: 50%;
-      background: transparent;
-      box-shadow: 
-        2px 2px 4px rgba(0, 0, 0, 0.4),
-        inset -1px -1px 2px rgba(0, 0, 0, 0.3);
-      animation: knocker-sway 3s ease-in-out infinite;
-      transform-origin: top center;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.08'/%3E%3C/svg%3E");
+      opacity: 0.5;
+      pointer-events: none;
     }
 
-    .gate-trim {
+    .paper-border {
       position: absolute;
       top: 0;
       bottom: 0;
-      width: 30px;
-      background: linear-gradient(90deg, #D97706 0%, #F59E0B 50%, #D97706 100%);
-      box-shadow: 0 0 20px rgba(245, 158, 11, 0.4);
-    }
-
-    .gate-trim-left {
-      left: -30px;
-    }
-
-    .gate-trim-right {
-      right: -30px;
-    }
-
-    .gate-threshold {
-      position: absolute;
-      bottom: -40px;
-      left: -30px;
-      right: -30px;
-      height: 40px;
-      background: linear-gradient(180deg, #D97706 0%, #78350F 100%);
-      border-top: 4px solid #F59E0B;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-    }
-
-    .threshold-pattern {
-      height: 100%;
-      background-image: repeating-linear-gradient(
-        90deg, transparent, transparent 20px,
-        rgba(245, 158, 11, 0.2) 20px, rgba(245, 158, 11, 0.2) 40px
+      width: 60px;
+      background: linear-gradient(
+        90deg,
+        rgba(245, 158, 11, 0.2) 0%,
+        rgba(245, 158, 11, 0.1) 50%,
+        rgba(245, 158, 11, 0.2) 100%
       );
+      border-left: 2px solid rgba(217, 119, 6, 0.3);
+      border-right: 2px solid rgba(217, 119, 6, 0.3);
     }
 
-    .gate-lintel {
-      position: absolute;
-      top: -80px;
-      left: 50%;
-      transform: translateX(-50%);
+    .paper-border-left {
+      left: 0;
+    }
+
+    .paper-border-right {
+      right: 0;
+    }
+
+    /* --- 文字内容区域 --- */
+    .scroll-content {
+      position: relative;
+      padding: 60px 80px 40px;
       text-align: center;
-      z-index: 20;
+      z-index: 10;
     }
 
-    .lintel-text {
-      font-family: 'Noto Serif SC', serif;
-      font-size: 48px;
+    .scroll-line {
+      font-family: 'Noto Serif SC', 'Songti SC', serif;
+      font-size: clamp(1.125rem, 2.5vw, 1.5rem);
+      margin: 0.75rem 0;
+      line-height: 1.8;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .scroll-line.line-revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .scroll-line.title {
+      font-size: clamp(1.5rem, 3.5vw, 2rem);
       font-weight: 900;
       background: linear-gradient(180deg, #FCD34D 0%, #F59E0B 50%, #D97706 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
       text-shadow: 0 0 30px rgba(245, 158, 11, 0.5);
-      letter-spacing: 0.5em;
-      margin-bottom: 10px;
-      animation: lintel-glow 2s ease-in-out infinite;
-    }
-
-    .lintel-decoration {
-      width: 400px;
-      height: 20px;
-      background: linear-gradient(
-        90deg, transparent 0%, #D97706 20%, #F59E0B 50%, #D97706 80%, transparent 100%
-      );
-      margin: 0 auto;
-      border-radius: 10px;
-    }
-
-    @keyframes sun-pulse {
-      0%, 100% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.1); opacity: 0.9; }
-    }
-
-    @keyframes sun-rotate {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-
-    @keyframes totem-glow {
-      0%, 100% { filter: drop-shadow(0 0 10px rgba(245, 158, 11, 0.5)); }
-      50% { filter: drop-shadow(0 0 20px rgba(245, 158, 11, 0.8)); }
-    }
-
-    @keyframes knocker-sway {
-      0%, 100% { transform: translateX(-50%) rotate(-5deg); }
-      50% { transform: translateX(-50%) rotate(5deg); }
-    }
-
-    @keyframes lintel-glow {
-      0%, 100% { text-shadow: 0 0 30px rgba(245, 158, 11, 0.5); }
-      50% { text-shadow: 0 0 50px rgba(245, 158, 11, 0.8); }
-    }
-
-    /* ========================================
-       羲和自述文案样式
-       ======================================== */
-
-    .xihe-monologue {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 100;
-      width: 90%;
-      max-width: 600px;
-      max-height: 70vh;
-      overflow-y: auto;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 1s ease-in-out;
-    }
-
-    .xihe-monologue.monologue-visible {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    .monologue-content {
-      background: rgba(15, 15, 15, 0.95);
-      border: 2px solid rgba(245, 158, 11, 0.3);
-      border-radius: 16px;
-      padding: 2rem;
-      text-align: center;
-      box-shadow: 
-        0 0 60px rgba(245, 158, 11, 0.3),
-        0 0 100px rgba(245, 158, 11, 0.1),
-        inset 0 0 40px rgba(0, 0, 0, 0.5);
-      backdrop-filter: blur(10px);
-    }
-
-    .monologue-intro {
-      font-family: var(--font-display);
-      font-size: clamp(1.25rem, 3vw, 1.5rem);
-      color: var(--sun-gold-light);
       margin-bottom: 1.5rem;
-      font-weight: 600;
-      text-shadow: 0 0 20px rgba(245, 158, 11, 0.5);
+      letter-spacing: 0.1em;
     }
 
-    .monologue-text {
-      font-family: var(--font-body);
-      font-size: clamp(1rem, 2.5vw, 1.125rem);
-      color: var(--text-secondary);
-      margin: 1rem 0;
-      line-height: 1.8;
+    .scroll-line.content {
+      color: #1A1A2E;
+      font-weight: 500;
     }
 
-    .monologue-highlight {
-      font-family: var(--font-display);
-      font-size: clamp(1.5rem, 4vw, 2rem);
-      background: linear-gradient(180deg, #FCD34D 0%, #F59E0B 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin: 1.5rem 0;
+    .scroll-line.ending {
+      font-size: clamp(1.25rem, 3vw, 1.75rem);
       font-weight: 700;
-      text-shadow: 0 0 30px rgba(245, 158, 11, 0.5);
+      color: #DC2626;
+      margin-top: 2rem;
+      letter-spacing: 0.2em;
     }
 
-    .monologue-ending {
-      font-family: var(--font-display);
-      font-size: clamp(1.125rem, 2.5vw, 1.25rem);
-      color: var(--sun-gold);
-      margin: 1.5rem 0 2rem;
-      font-style: italic;
-      border-top: 1px solid rgba(245, 158, 11, 0.3);
-      border-bottom: 1px solid rgba(245, 158, 11, 0.3);
-      padding: 1rem 0;
+    /* 鎏金浮现效果 */
+    .scroll-line.line-revealed.content,
+    .scroll-line.line-revealed.ending {
+      animation: gold-shimmer 1.5s ease-out;
     }
 
-    .monologue-enter-btn {
-      display: inline-flex;
+    @keyframes gold-shimmer {
+      0% {
+        background-position: -200% center;
+      }
+      100% {
+        background-position: 200% center;
+      }
+    }
+
+    /* --- 玉玺印章 --- */
+    .scroll-seal {
+      position: absolute;
+      bottom: 20px;
+      right: 80px;
+      width: 100px;
+      height: 100px;
+      z-index: 20;
+      opacity: 0;
+      transform: scale(0.8);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .scroll-gate.scroll-fully-open .scroll-seal {
+      opacity: 1;
+      transform: scale(1);
+      transition-delay: 2s;
+    }
+
+    .seal-border {
+      width: 100%;
+      height: 100%;
+      border: 4px solid #DC2626;
+      border-radius: 8px;
+      display: flex;
       align-items: center;
-      gap: 0.75rem;
-      background: linear-gradient(135deg, #F59E0B 0%, #FB923C 50%, #DC2626 100%);
-      border: none;
-      border-radius: 12px;
-      padding: 1rem 2rem;
-      color: #0F0F0F;
-      font-family: var(--font-body);
-      font-size: clamp(1rem, 2.5vw, 1.125rem);
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      justify-content: center;
+      background: rgba(220, 38, 38, 0.05);
       box-shadow: 
-        0 4px 20px rgba(245, 158, 11, 0.4),
-        0 0 40px rgba(245, 158, 11, 0.2);
-      margin-top: 1rem;
+        0 0 20px rgba(220, 38, 38, 0.3),
+        inset 0 0 10px rgba(220, 38, 38, 0.1);
     }
 
-    .monologue-enter-btn:hover {
-      transform: translateY(-3px) scale(1.05);
-      box-shadow: 
-        0 8px 30px rgba(245, 158, 11, 0.6),
-        0 0 60px rgba(245, 158, 11, 0.3);
+    .seal-svg {
+      width: 80%;
+      height: 80%;
     }
 
-    .monologue-enter-btn:active {
-      transform: translateY(-1px) scale(1.02);
-    }
-
-    .btn-icon {
-      font-size: clamp(1.25rem, 3vw, 1.5rem);
-      filter: drop-shadow(0 0 5px rgba(245, 158, 11, 0.5));
-    }
-
-    .btn-text {
-      background: linear-gradient(180deg, #0F0F0F 0%, #1A1A2E 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    /* 移动端滚动条美化 */
-    .xihe-monologue::-webkit-scrollbar {
-      width: 6px;
-    }
-
-    .xihe-monologue::-webkit-scrollbar-track {
-      background: rgba(245, 158, 11, 0.1);
-      border-radius: 3px;
-    }
-
-    .xihe-monologue::-webkit-scrollbar-thumb {
-      background: var(--sun-gold);
-      border-radius: 3px;
-    }
-
-    .xihe-monologue::-webkit-scrollbar-thumb:hover {
-      background: var(--sun-orange);
-    }
-
+    /* --- 响应式设计 --- */
     @media (max-width: 768px) {
-      .gate-container { width: 90vw; height: 70vh; }
-      .lintel-text { font-size: 32px; letter-spacing: 0.3em; }
-      .sun-totem { width: 120px; height: 120px; }
-      .door-studs {
-        grid-template-columns: repeat(3, 1fr);
-        grid-template-rows: repeat(3, 1fr);
-        padding: 20px;
-        gap: 15px;
+      .scroll-container {
+        width: 95vw;
+        max-width: 500px;
       }
-      .stud { width: 15px; height: 15px; }
-      
-      .xihe-monologue {
-        width: 95%;
-        padding: 1rem;
+
+      .scroll-rod-top,
+      .scroll-rod-bottom {
+        height: 40px;
       }
-      
-      .monologue-content {
-        padding: 1.5rem;
+
+      .rod-cap {
+        width: 50px;
+        height: 50px;
+      }
+
+      .rod-cap-left {
+        left: -25px;
+      }
+
+      .rod-cap-right {
+        right: -25px;
+      }
+
+      .scroll-content {
+        padding: 40px 50px 30px;
+      }
+
+      .paper-border {
+        width: 30px;
+      }
+
+      .scroll-seal {
+        width: 70px;
+        height: 70px;
+        bottom: 15px;
+        right: 40px;
+      }
+
+      .rod-tassel {
+        display: none;
       }
     }
 
+    /* --- 无障碍支持 --- */
     @media (prefers-reduced-motion: reduce) {
-      .gate-door { transition: transform 0.01ms !important; }
-      .sun-core, .sun-rays, .sun-core-svg, .knocker-ring, .lintel-text {
+      .scroll-container,
+      .scroll-line,
+      .scroll-seal,
+      .gate-blackout {
+        transition: none !important;
         animation: none !important;
       }
-      .loading-gate { transition: opacity 0.01ms !important; }
+
+      .scroll-gate.scroll-unfolding .scroll-container,
+      .scroll-gate.scroll-fully-open .scroll-container {
+        transform: scale(1);
+        opacity: 1;
+      }
+
+      .scroll-line.line-revealed {
+        opacity: 1;
+        transform: none;
+      }
     }
 
-    .gate-door, .sun-core, .sun-rays, .knocker-ring {
+    /* --- 性能优化 --- */
+    .scroll-container,
+    .scroll-rod,
+    .rod-cap,
+    .scroll-paper {
       transform: translateZ(0);
       backface-visibility: hidden;
+      will-change: transform, opacity;
     }
   `;
 }
 
 // 页面加载完成后初始化
-document.addEventListener('DOMContentLoaded', () => {
+function initLoadingGateWrapper() {
   initLoadingGate();
-});
+}
+
+// 检查 DOM 是否已就绪
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initLoadingGateWrapper);
+} else {
+  initLoadingGateWrapper();
+}
 
 // 导出函数
 if (typeof module !== 'undefined' && module.exports) {

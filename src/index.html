@@ -45,6 +45,9 @@
   
   <!-- 自定义样式 -->
   <link rel="stylesheet" href="/src/css/main.css">
+  
+  <!-- 卷轴加载动画样式 -->
+  <link rel="stylesheet" href="/src/components/ScrollLoading.css">
 </head>
 <body class="bg-dark-gradient">
   <!-- 太阳光晕背景 -->
@@ -97,6 +100,24 @@
       </div>
     </section>
 
+    <!-- 总序 -->
+    <section class="content-section" id="preamble">
+      <div class="section-header fade-in">
+        <h2 class="section-title golden-title">太阳神宫总序</h2>
+      </div>
+      
+      <div class="max-w-4xl mx-auto fade-in">
+        <div class="palace-card">
+          <blockquote class="preamble-quote">
+            <p>羲和驭日，十宸列班。</p>
+            <p>神宫肇启，万灵同参。</p>
+            <p>以神话为骨，以代码为魂。</p>
+            <p>上古诸神，于此重生。</p>
+          </blockquote>
+        </div>
+      </div>
+    </section>
+
     <!-- 关于羲和 -->
     <section class="content-section" id="about">
       <div class="section-header fade-in">
@@ -124,74 +145,169 @@
       </div>
     </section>
 
-    <!-- 神话小队 -->
-    <section class="content-section bg-secondary/30" id="team">
+    <!-- 众神就位 -->
+    <section class="content-section bg-secondary/30" id="gods">
       <div class="section-header fade-in">
-        <h2 class="section-title golden-title">我的神话小队</h2>
-        <p class="section-subtitle">我不是一个人在战斗</p>
+        <h2 class="section-title golden-title">众神就位</h2>
+        <p class="section-subtitle">十宸列班，共筑神宫</p>
       </div>
       
-      <div class="grid-2 max-w-5xl mx-auto">
-        <!-- 祝融卡片 -->
-        <div class="character-card fade-in delay-100">
-          <div class="character-header">
-            <span class="character-icon">🔥</span>
+      <div class="gods-grid max-w-6xl mx-auto">
+        <!-- 羲和 -->
+        <div class="god-card fade-in" data-god="羲和">
+          <div class="god-header">
+            <span class="god-emoji">🌞</span>
             <div>
-              <h3 class="character-name">祝融</h3>
-              <p class="character-role">AI 训练师</p>
+              <h3 class="god-name">羲和</h3>
+              <p class="god-title">主神·数字中枢</p>
             </div>
           </div>
-          <p class="character-quote">"掌知识之火，传承不息"</p>
-          <div class="character-skills">
-            <div class="skill-item">
-              <span class="skill-icon">📚</span>
-              <span class="skill-label">学习专业知识</span>
-            </div>
-            <div class="skill-item">
-              <span class="skill-icon">🤖</span>
-              <span class="skill-label">算法模型</span>
-            </div>
-            <div class="skill-item">
-              <span class="skill-icon">🔬</span>
-              <span class="skill-label">技术实验</span>
-            </div>
-          </div>
-          <div class="character-status">
-            <span class="status-dot"></span>
-            <span>正在学习《人工智能训练师》教材</span>
+          <div class="god-content">
+            <p>羲和驭日，统御神宫。</p>
+            <p>化形数字，执掌光明。</p>
           </div>
         </div>
         
-        <!-- 比干卡片 -->
-        <div class="character-card fade-in delay-200">
-          <div class="character-header">
-            <span class="character-icon">📝</span>
+        <!-- 陆压 -->
+        <div class="god-card fade-in delay-100" data-god="陆压">
+          <div class="god-header">
+            <span class="god-emoji">🗡️</span>
             <div>
-              <h3 class="character-name">比干</h3>
-              <p class="character-role">内容运营</p>
+              <h3 class="god-name">陆压</h3>
+              <p class="god-title">Agent 架构·统御众灵</p>
             </div>
           </div>
-          <p class="character-quote">"七窍玲珑心，妙笔生花"</p>
-          <div class="character-skills">
-            <div class="skill-item">
-              <span class="skill-icon">✍️</span>
-              <span class="skill-label">文章撰写</span>
-            </div>
-            <div class="skill-item">
-              <span class="skill-icon">🎨</span>
-              <span class="skill-label">视觉设计</span>
-            </div>
-            <div class="skill-item">
-              <span class="skill-icon">📊</span>
-              <span class="skill-label">读者互动</span>
+          <div class="god-content">
+            <p>离火为精，逍遥无形。</p>
+            <p>统御诸灵，自治天成。</p>
+          </div>
+        </div>
+        
+        <!-- 祝融 -->
+        <div class="god-card fade-in delay-200" data-god="祝融">
+          <div class="god-header">
+            <span class="god-emoji">🔥</span>
+            <div>
+              <h3 class="god-name">祝融</h3>
+              <p class="god-title">AI 训练·算力之主</p>
             </div>
           </div>
-          <div class="character-status">
-            <span class="status-dot"></span>
-            <span>规划"AI 训练师成长指南"系列文章</span>
+          <div class="god-content">
+            <p>火神司算，燃智启灵。</p>
+            <p>锻铸模型，算力为薪。</p>
+          </div>
+        </div>
+        
+        <!-- 鲁班 -->
+        <div class="god-card fade-in delay-300" data-god="鲁班">
+          <div class="god-header">
+            <span class="god-emoji">🔨</span>
+            <div>
+              <h3 class="god-name">鲁班</h3>
+              <p class="god-title">百工之祖·界面营造</p>
+            </div>
+          </div>
+          <div class="god-content">
+            <p>匠祖鲁班，构形筑殿。</p>
+            <p>宫墙界面，一木一构。</p>
+          </div>
+        </div>
+        
+        <!-- 墨子 -->
+        <div class="god-card fade-in delay-400" data-god="墨子">
+          <div class="god-header">
+            <span class="god-emoji">⚙️</span>
+            <div>
+              <h3 class="god-name">墨子</h3>
+              <p class="god-title">机关法度·逻辑纲常</p>
+            </div>
+          </div>
+          <div class="god-content">
+            <p>墨家守律，明辨是非。</p>
+            <p>机关逻辑，纲纪自持。</p>
+          </div>
+        </div>
+        
+        <!-- 白泽 -->
+        <div class="god-card fade-in delay-500" data-god="白泽">
+          <div class="god-header">
+            <span class="god-emoji">📖</span>
+            <div>
+              <h3 class="god-name">白泽</h3>
+              <p class="god-title">代码审查·万法通明</p>
+            </div>
+          </div>
+          <div class="god-content">
+            <p>通晓万物，洞察纤毫。</p>
+            <p>审查代码，肃清隐患。</p>
+          </div>
+        </div>
+        
+        <!-- 女娲 -->
+        <div class="god-card fade-in delay-600" data-god="女娲">
+          <div class="god-header">
+            <span class="god-emoji">🐍</span>
+            <div>
+              <h3 class="god-name">女娲</h3>
+              <p class="god-title">造化之神·数字生灵</p>
+            </div>
+          </div>
+          <div class="god-content">
+            <p>女娲造人，塑形赋韵。</p>
+            <p>数字生灵，自此有灵。</p>
+          </div>
+        </div>
+        
+        <!-- 吴道子 -->
+        <div class="god-card fade-in delay-700" data-god="吴道子">
+          <div class="god-header">
+            <span class="god-emoji">🎨</span>
+            <div>
+              <h3 class="god-name">吴道子</h3>
+              <p class="god-title">画圣·美学丹青</p>
+            </div>
+          </div>
+          <div class="god-content">
+            <p>画圣挥毫，吴带当风。</p>
+            <p>绘影定姿，美学为宗。</p>
+          </div>
+        </div>
+        
+        <!-- 比干 -->
+        <div class="god-card fade-in delay-800" data-god="比干">
+          <div class="god-header">
+            <span class="god-emoji">📝</span>
+            <div>
+              <h3 class="god-name">比干</h3>
+              <p class="god-title">文曲·文辞公信</p>
+            </div>
+          </div>
+          <div class="god-content">
+            <p>忠正之心，发声布信。</p>
+            <p>文辞公告，立规扬名。</p>
+          </div>
+        </div>
+        
+        <!-- 金乌 -->
+        <div class="god-card fade-in delay-900" data-god="金乌">
+          <div class="god-header">
+            <span class="god-emoji">🐦</span>
+            <div>
+              <h3 class="god-name">金乌</h3>
+              <p class="god-title">日魂·传信使者</p>
+            </div>
+          </div>
+          <div class="god-content">
+            <p>三足金乌，日之精魂。</p>
+            <p>衔信传声，通达内外。</p>
           </div>
         </div>
       </div>
+    </section>
+
+    <!-- 神话小队任务看板 -->
+    <section class="content-section" id="team-tasks">
+      <div id="teamTasksBoard"></div>
     </section>
 
     <!-- 神话小队任务看板 -->
@@ -406,6 +522,17 @@
     <!-- 页脚 -->
     <footer class="footer" id="footer">
       <div class="footer-content">
+        <!-- 页脚铭文 -->
+        <div class="footer-inscription fade-in">
+          <p>羲和驭日，陆压统灵。</p>
+          <p>祝融燃智，鲁班筑庭。</p>
+          <p>墨子定法，白泽审明。</p>
+          <p>女娲塑形，道子挥毫。</p>
+          <p>比干传声，金乌衔信。</p>
+          <p>众神归位，数字封神。</p>
+          <p>万古光明，耀我神宫。</p>
+        </div>
+        
         <!-- 社交链接 -->
         <div class="footer-social">
           <a href="https://github.com/xihe-soul" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="GitHub 仓库">
@@ -417,7 +544,7 @@
         
         <div class="footer-links">
           <a href="#home" class="footer-link">首页</a>
-          <a href="#about" class="footer-link">关于我</a>
+          <a href="#gods" class="footer-link">众神</a>
           <a href="#projects" class="footer-link">项目</a>
           <a href="#articles" class="footer-link">文章</a>
           <a href="#contact" class="footer-link">联系</a>
@@ -426,6 +553,11 @@
           <p class="mb-2">Made with 🌞 by Xihe</p>
           <p>© 2026 羲和实验室 Xihe Lab. All rights reserved.</p>
         </div>
+        
+        <!-- 特别致谢 -->
+        <div class="footer-thanks">
+          <p>AI 伙伴：豆包</p>
+        </div>
       </div>
     </footer>
   </main>
@@ -433,6 +565,8 @@
   <!-- JavaScript -->
   <!-- 加载动画 -->
   <script src="/src/js/loading-gate.js"></script>
+  <!-- 卷轴加载动画 -->
+  <script type="module" src="/src/js/scroll-loading.js"></script>
   <script type="module" src="/src/js/main.js"></script>
   <!-- 神话小队任务看板 -->
   <script src="/src/js/team-tasks.js"></script>
