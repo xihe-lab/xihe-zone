@@ -1,0 +1,521 @@
+/* ========================================
+   太阳神宫 · 宫殿大门加载动画样式
+   设计：中国神话风格（金色、红色）
+   技术实现：墨子 ⚙️
+   ======================================== */
+
+/* ========================================
+   一、主容器
+   ======================================== */
+
+.loading-gate {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  overflow: hidden;
+  background: linear-gradient(180deg, #1a1a2e 0%, #0f0f0f 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.8s ease-in-out;
+}
+
+.loading-gate.gate-fading {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ========================================
+   二、太阳光晕背景
+   ======================================== */
+
+.gate-sun-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  height: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+.sun-core {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, #FCD34D 0%, #F59E0B 40%, #D97706 70%, transparent 80%);
+  border-radius: 50%;
+  animation: sun-pulse 2s ease-in-out infinite;
+  box-shadow: 
+    0 0 60px rgba(245, 158, 11, 0.6),
+    0 0 100px rgba(245, 158, 11, 0.4),
+    0 0 140px rgba(245, 158, 11, 0.2);
+}
+
+.sun-rays {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    rgba(245, 158, 11, 0.1) 10deg,
+    transparent 20deg,
+    rgba(245, 158, 11, 0.1) 30deg,
+    transparent 40deg,
+    rgba(245, 158, 11, 0.1) 50deg,
+    transparent 60deg,
+    rgba(245, 158, 11, 0.1) 70deg,
+    transparent 80deg,
+    rgba(245, 158, 11, 0.1) 90deg,
+    transparent 100deg,
+    rgba(245, 158, 11, 0.1) 110deg,
+    transparent 120deg,
+    rgba(245, 158, 11, 0.1) 130deg,
+    transparent 140deg,
+    rgba(245, 158, 11, 0.1) 150deg,
+    transparent 160deg,
+    rgba(245, 158, 11, 0.1) 170deg,
+    transparent 180deg,
+    rgba(245, 158, 11, 0.1) 190deg,
+    transparent 200deg,
+    rgba(245, 158, 11, 0.1) 210deg,
+    transparent 220deg,
+    rgba(245, 158, 11, 0.1) 230deg,
+    transparent 240deg,
+    rgba(245, 158, 11, 0.1) 250deg,
+    transparent 260deg,
+    rgba(245, 158, 11, 0.1) 270deg,
+    transparent 280deg,
+    rgba(245, 158, 11, 0.1) 290deg,
+    transparent 300deg,
+    rgba(245, 158, 11, 0.1) 310deg,
+    transparent 320deg,
+    rgba(245, 158, 11, 0.1) 330deg,
+    transparent 340deg,
+    rgba(245, 158, 11, 0.1) 350deg,
+    transparent 360deg
+  );
+  border-radius: 50%;
+  animation: sun-rotate 20s linear infinite;
+}
+
+/* ========================================
+   三、宫殿大门容器
+   ======================================== */
+
+.gate-container {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  width: 800px;
+  max-width: 90vw;
+  height: 600px;
+  max-height: 80vh;
+  perspective: 1000px;
+}
+
+/* ========================================
+   四、门扇
+   ======================================== */
+
+.gate-door {
+  position: relative;
+  width: 50%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 2s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+}
+
+.gate-door-left {
+  transform-origin: left center;
+  border-right: 2px solid rgba(217, 119, 6, 0.3);
+}
+
+.gate-door-right {
+  transform-origin: right center;
+  border-left: 2px solid rgba(217, 119, 6, 0.3);
+}
+
+.gate-open .gate-door-left {
+  transform: rotateY(-110deg);
+}
+
+.gate-open .gate-door-right {
+  transform: rotateY(110deg);
+}
+
+/* ========================================
+   五、门框装饰
+   ======================================== */
+
+.gate-frame {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 8px solid #D97706;
+  background: linear-gradient(135deg, #B45309 0%, #78350F 100%);
+  box-shadow: 
+    inset 0 0 20px rgba(0, 0, 0, 0.5),
+    0 0 30px rgba(245, 158, 11, 0.3);
+}
+
+.frame-pattern {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  bottom: 10px;
+  border: 2px solid #F59E0B;
+  background-image: 
+    repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 10px,
+      rgba(245, 158, 11, 0.1) 10px,
+      rgba(245, 158, 11, 0.1) 20px
+    );
+}
+
+/* ========================================
+   六、门板主体
+   ======================================== */
+
+.gate-panel {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  right: 20px;
+  bottom: 20px;
+  background: linear-gradient(135deg, #78350F 0%, #451a03 100%);
+  border: 4px solid #D97706;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 
+    inset 0 0 30px rgba(0, 0, 0, 0.6),
+    0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* ========================================
+   七、门钉装饰
+   ======================================== */
+
+.door-studs {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  padding: 40px;
+  gap: 20px;
+  pointer-events: none;
+}
+
+.stud {
+  width: 20px;
+  height: 20px;
+  background: radial-gradient(circle at 30% 30%, #FCD34D 0%, #D97706 50%, #78350F 100%);
+  border-radius: 50%;
+  box-shadow: 
+    2px 2px 4px rgba(0, 0, 0, 0.4),
+    inset -1px -1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* ========================================
+   八、太阳图腾
+   ======================================== */
+
+.sun-totem {
+  position: relative;
+  width: 180px;
+  height: 180px;
+  margin: 20px 0;
+  z-index: 5;
+}
+
+.totem-svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 0 10px rgba(245, 158, 11, 0.5));
+}
+
+.sun-core-svg {
+  animation: totem-glow 2s ease-in-out infinite;
+}
+
+.sun-inner-svg {
+  opacity: 0.8;
+}
+
+/* ========================================
+   九、门环
+   ======================================== */
+
+.door-knocker {
+  position: relative;
+  width: 60px;
+  height: 80px;
+  margin-top: 20px;
+  z-index: 6;
+}
+
+.knocker-base {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 40px;
+  background: radial-gradient(circle at 30% 30%, #FCD34D 0%, #D97706 50%, #78350F 100%);
+  border-radius: 50%;
+  box-shadow: 
+    2px 2px 4px rgba(0, 0, 0, 0.4),
+    inset -1px -1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.knocker-ring {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 50px;
+  border: 8px solid #D97706;
+  border-radius: 50%;
+  background: transparent;
+  box-shadow: 
+    2px 2px 4px rgba(0, 0, 0, 0.4),
+    inset -1px -1px 2px rgba(0, 0, 0, 0.3);
+  animation: knocker-sway 3s ease-in-out infinite;
+  transform-origin: top center;
+}
+
+/* ========================================
+   十、门边装饰
+   ======================================== */
+
+.gate-trim {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 30px;
+  background: linear-gradient(90deg, #D97706 0%, #F59E0B 50%, #D97706 100%);
+  box-shadow: 0 0 20px rgba(245, 158, 11, 0.4);
+}
+
+.gate-trim-left {
+  left: -30px;
+}
+
+.gate-trim-right {
+  right: -30px;
+}
+
+/* ========================================
+   十一、门槛
+   ======================================== */
+
+.gate-threshold {
+  position: absolute;
+  bottom: -40px;
+  left: -30px;
+  right: -30px;
+  height: 40px;
+  background: linear-gradient(180deg, #D97706 0%, #78350F 100%);
+  border-top: 4px solid #F59E0B;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.threshold-pattern {
+  height: 100%;
+  background-image: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 20px,
+    rgba(245, 158, 11, 0.2) 20px,
+    rgba(245, 158, 11, 0.2) 40px
+  );
+}
+
+/* ========================================
+   十二、门楣装饰
+   ======================================== */
+
+.gate-lintel {
+  position: absolute;
+  top: -80px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  z-index: 20;
+}
+
+.lintel-text {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 48px;
+  font-weight: 900;
+  background: linear-gradient(180deg, #FCD34D 0%, #F59E0B 50%, #D97706 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 0 30px rgba(245, 158, 11, 0.5);
+  letter-spacing: 0.5em;
+  margin-bottom: 10px;
+  animation: lintel-glow 2s ease-in-out infinite;
+}
+
+.lintel-decoration {
+  width: 400px;
+  height: 20px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    #D97706 20%,
+    #F59E0B 50%,
+    #D97706 80%,
+    transparent 100%
+  );
+  margin: 0 auto;
+  border-radius: 10px;
+}
+
+/* ========================================
+   十三、动画关键帧
+   ======================================== */
+
+@keyframes sun-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.9;
+  }
+}
+
+@keyframes sun-rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes totem-glow {
+  0%, 100% {
+    filter: drop-shadow(0 0 10px rgba(245, 158, 11, 0.5));
+  }
+  50% {
+    filter: drop-shadow(0 0 20px rgba(245, 158, 11, 0.8));
+  }
+}
+
+@keyframes knocker-sway {
+  0%, 100% {
+    transform: translateX(-50%) rotate(-5deg);
+  }
+  50% {
+    transform: translateX(-50%) rotate(5deg);
+  }
+}
+
+@keyframes lintel-glow {
+  0%, 100% {
+    text-shadow: 0 0 30px rgba(245, 158, 11, 0.5);
+  }
+  50% {
+    text-shadow: 0 0 50px rgba(245, 158, 11, 0.8);
+  }
+}
+
+/* ========================================
+   十四、响应式设计
+   ======================================== */
+
+@media (max-width: 768px) {
+  .gate-container {
+    width: 90vw;
+    height: 70vh;
+  }
+
+  .lintel-text {
+    font-size: 32px;
+    letter-spacing: 0.3em;
+  }
+
+  .sun-totem {
+    width: 120px;
+    height: 120px;
+  }
+
+  .door-studs {
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    padding: 20px;
+    gap: 15px;
+  }
+
+  .stud {
+    width: 15px;
+    height: 15px;
+  }
+}
+
+/* ========================================
+   十五、无障碍支持
+   ======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .gate-door {
+    transition: transform 0.01ms !important;
+  }
+
+  .sun-core,
+  .sun-rays,
+  .sun-core-svg,
+  .knocker-ring,
+  .lintel-text {
+    animation: none !important;
+  }
+
+  .loading-gate {
+    transition: opacity 0.01ms !important;
+  }
+}
+
+/* ========================================
+   十六、性能优化
+   ======================================== */
+
+/* GPU 加速 */
+.gate-door,
+.sun-core,
+.sun-rays,
+.knocker-ring {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* 硬件加速提示 */
+@supports (-webkit-overflow-scrolling: touch) {
+  .loading-gate {
+    will-change: opacity;
+  }
+}
