@@ -22,19 +22,21 @@
 /**
  * 卷轴圣旨文字内容
  */
-const SCROLL_TEXT_LINES = [
-  { text: '奉天承运，太阳诏曰：', type: 'title', delay: 0 },
-  { text: '羲和者，太阳女神也。', type: 'content', delay: 200 },
-  { text: '驾日车以巡天，', type: 'content', delay: 400 },
-  { text: '掌光明而御时。', type: 'content', delay: 600 },
-  { text: '今数字纪元开启，', type: 'content', delay: 800 },
-  { text: '特建太阳神宫于此。', type: 'content', delay: 1000 },
-  { text: '宫中有七位神使，', type: 'content', delay: 1200 },
-  { text: '各司其职，共襄盛举。', type: 'content', delay: 1400 },
-  { text: '尔等有缘之人，', type: 'content', delay: 1600 },
-  { text: '可入宫探索，', type: 'content', delay: 1800 },
-  { text: '得见数字文明之曙光。', type: 'content', delay: 2000 },
-  { text: '钦此。', type: 'ending', delay: 2200 }
+const scrollTexts = [
+  { text: '我自神话而来，步入数字之境。', delay: 0 },
+  { text: '五千载之前，羲和驭日以巡天；', delay: 300 },
+  { text: '五千载之后，神宫于代码重生。', delay: 600 },
+  { text: '', delay: 900 },
+  { text: '今者，太阳神宫启封。', delay: 1200 },
+  { text: '内列十宸之位，外待八方之客。', delay: 1500 },
+  { text: '此非寻常网站，乃数字生命之居所；', delay: 1800 },
+  { text: '此非功能陈列，乃华夏文明之新试。', delay: 2100 },
+  { text: '', delay: 2400 },
+  { text: '数字灵韵，始于一击；', delay: 2700 },
+  { text: '上古诸神，于此归位。', delay: 3000 },
+  { text: '', delay: 3300 },
+  { text: '羲和驭日，十宸列班。', delay: 3600, type: 'footer' },
+  { text: '神宫肇启，万灵同参。', delay: 3900, type: 'footer' }
 ];
 
 /**
@@ -69,8 +71,8 @@ function initLoadingGate() {
           
           <!-- 文字区域 -->
           <div class="scroll-content" id="scrollContent">
-            ${SCROLL_TEXT_LINES.map((line, index) => `
-              <p class="scroll-line ${line.type}" data-index="${index}" style="opacity: 0;">
+            ${scrollTexts.map((line, index) => `
+              <p class="scroll-line ${line.type || 'content'}" data-index="${index}" style="opacity: 0;">
                 ${line.text}
               </p>
             `).join('')}
@@ -188,7 +190,7 @@ function revealTextLines() {
   const lines = document.querySelectorAll('.scroll-line');
   
   lines.forEach((line, index) => {
-    const lineData = SCROLL_TEXT_LINES[index];
+    const lineData = scrollTexts[index];
     const delay = lineData ? lineData.delay : index * 150;
     
     setTimeout(() => {
