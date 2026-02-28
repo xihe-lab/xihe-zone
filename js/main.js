@@ -15,7 +15,7 @@
 // 页面初始化
 // ========================================
 
-document.addEventListener('DOMContentLoaded', () => {
+function initApp() {
   console.log('🌞 太阳神宫已启动 - 墨子 ⚙️ 技术实现');
   
   // 隐藏加载状态
@@ -35,7 +35,15 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // 初始化导航栏
   initNavbar();
-});
+}
+
+// 检查 DOM 是否已就绪，处理脚本在 body 底部的情况
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initApp);
+} else {
+  // DOM 已就绪，直接初始化
+  initApp();
+}
 
 /**
  * 隐藏加载状态

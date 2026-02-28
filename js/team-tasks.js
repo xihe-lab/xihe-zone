@@ -166,12 +166,20 @@ class TeamTasksBoard {
 }
 
 // 自动初始化
-document.addEventListener('DOMContentLoaded', () => {
+function initTeamTasksBoard() {
   const tasksContainer = document.getElementById('teamTasksBoard');
   if (tasksContainer) {
     window.teamTasksBoard = new TeamTasksBoard('teamTasksBoard');
   }
-});
+}
+
+// 检查 DOM 是否已就绪，处理脚本在 body 底部的情况
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initTeamTasksBoard);
+} else {
+  // DOM 已就绪，直接初始化
+  initTeamTasksBoard();
+}
 
 // 导出供外部使用
 if (typeof module !== 'undefined' && module.exports) {
