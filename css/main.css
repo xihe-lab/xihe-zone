@@ -922,13 +922,18 @@ a:hover {
   }
 }
 
-/* 任务卡片 */
+/* 任务卡片 - 提高优先级 */
+#teamTasksBoard .task-card,
+.tasks-board .task-card,
 .task-card {
-  background: linear-gradient(145deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
-  border: 1px solid rgba(245, 158, 11, 0.2);
-  border-radius: 12px;
-  overflow: hidden;
-  transition: var(--transition-smooth);
+  background: linear-gradient(145deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%) !important;
+  border: 1px solid rgba(245, 158, 11, 0.2) !important;
+  border-radius: 12px !important;
+  overflow: hidden !important;
+  transition: var(--transition-smooth) !important;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
 }
 
 .task-card:hover {
