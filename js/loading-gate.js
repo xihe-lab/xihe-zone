@@ -716,9 +716,17 @@ function getLoadingGateStyles() {
 }
 
 // 页面加载完成后初始化
-document.addEventListener('DOMContentLoaded', () => {
+function initLoadingGateWrapper() {
   initLoadingGate();
-});
+}
+
+// 检查 DOM 是否已就绪，处理脚本在 body 底部的情况
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initLoadingGateWrapper);
+} else {
+  // DOM 已就绪，直接初始化
+  initLoadingGateWrapper();
+}
 
 // 导出函数
 if (typeof module !== 'undefined' && module.exports) {
