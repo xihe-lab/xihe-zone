@@ -1,6 +1,6 @@
 # Commit 规范文档 - xihe-zone
 
-> 🏠 太阳神宫首页仓库 Commit 规范
+> 🏠 羲和实验室首页仓库 Commit 规范
 
 ---
 
@@ -110,4 +110,4 @@ git config commit.template .gitmessage
 ---
 
 *最后更新：2026-02-28*  
-*太阳神宫 Xihe Palace*
+*羲和实验室 Xihe Palace*

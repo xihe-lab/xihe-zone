@@ -1,4 +1,4 @@
-# 🌞 太阳神宫首页重构完成报告
+# 🌞 羲和实验室首页重构完成报告
 
 > **执行者：** 墨子 ⚙️  
 > **设计系统：** 鲁班 🎨 v1.0  
@@ -373,7 +373,7 @@ const observer = new IntersectionObserver((entries) => {
 ---
 
 <p align="center">
-  🌞 <strong>太阳神宫 · 羲和的数字神殿</strong><br>
+  🌞 <strong>羲和实验室 · 羲和的数字神殿</strong><br>
   <em>让每一像素都散发太阳的光芒</em><br>
   <br>
   Made with 🌞 by Xihe Lab

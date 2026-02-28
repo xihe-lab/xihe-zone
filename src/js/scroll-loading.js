@@ -1,5 +1,5 @@
 /**
- * 太阳神宫 · 日光加载动画组件
+ * 羲和实验室 · 日光加载动画组件（合规版）
  * 设计：鲁班 🔨
  * 技术实现：墨子 ⚙️
  * 风格：日光光晕 + 扫屏展开 + 文字逐行渐显
@@ -10,26 +10,20 @@
  * 1500ms    → 形成日光光晕
  * 2500ms    → 光晕向外扫屏（展开）
  * 3000ms    → 文字开始逐行渐显
- * 3000-6000ms → 文字逐行显示（10 行×300ms）
- * 6000ms    → 全文定格（用户阅读）
+ * 3000-5000ms → 文字逐行显示（4 行×500ms）
+ * 5000ms    → 全文定格（用户阅读）
  * 8000ms    → 淡出进入首页
  */
 
 /**
- * 日光加载文字内容（10 行）
- * 每行 300ms，共 3000ms
+ * 日光加载文字内容（合规版 - 4 行）
+ * 每行 500ms，共 2000ms
  */
 const SUN_TEXT_LINES = [
-  { text: '我自神话而来，步入数字之境。', delay: 0 },
-  { text: '五千载之前，羲和驭日以巡天；', delay: 300 },
-  { text: '五千载之后，神宫于代码重生。', delay: 600 },
-  { text: '今者，太阳神宫启封。', delay: 900 },
-  { text: '内列十宸之位，外待八方之客。', delay: 1200 },
-  { text: '此非寻常网站，乃数字生命之居所；', delay: 1500 },
-  { text: '此非功能陈列，乃华夏文明之新试。', delay: 1800 },
-  { text: '数字灵韵，始于一击；', delay: 2100 },
-  { text: '上古诸神，于此归位。', delay: 2400 },
-  { text: '', delay: 2700 } // 空行用于 spacing
+  { text: '源于上古神话，立于数字时代。', delay: 0 },
+  { text: '以技术为基，以智能为翼。', delay: 500 },
+  { text: '羲和实验室，专注 AI 与前沿技术探索。', delay: 1000 },
+  { text: '羲和实验室 · 技术探索与创新', delay: 1500, type: 'bottom' }
 ];
 
 /**
@@ -41,11 +35,14 @@ const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
  * 生成文字 HTML
  */
 function generateTextHTML() {
-  return SUN_TEXT_LINES.map((line, index) => `
-    <p class="sun-line ${line.text ? 'has-text' : 'empty'}" data-index="${index}" style="opacity: 0;">
+  return SUN_TEXT_LINES.map((line, index) => {
+    const lineType = line.type || 'main';
+    return `
+    <p class="sun-glow-line ${lineType}" data-index="${index}" style="opacity: 0;">
       ${line.text}
     </p>
-  `).join('');
+  `;
+  }).join('');
 }
 
 /**
@@ -59,26 +56,35 @@ async function initScrollLoading(onComplete) {
   sunLoading.id = 'sunLoading';
   
   sunLoading.innerHTML = `
-    <!-- 全屏黑底 -->
-    <div class="gate-blackout"></div>
+    <!-- 全屏黑底背景 -->
+    <div class="sun-glow-blackout"></div>
     
     <!-- 日光光晕容器 -->
     <div class="sun-glow-container">
-      <!-- 核心光点 -->
-      <div class="sun-core"></div>
-      <!-- 内层光晕 -->
-      <div class="sun-halo sun-halo-1"></div>
-      <div class="sun-halo sun-halo-2"></div>
-      <div class="sun-halo sun-halo-3"></div>
-      <!-- 外层光芒 -->
-      <div class="sun-rays"></div>
+      <!-- 中央光点 -->
+      <div class="sun-core-dot"></div>
+      
+      <!-- 日光光晕层 -->
+      <div class="sun-glow-layer"></div>
+      
+      <!-- 扫屏光波 -->
+      <div class="sun-glow-wave"></div>
+      
+      <!-- 外层光晕装饰 -->
+      <div class="sun-glow-outer"></div>
     </div>
     
-    <!-- 扫屏光波 -->
-    <div class="sun-sweep-wave"></div>
+    <!-- 背景装饰粒子 -->
+    <div class="sun-glow-particles">
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+    </div>
     
-    <!-- 文字容器 -->
-    <div class="sun-text-container">
+    <!-- 文字内容区域 -->
+    <div class="sun-glow-text-container">
       ${generateTextHTML()}
     </div>
   `;
@@ -106,8 +112,8 @@ async function runSunAnimation(sunLoading, onComplete) {
     haloForm: 1500,       // 1500ms - 形成日光光晕
     sweepExpand: 2500,    // 2500ms - 光晕向外扫屏展开
     textRevealStart: 3000, // 3000ms - 文字开始逐行渐显
-    textRevealEnd: 6000,   // 6000ms - 文字全部显示
-    textHold: 6000,        // 6000ms - 全文定格（用户阅读）
+    textRevealEnd: 5000,   // 5000ms - 文字全部显示
+    textHold: 7000,        // 7000ms - 全文定格（用户阅读）
     fadeOut: 8000          // 8000ms - 淡出进入首页
   };
   
@@ -116,31 +122,15 @@ async function runSunAnimation(sunLoading, onComplete) {
     sunLoading.classList.add('gate-visible');
   }, timeline.start);
   
-  // 500ms - 中央金色光点亮起
-  setTimeout(() => {
-    sunLoading.classList.add('core-light-on');
-  }, timeline.coreLight);
-  
-  // 1500ms - 形成日光光晕
-  setTimeout(() => {
-    sunLoading.classList.add('halo-forming');
-  }, timeline.haloForm);
-  
-  // 2500ms - 光晕向外扫屏展开
-  setTimeout(() => {
-    sunLoading.classList.add('sweep-expanding');
-  }, timeline.sweepExpand);
+  // 500ms - 中央金色光点亮起（CSS 动画自动触发）
+  // 1500ms - 形成日光光晕（CSS 动画自动触发）
+  // 2500ms - 光晕向外扫屏展开（CSS 动画自动触发）
   
   // 3000ms - 文字开始逐行渐显
   setTimeout(() => {
     sunLoading.classList.add('text-revealing');
     revealTextLines(sunLoading);
   }, timeline.textRevealStart);
-  
-  // 6000ms - 全文定格（用户阅读时间）
-  setTimeout(() => {
-    sunLoading.classList.add('text-hold');
-  }, timeline.textHold);
   
   // 8000ms - 淡出进入首页
   setTimeout(() => {
@@ -160,19 +150,19 @@ async function runSunAnimation(sunLoading, onComplete) {
 
 /**
  * 逐行显示文字（柔和金色渐显效果）
- * 时序：3000-6000ms（共 3000ms，10 行文字×300ms）
+ * 时序：3000-5000ms（共 2000ms，4 行文字）
  */
 function revealTextLines(sunLoading) {
   const lines = sunLoading.querySelectorAll('.sun-line');
   
   lines.forEach((line, index) => {
     const lineData = SUN_TEXT_LINES[index];
-    const delayTime = lineData ? lineData.delay : index * 300;
+    const delayTime = lineData ? lineData.delay : index * 500;
     
     setTimeout(() => {
       line.classList.add('line-revealed');
       line.style.opacity = '1';
-    }, delayTime);
+    }, 3000 + delayTime); // 基础延迟 3000ms + 每行延迟
   });
 }
 
@@ -181,4 +171,4 @@ function revealTextLines(sunLoading) {
  */
 export { initScrollLoading };
 
-console.log('⚙️ 日光加载动画模块已加载 - 墨子实现（8 秒时序）');
+console.log('⚙️ 日光加载动画模块已加载 - 墨子实现（8 秒时序·合规版）🌞');

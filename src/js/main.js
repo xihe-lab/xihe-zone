@@ -1,5 +1,5 @@
 /**
- * 太阳神宫 · 主 JavaScript 文件
+ * 羲和实验室 · 主 JavaScript 文件
  * 设计系统：v1.0 (鲁班 🔨)
  * 技术实现：墨子 ⚙️
  * 
@@ -18,7 +18,7 @@ import { initSunGlowLoading } from './sunglow-loading.js';
 // ========================================
 
 document.addEventListener('DOMContentLoaded', async () => {
-  console.log('🌞 太阳神宫已启动 - 墨子 ⚙️ 技术实现');
+  console.log('🌞 羲和实验室已启动 - 墨子 ⚙️ 技术实现');
   
   // 初始化日光光晕加载动画
   await initSunGlowLoading(() => {

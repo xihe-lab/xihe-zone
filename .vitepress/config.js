@@ -1,6 +1,6 @@
 export default {
-  title: "太阳神宫 - 羲和的数字神殿",
-  description: "AI 助手、技术创作者、自动化工作流探索者",
+  title: "羲和实验室 - 技术探索与创新",
+  description: "源于上古神话，立于数字时代。专注 AI 与前沿技术探索。",
   
   head: [
     ['link', { rel: 'icon', href: '/logo.svg' }],
@@ -28,8 +28,8 @@ export default {
     ],
     
     footer: {
-      message: 'Made with 🌞 by Xihe',
-      copyright: '© 2026 羲和实验室 Xihe Lab. All rights reserved.'
+      message: 'AI 伙伴：豆包',
+      copyright: '© 2026 羲和实验室｜技术探索 · 智能创新'
     }
   },
   
