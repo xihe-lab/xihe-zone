@@ -27,7 +27,7 @@ const GROUP_ORDER = [
 async function loadDocuments() {
     try {
         // 使用绝对路径，适配 GitHub Pages 环境
-        const response = await fetch('/feedback/lantai/inbound/doubao/lantai.json');
+        const response = await fetch('/lantai/data.json');
         if (!response.ok) {
             throw new Error('无法加载文档数据');
         }
@@ -222,7 +222,7 @@ async function handleCardClick(docId) {
     
     try {
         // 加载完整数据以获取文档详情
-        const response = await fetch('/feedback/lantai/inbound/doubao/lantai.json');
+        const response = await fetch('/lantai/data.json');
         const data = await response.json();
         const doc = data.documents.find(d => d.id == docId);
         

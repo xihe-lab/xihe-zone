@@ -5,7 +5,7 @@
  */
 
 // 使用绝对路径，适配 GitHub Pages 环境
-const LANTAI_DATA_PATH = '/feedback/lantai/inbound/doubao/lantai.json';
+const LANTAI_DATA_PATH = '/lantai/data.json';
 
 /**
  * 加载兰台数据
