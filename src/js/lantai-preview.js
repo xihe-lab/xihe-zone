@@ -108,6 +108,7 @@ async function showDocumentModal(doc) {
       }
       markdownContent = await response.text();
     } else {
+      // 只有在没有 file_path 时才使用 desc
       markdownContent = doc.desc || '暂无详细内容';
     }
 
@@ -116,7 +117,8 @@ async function showDocumentModal(doc) {
     if (typeof marked !== 'undefined' && typeof marked.parse === 'function') {
       html = marked.parse(markdownContent);
     } else {
-      html = `<p>${markdownContent.replace(/\n/g, '<br>')}</p>`;
+      // 降级处理：保留换行
+      html = markdownContent.split('\n').map(line => `<p>${line}</p>`).join('');
     }
 
     modalContent.innerHTML = html;
