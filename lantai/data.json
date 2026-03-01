@@ -93,6 +93,15 @@
       "file_path": "https://www.cac.gov.cn/2019-12/20/c_158226611.htm",
       "source": "external",
       "type": "国家法规"
+    },
+    {
+      "id": 2007,
+      "title": "生成式人工智能服务管理暂行办法",
+      "desc": "生成式 AI 服务管理官方规定",
+      "charge_person": "国家网信办",
+      "file_path": "https://www.moj.gov.cn/pub/sfbgw/flfggz/flfggzbmgz/202401/t20240109_493171.html",
+      "source": "external",
+      "type": "国家法规"
     }
   ]
 }
