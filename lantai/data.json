@@ -6,7 +6,8 @@
       "id": 1001,
       "title": "羲和实验室合规手册",
       "desc": "内容合规、文化使用、网站运营、风险审核总规范",
-      "charge_person": "皋陶（gāo yáo）",
+      "charge_person": "皋陶",
+      "charge_pinyin": "gāo yáo",
       "file_path": "docs/xihe-compliance-manual.md",
       "source": "internal",
       "type": "合规规范"
@@ -15,7 +16,8 @@
       "id": 1002,
       "title": "羲和实验室 · 智能体团队规范",
       "desc": "团队分工、协作机制、角色职责、行为准则",
-      "charge_person": "陆压 / 皋陶（gāo yáo）",
+      "charge_person": "陆压 / 皋陶",
+      "charge_pinyin": "gāo yáo",
       "file_path": "docs/agent-team-spec.md",
       "source": "internal",
       "type": "团队规范"

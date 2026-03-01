@@ -12,6 +12,18 @@
    一、CSS 变量与设计令牌
    ======================================== */
 
+/* 拼音标注样式 */
+ruby {
+  font-weight: inherit;
+}
+
+rt {
+  font-size: 0.6em;
+  color: var(--sun-gold);
+  font-weight: 500;
+  letter-spacing: 0.05em;
+}
+
 :root {
   /* 主色系 - 太阳色系 */
   --sun-gold: #F59E0B;

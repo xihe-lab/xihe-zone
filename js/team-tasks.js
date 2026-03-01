@@ -76,7 +76,7 @@ class TeamTasksBoard {
           <div class="member-info">
             <span class="member-emoji">${member.emoji}</span>
             <div class="member-details">
-              <h3 class="member-name">${member.name}</h3>
+              <h3 class="member-name">${member.pinyin ? `<ruby>${member.name}<rt>${member.pinyin}</rt></ruby>` : member.name}</h3>
               <p class="member-role">${member.role}</p>
             </div>
           </div>

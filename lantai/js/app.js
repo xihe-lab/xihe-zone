@@ -76,7 +76,7 @@ function createDocumentCard(doc) {
             <div class="card-meta">
                 <span class="meta-item">
                     <span class="meta-icon">👤</span>
-                    <span>${escapeHtml(doc.charge_person)}</span>
+                    <span>${doc.charge_pinyin ? `<ruby>${escapeHtml(doc.charge_person)}<rt>${escapeHtml(doc.charge_pinyin)}</rt></ruby>` : escapeHtml(doc.charge_person)}</span>
                 </span>
                 <span class="meta-item">
                     <span class="meta-icon">${sourceIcon}</span>
@@ -208,13 +208,27 @@ function showDocumentModal(doc) {
     // 设置元信息
     modalMeta.innerHTML = `
         <span class="meta-tag">${doc.type}</span>
-        <span class="meta-tag">负责人：${doc.charge_person}</span>
+        <span class="meta-tag">负责人：${doc.charge_pinyin ? `<ruby>${escapeHtml(doc.charge_person)}<rt>${escapeHtml(doc.charge_pinyin)}</rt></ruby>` : escapeHtml(doc.charge_person)}</span>
         <span class="meta-tag">${doc.source === 'internal' ? '内部规范' : '外部法规'}</span>
     `;
     
     // 使用 marked.js 渲染 Markdown 内容
     const markdownContent = doc.content || doc.desc || '暂无详细内容';
-    modalContent.innerHTML = marked.parse(markdownContent);
+    
+    // 调试输出
+    console.log('Markdown 内容:', markdownContent);
+    console.log('marked 是否可用:', typeof marked);
+    
+    let html;
+    if (typeof marked !== 'undefined' && typeof marked.parse === 'function') {
+        html = marked.parse(markdownContent);
+    } else {
+        console.warn('marked.js 未加载，使用纯文本');
+        html = `<p>${markdownContent}</p>`;
+    }
+    
+    console.log('渲染后 HTML:', html);
+    modalContent.innerHTML = html;
     
     // 显示弹窗
     modal.style.display = 'flex';
