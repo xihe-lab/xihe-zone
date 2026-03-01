@@ -30,7 +30,7 @@ cd xihe-zone
 npm run dev
 ```
 
-然后访问显示的本地地址（通常是 http://localhost:5173）
+然后访问显示的本地地址（开发环境）
 
 ---
 

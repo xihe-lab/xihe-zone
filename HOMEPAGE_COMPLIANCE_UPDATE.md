@@ -294,7 +294,7 @@
 
 - [中央网信办政策文件清单](../ai-training/legal-compliance/gaoyao/cac-policy-list.md)
 - [皋陶合规审查工作流程](../docs/gaoyao-compliance-workflow.md)
-- [羲和实验室合规手册](../feedback/doubao-suggestions/羲和实验室·官网建设·合规最终版.md)
+- 羲和实验室合规手册（内部文档）
 
 ---
 
