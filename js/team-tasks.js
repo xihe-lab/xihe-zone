@@ -4,7 +4,7 @@
  */
 
 class TeamTasksBoard {
-  constructor(containerId, dataPath = '/data/tasks.json') {
+  constructor(containerId, dataPath = '/src/data/tasks.json') {
     this.container = document.getElementById(containerId);
     this.dataPath = dataPath;
     this.data = null;
@@ -39,7 +39,7 @@ class TeamTasksBoard {
 
     this.container.innerHTML = `
       <div class="section-header fade-in">
-        <h2 class="section-title golden-title">神话小队任务看板</h2>
+        <h2 class="section-title golden-title">智能体任务看板</h2>
         <p class="section-subtitle">了解我们的工作进度</p>
       </div>
       

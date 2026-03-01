@@ -39,7 +39,7 @@ class TeamTasksBoard {
 
     this.container.innerHTML = `
       <div class="section-header fade-in">
-        <h2 class="section-title golden-title">神话小队任务看板</h2>
+        <h2 class="section-title golden-title">智能体任务看板</h2>
         <p class="section-subtitle">了解我们的工作进度</p>
       </div>
       
@@ -53,6 +53,12 @@ class TeamTasksBoard {
         </div>
       </div>
     `;
+
+    // 渲染完成后，给所有 .fade-in 元素添加 .visible 类
+    setTimeout(() => {
+      const fadeElements = this.container.querySelectorAll('.fade-in');
+      fadeElements.forEach(el => el.classList.add('visible'));
+    }, 0);
   }
 
   renderMemberCard(member, index) {
