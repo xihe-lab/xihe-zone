@@ -60,6 +60,9 @@ function renderDocumentCard(doc) {
  * 渲染文档列表
  */
 function renderDocuments(documents, container) {
+  console.log('兰台数据:', window.lantaiData);
+  console.log('内部文档:', documents);
+  
   if (!documents || documents.length === 0) {
     container.innerHTML = `
       <div class="lantai-empty-state">
@@ -71,6 +74,13 @@ function renderDocuments(documents, container) {
 
   const html = documents.map(doc => renderDocumentCard(doc)).join('');
   container.innerHTML = html;
+
+  // 添加 visible 类使 fade-in 元素显示
+  container.querySelectorAll('.fade-in').forEach((el, index) => {
+    setTimeout(() => {
+      el.classList.add('visible');
+    }, index * 100);
+  });
 
   // 绑定点击事件
   container.querySelectorAll('.doc-view-btn').forEach(btn => {
@@ -89,6 +99,8 @@ function renderDocuments(documents, container) {
       }
     });
   });
+  
+  console.log('渲染完成');
 }
 
 /**
@@ -176,6 +188,8 @@ async function initLantai() {
     return;
   }
 
+  console.log('开始初始化兰台组件...');
+
   // 显示加载状态
   container.innerHTML = `
     <div class="lantai-loading">
@@ -192,11 +206,17 @@ async function initLantai() {
         <p>加载失败，请稍后重试</p>
       </div>
     `;
+    console.error('兰台数据加载失败');
     return;
   }
 
+  // 保存数据到全局变量供调试使用
+  window.lantaiData = data;
+  console.log('兰台数据加载成功:', data);
+
   // 仅展示内部规范（source === 'internal'）
   const internalDocs = data.documents.filter(doc => doc.source === 'internal');
+  console.log('过滤后的内部文档数量:', internalDocs.length);
   
   // 渲染文档列表
   renderDocuments(internalDocs, container);

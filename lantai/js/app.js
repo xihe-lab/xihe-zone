@@ -343,7 +343,9 @@ async function showDocumentModal(doc) {
                 }
                 
                 const content = await response.text();
-                contentText.textContent = content;
+                // 使用 marked 渲染 Markdown
+                const html = marked.parse(content);
+                document.getElementById('document-modal-content').innerHTML = html;
                 contentDiv.style.display = 'block';
                 viewBtn.textContent = '🔄 刷新内容';
             } catch (error) {
