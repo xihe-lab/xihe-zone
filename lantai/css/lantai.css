@@ -459,3 +459,200 @@ body {
 .lantai-statistics .stat-label {
   color: var(--text-light);
 }
+
+/* ========================================
+   文档详情弹窗（Modal）
+   ======================================== */
+.document-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s, visibility 0.3s;
+}
+
+.document-modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.document-modal {
+  background: var(--lantai-card-bg);
+  border-radius: 12px;
+  max-width: 600px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.3);
+  transform: translateY(-20px);
+  transition: transform 0.3s;
+}
+
+.document-modal-overlay.active .document-modal {
+  transform: translateY(0);
+}
+
+.document-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 24px 24px 16px;
+  border-bottom: 1px solid var(--lantai-border);
+}
+
+.document-modal-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--lantai-text);
+  margin: 0;
+  padding-right: 20px;
+}
+
+.document-modal-close {
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  color: var(--lantai-text-light);
+  cursor: pointer;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background 0.2s, color 0.2s;
+}
+
+.document-modal-close:hover {
+  background: rgba(196, 30, 58, 0.1);
+  color: var(--lantai-primary);
+}
+
+.document-modal-body {
+  padding: 24px;
+}
+
+.document-modal-desc {
+  font-size: 1rem;
+  color: var(--lantai-text-light);
+  margin-bottom: 20px;
+  line-height: 1.7;
+}
+
+.document-modal-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.document-modal-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.95rem;
+}
+
+.document-modal-meta-label {
+  font-weight: 600;
+  color: var(--lantai-text-light);
+  min-width: 80px;
+}
+
+.document-modal-meta-value {
+  color: var(--lantai-text);
+  font-weight: 500;
+}
+
+.document-modal-actions {
+  display: flex;
+  gap: 12px;
+  padding-top: 20px;
+  border-top: 1px solid var(--lantai-border);
+}
+
+.document-modal-btn {
+  flex: 1;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.document-modal-btn-primary {
+  background: var(--lantai-primary);
+  color: white;
+}
+
+.document-modal-btn-primary:hover {
+  background: var(--lantai-primary-dark);
+  transform: translateY(-1px);
+}
+
+.document-modal-btn-secondary {
+  background: var(--lantai-border);
+  color: var(--lantai-text);
+}
+
+.document-modal-btn-secondary:hover {
+  background: #d0c0a8;
+}
+
+.document-modal-source-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-left: 8px;
+}
+
+.document-modal-source-internal {
+  background: var(--lantai-internal);
+  color: white;
+}
+
+.document-modal-source-external {
+  background: var(--lantai-external);
+  color: white;
+}
+
+/* 响应式 */
+@media (max-width: 768px) {
+  .document-modal {
+    width: 95%;
+    max-height: 90vh;
+  }
+  
+  .document-modal-header {
+    padding: 16px 16px 12px;
+  }
+  
+  .document-modal-title {
+    font-size: 1.2rem;
+  }
+  
+  .document-modal-body {
+    padding: 16px;
+  }
+  
+  .document-modal-actions {
+    flex-direction: column;
+  }
+}

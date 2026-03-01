@@ -994,7 +994,7 @@ a:hover {
 .delay-500 { transition-delay: 0.5s; }
 
 /* ========================================
-   十八、响应式优化
+   二十三、响应式优化
    ======================================== */
 
 @media (max-width: 768px) {
@@ -1049,7 +1049,354 @@ a:hover {
 }
 
 /* ========================================
-   十九、工具类
+   二十、兰台文档展示
+   ======================================== */
+
+/* 兰台文档容器 */
+#lantai-documents {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* 兰台文档卡片 */
+.lantai-doc-card {
+  background: linear-gradient(145deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition: var(--transition-smooth);
+  position: relative;
+  overflow: hidden;
+}
+
+.lantai-doc-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--gradient-golden);
+  opacity: 0;
+  transition: var(--transition-smooth);
+}
+
+.lantai-doc-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(245, 158, 11, 0.5);
+  box-shadow: var(--shadow-card);
+}
+
+.lantai-doc-card:hover::before {
+  opacity: 1;
+}
+
+/* 文档卡片头部 */
+.doc-header {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  align-items: flex-start;
+}
+
+.doc-icon {
+  font-size: 2.5rem;
+  filter: drop-shadow(0 0 10px rgba(245, 158, 11, 0.5));
+  flex-shrink: 0;
+}
+
+.doc-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.doc-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 0.5rem 0;
+  font-family: var(--font-display);
+}
+
+.doc-desc {
+  color: var(--text-secondary);
+  font-size: 0.9375rem;
+  margin: 0 0 0.5rem 0;
+  line-height: 1.6;
+}
+
+.doc-pinyin {
+  color: var(--text-tertiary);
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+/* 文档卡片底部 */
+.doc-footer {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(245, 158, 11, 0.1);
+}
+
+.doc-tag {
+  background: rgba(245, 158, 11, 0.1);
+  color: var(--sun-gold);
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.doc-source-tag {
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.doc-source-tag.internal {
+  background: rgba(16, 185, 129, 0.1);
+  color: #10B981;
+}
+
+.doc-source-tag.external {
+  background: rgba(59, 130, 246, 0.1);
+  color: #3B82F6;
+}
+
+.doc-view-btn {
+  margin-left: auto;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* 兰台加载状态 */
+.lantai-loading {
+  text-align: center;
+  padding: 3rem;
+  color: var(--text-tertiary);
+}
+
+.lantai-loading .sun-loader {
+  margin: 0 auto 1rem;
+}
+
+/* 兰台错误状态 */
+.lantai-error {
+  text-align: center;
+  padding: 3rem;
+  background: rgba(220, 38, 38, 0.1);
+  border: 1px solid rgba(220, 38, 38, 0.3);
+  border-radius: 12px;
+  color: #FCA5A5;
+}
+
+/* 兰台空状态 */
+.lantai-empty-state {
+  text-align: center;
+  padding: 3rem;
+  color: var(--text-tertiary);
+}
+
+/* ========================================
+   二十一、兰台弹窗
+   ======================================== */
+
+/* 弹窗遮罩 */
+.lantai-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* 弹窗主体 */
+.lantai-modal {
+  background: linear-gradient(145deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  border-radius: 16px;
+  max-width: 600px;
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(245, 158, 11, 0.2);
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 弹窗头部 */
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  border-bottom: 1px solid rgba(245, 158, 11, 0.2);
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.08) 0%, rgba(245, 158, 11, 0.02) 100%);
+}
+
+.modal-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+  font-family: var(--font-display);
+}
+
+.modal-close {
+  background: transparent;
+  border: none;
+  color: var(--text-tertiary);
+  cursor: pointer;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  transition: var(--transition-smooth);
+}
+
+.modal-close:hover {
+  background: rgba(245, 158, 11, 0.1);
+  color: var(--sun-gold);
+}
+
+.modal-close svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* 弹窗主体内容 */
+.modal-body {
+  padding: 1.5rem;
+}
+
+.detail-section {
+  margin-bottom: 1.5rem;
+}
+
+.detail-section:last-child {
+  margin-bottom: 0;
+}
+
+.detail-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
+}
+
+.detail-content {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.code-path {
+  font-family: var(--font-mono);
+  background: rgba(255, 255, 255, 0.05);
+  padding: 0.75rem;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  word-break: break-all;
+}
+
+/* 弹窗底部 */
+.modal-footer {
+  padding: 1.5rem;
+  border-top: 1px solid rgba(245, 158, 11, 0.2);
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  background: rgba(245, 158, 11, 0.02);
+}
+
+.modal-footer .sun-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* 移动端优化 */
+@media (max-width: 640px) {
+  .doc-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .doc-footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .doc-view-btn {
+    margin-left: 0;
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .lantai-modal {
+    max-height: 90vh;
+    margin: 1rem;
+  }
+  
+  .modal-header {
+    padding: 1rem;
+  }
+  
+  .modal-body {
+    padding: 1rem;
+  }
+  
+  .modal-footer {
+    padding: 1rem;
+    flex-direction: column;
+  }
+  
+  .modal-footer .sun-button {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* ========================================
+   二十二、工具类
    ======================================== */
 
 .text-gradient {

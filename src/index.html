@@ -314,6 +314,30 @@
       <div id="teamTasksBoard"></div>
     </section>
 
+    <!-- 兰台预览 -->
+    <section class="content-section bg-secondary/30" id="lantai">
+      <div class="section-header fade-in">
+        <h2 class="section-title golden-title">兰台</h2>
+        <p class="section-subtitle">羲和实验室 · 法律合规与团队规范</p>
+      </div>
+      <div class="max-w-6xl mx-auto">
+        <p class="text-center text-tertiary mb-8 fade-in">
+          「兰台」者，汉宫藏书之所，今为羲和实验室典章之库
+        </p>
+        <div id="lantai-documents" class="grid-2 fade-in">
+          <!-- 由 lantai-preview.js 动态加载 -->
+        </div>
+        <div class="text-center mt-8 fade-in">
+          <a href="/lantai/" class="sun-button sun-button-secondary">
+            查看全部典章
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
     <!-- 核心能力 -->
     <section class="content-section" id="features">
       <div class="section-header fade-in">
@@ -551,5 +575,7 @@
   <script type="module" src="/src/js/main.js"></script>
   <!-- 神话小队任务看板 -->
   <script src="/src/js/team-tasks.js"></script>
+  <!-- 兰台预览组件 -->
+  <script src="/src/js/lantai-preview.js"></script>
 </body>
 </html>

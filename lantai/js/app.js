@@ -26,7 +26,8 @@ const GROUP_ORDER = [
  */
 async function loadDocuments() {
     try {
-        const response = await fetch('../../../feedback/lantai/inbound/doubao/lantai.json');
+        // 使用绝对路径，适配 GitHub Pages 环境
+        const response = await fetch('/feedback/lantai/inbound/doubao/lantai.json');
         if (!response.ok) {
             throw new Error('无法加载文档数据');
         }
@@ -63,9 +64,10 @@ function createDocumentCard(doc) {
     const sourceClass = doc.source === 'internal' ? 'source-internal' : 'source-external';
     const sourceLabel = doc.source === 'internal' ? '内部' : '外部';
     const sourceIcon = doc.source === 'internal' ? '🏢' : '🌐';
+    const clickableClass = doc.source === 'external' ? 'card-external' : 'card-internal';
     
     return `
-        <div class="document-card ${doc.source}" data-id="${doc.id}">
+        <div class="document-card ${doc.source} ${clickableClass}" data-id="${doc.id}" style="cursor: pointer;">
             <div class="card-header">
                 <h3 class="card-title">${escapeHtml(doc.title)}</h3>
                 <span class="card-type">${escapeHtml(doc.type)}</span>
@@ -215,9 +217,120 @@ function attachCardEvents() {
 /**
  * 处理卡片点击
  */
-function handleCardClick(docId) {
+async function handleCardClick(docId) {
     console.log('点击文档 ID:', docId);
-    // 后续可扩展：打开文档详情或下载
+    
+    try {
+        // 加载完整数据以获取文档详情
+        const response = await fetch('/feedback/lantai/inbound/doubao/lantai.json');
+        const data = await response.json();
+        const doc = data.documents.find(d => d.id == docId);
+        
+        if (!doc) {
+            console.error('未找到文档:', docId);
+            return;
+        }
+        
+        // external 类型直接跳转
+        if (doc.source === 'external') {
+            window.open(doc.file_path, '_blank', 'noopener,noreferrer');
+            return;
+        }
+        
+        // internal 类型显示详情弹窗
+        showDocumentModal(doc);
+    } catch (error) {
+        console.error('处理点击失败:', error);
+    }
+}
+
+/**
+ * 显示文档详情弹窗
+ */
+function showDocumentModal(doc) {
+    const sourceLabel = doc.source === 'internal' ? '内部' : '外部';
+    const sourceClass = doc.source === 'internal' ? 'document-modal-source-internal' : 'document-modal-source-external';
+    
+    const modalHtml = `
+        <div class="document-modal-overlay active" id="document-modal-overlay">
+            <div class="document-modal">
+                <div class="document-modal-header">
+                    <h2 class="document-modal-title">
+                        ${escapeHtml(doc.title)}
+                        <span class="document-modal-source-badge ${sourceClass}">${sourceLabel}</span>
+                    </h2>
+                    <button class="document-modal-close" id="modal-close-btn">&times;</button>
+                </div>
+                <div class="document-modal-body">
+                    <p class="document-modal-desc">${escapeHtml(doc.desc)}</p>
+                    <div class="document-modal-meta">
+                        <div class="document-modal-meta-item">
+                            <span class="document-modal-meta-label">类型:</span>
+                            <span class="document-modal-meta-value">${escapeHtml(doc.type)}</span>
+                        </div>
+                        <div class="document-modal-meta-item">
+                            <span class="document-modal-meta-label">负责人:</span>
+                            <span class="document-modal-meta-value">${formatChargePerson(doc)}</span>
+                        </div>
+                        ${doc.need_pinyin && doc.pinyin ? `
+                        <div class="document-modal-meta-item">
+                            <span class="document-modal-meta-label">拼音:</span>
+                            <span class="document-modal-meta-value">${escapeHtml(doc.pinyin)}</span>
+                        </div>
+                        ` : ''}
+                    </div>
+                    <div class="document-modal-actions">
+                        <button class="document-modal-btn document-modal-btn-primary" id="modal-view-btn">
+                            📄 查看文档
+                        </button>
+                        <button class="document-modal-btn document-modal-btn-secondary" id="modal-cancel-btn">
+                            关闭
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    // 添加弹窗到页面
+    const tempContainer = document.createElement('div');
+    tempContainer.innerHTML = modalHtml;
+    const modalOverlay = tempContainer.firstElementChild;
+    document.body.appendChild(modalOverlay);
+    
+    // 绑定事件
+    const closeBtn = document.getElementById('modal-close-btn');
+    const cancelBtn = document.getElementById('modal-cancel-btn');
+    const viewBtn = document.getElementById('modal-view-btn');
+    const overlay = document.getElementById('document-modal-overlay');
+    
+    // 关闭弹窗
+    const closeModal = () => {
+        overlay.classList.remove('active');
+        setTimeout(() => overlay.remove(), 300);
+    };
+    
+    closeBtn.addEventListener('click', closeModal);
+    cancelBtn.addEventListener('click', closeModal);
+    overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) closeModal();
+    });
+    
+    // 查看文档按钮
+    viewBtn.addEventListener('click', () => {
+        if (doc.file_path) {
+            window.open(doc.file_path, '_blank', 'noopener,noreferrer');
+        }
+    });
+    
+    // ESC 键关闭
+    const handleEsc = (e) => {
+        if (e.key === 'Escape') {
+            closeModal();
+            document.removeEventListener('keydown', handleEsc);
+        }
+    };
+    document.addEventListener('keydown', handleEsc);
 }
 
 /**
