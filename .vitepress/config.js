@@ -38,15 +38,6 @@ export default {
     server: {
       port: 5173,
     },
-    build: {
-      rollupOptions: {
-        output: {
-          manualChunks: {
-            vendor: ['vue'],
-            gsap: ['gsap'],
-          },
-        },
-      },
-    },
+    // VitePress 会自动处理依赖分包，无需手动配置 manualChunks
   },
 };
