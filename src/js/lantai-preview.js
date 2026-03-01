@@ -79,10 +79,16 @@ async function showDocumentModal(doc) {
     return;
   }
 
-  const modal = document.querySelector('.document-modal');
-  const modalTitle = modal.querySelector('.document-modal-title');
-  const modalContent = modal.querySelector('.document-modal-content');
-  const modalMeta = modal.querySelector('.document-meta');
+  const modalOverlay = document.querySelector('.lantai-modal-overlay');
+  const modal = modalOverlay?.querySelector('.lantai-modal');
+  const modalTitle = modal?.querySelector('.modal-title');
+  const modalContent = modal?.querySelector('.modal-content');
+  const modalMeta = modal?.querySelector('.document-meta');
+
+  if (!modalOverlay || !modal || !modalTitle || !modalContent) {
+    console.error('弹窗元素未找到');
+    return;
+  }
 
   // 设置标题
   modalTitle.textContent = doc.title;
@@ -124,11 +130,13 @@ async function showDocumentModal(doc) {
     modalContent.innerHTML = html;
 
     // 显示弹窗
-    modal.style.display = 'flex';
+    modalOverlay.style.display = 'flex';
     document.body.style.overflow = 'hidden'; // 禁止背景滚动
   } catch (error) {
-    modalContent.innerHTML = `<p class="text-red-500">加载文档内容失败：${error.message}</p>`;
-    modal.style.display = 'flex';
+    if (modalContent) {
+      modalContent.innerHTML = `<p class="text-red-500">加载文档内容失败：${error.message}</p>`;
+    }
+    modalOverlay.style.display = 'flex';
     document.body.style.overflow = 'hidden';
   }
 }
@@ -199,16 +207,19 @@ function renderDocuments(documents, container) {
  */
 function injectModalHTML() {
   const modalHTML = `
-    <div class="document-modal" style="display: none;">
-      <div class="document-modal-overlay"></div>
-      <div class="document-modal-content-wrapper">
-        <div class="document-modal-header">
-          <h2 class="document-modal-title"></h2>
-          <button class="modal-close-btn">&times;</button>
+    <div class="lantai-modal-overlay" style="display: none;">
+      <div class="lantai-modal">
+        <div class="modal-header">
+          <h2 class="modal-title"></h2>
+          <button class="modal-close" aria-label="关闭">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 6L6 18M6 6l12 12"></path>
+            </svg>
+          </button>
         </div>
-        <div class="document-modal-body">
+        <div class="modal-body">
           <div class="document-meta"></div>
-          <div class="document-modal-content"></div>
+          <div class="modal-content"></div>
         </div>
       </div>
     </div>
@@ -230,7 +241,14 @@ function attachModalEvents() {
 
   // 点击关闭按钮
   document.addEventListener('click', (e) => {
-    if (e.target.classList.contains('modal-close-btn')) {
+    if (e.target.closest('.modal-close')) {
+      closeDocumentModal();
+    }
+  });
+
+  // 点击遮罩关闭
+  document.addEventListener('click', (e) => {
+    if (e.target.classList.contains('lantai-modal-overlay')) {
       closeDocumentModal();
     }
   });
