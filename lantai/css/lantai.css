@@ -461,19 +461,27 @@ body {
 }
 
 /* ========================================
-   文档详情弹窗（Modal）
+   文档详情弹窗（Modal）- 全屏模式
    ======================================== */
-.document-modal-overlay {
+/* 全屏弹窗 */
+.document-modal {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.6);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
+  width: 100vw;
+  height: 100vh;
+  z-index: 10000;
+}
+
+.document-modal-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.3s, visibility 0.3s;
@@ -484,28 +492,23 @@ body {
   visibility: visible;
 }
 
-.document-modal {
+.document-modal-content-wrapper {
+  position: relative;
+  z-index: 10001;
+  max-width: 90%;
+  max-height: 90vh;
+  margin: 5vh auto;
   background: var(--lantai-card-bg);
-  border-radius: 12px;
-  max-width: 600px;
-  width: 90%;
-  max-height: 80vh;
-  overflow-y: auto;
-  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.3);
-  transform: translateY(-20px);
-  transition: transform 0.3s;
-}
-
-.document-modal-overlay.active .document-modal {
-  transform: translateY(0);
+  border-radius: 16px;
+  overflow: hidden;
 }
 
 .document-modal-header {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  padding: 24px 24px 16px;
-  border-bottom: 1px solid var(--lantai-border);
+  align-items: center;
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid rgba(245, 158, 11, 0.2);
 }
 
 .document-modal-title {
@@ -538,7 +541,9 @@ body {
 }
 
 .document-modal-body {
-  padding: 24px;
+  padding: 2rem;
+  max-height: calc(90vh - 100px);
+  overflow-y: auto;
 }
 
 .document-modal-desc {
@@ -668,13 +673,13 @@ body {
 
 /* 响应式 */
 @media (max-width: 768px) {
-  .document-modal {
-    width: 95%;
-    max-height: 90vh;
+  .document-modal-content-wrapper {
+    max-width: 95%;
+    margin: 2.5vh auto;
   }
   
   .document-modal-header {
-    padding: 16px 16px 12px;
+    padding: 1rem 1.5rem;
   }
   
   .document-modal-title {
@@ -682,7 +687,7 @@ body {
   }
   
   .document-modal-body {
-    padding: 16px;
+    padding: 1.5rem;
   }
   
   .document-modal-actions {

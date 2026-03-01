@@ -57,6 +57,43 @@ function renderDocumentCard(doc) {
 }
 
 /**
+ * 显示文档详情弹窗
+ */
+function showDocumentModal(doc) {
+  const modal = document.querySelector('.document-modal');
+  const modalTitle = modal.querySelector('.document-modal-title');
+  const modalContent = modal.querySelector('.document-modal-content');
+  const modalMeta = modal.querySelector('.document-meta');
+  
+  // 设置标题
+  modalTitle.textContent = doc.title;
+  
+  // 设置元信息
+  modalMeta.innerHTML = `
+    <span class="meta-tag">${doc.type}</span>
+    <span class="meta-tag">负责人：${doc.charge_person}</span>
+    <span class="meta-tag">${doc.source === 'internal' ? '内部规范' : '外部法规'}</span>
+  `;
+  
+  // 使用 marked.js 渲染 Markdown 内容
+  const markdownContent = doc.content || doc.desc || '暂无详细内容';
+  modalContent.innerHTML = marked.parse(markdownContent);
+  
+  // 显示弹窗
+  modal.style.display = 'flex';
+  document.body.style.overflow = 'hidden'; // 禁止背景滚动
+}
+
+/**
+ * 关闭文档详情弹窗
+ */
+function closeDocumentModal() {
+  const modal = document.querySelector('.document-modal');
+  modal.style.display = 'none';
+  document.body.style.overflow = ''; // 恢复背景滚动
+}
+
+/**
  * 渲染文档列表
  */
 function renderDocuments(documents, container) {
@@ -94,13 +131,64 @@ function renderDocuments(documents, container) {
         // 外部链接直接打开
         window.open(url, '_blank');
       } else {
-        // 内部文档打开详情页
-        window.open(`/lantai/document.html?id=${docId}`, '_blank');
+        // 内部文档显示弹窗
+        const doc = window.lantaiData?.documents?.find(d => d.id == docId);
+        if (doc) {
+          showDocumentModal(doc);
+        }
       }
     });
   });
   
   console.log('渲染完成');
+}
+
+/**
+ * 注入弹窗 HTML 结构
+ */
+function injectModalHTML() {
+  const modalHTML = `
+    <div class="document-modal" style="display: none;">
+      <div class="document-modal-overlay"></div>
+      <div class="document-modal-content-wrapper">
+        <div class="document-modal-header">
+          <h2 class="document-modal-title"></h2>
+          <button class="modal-close-btn">&times;</button>
+        </div>
+        <div class="document-modal-body">
+          <div class="document-meta"></div>
+          <div class="document-modal-content"></div>
+        </div>
+      </div>
+    </div>
+  `;
+  document.body.insertAdjacentHTML('beforeend', modalHTML);
+}
+
+/**
+ * 初始化弹窗事件
+ */
+function attachModalEvents() {
+  // 点击遮罩关闭
+  document.addEventListener('click', function(e) {
+    if (e.target.classList.contains('document-modal-overlay')) {
+      closeDocumentModal();
+    }
+  });
+  
+  // 点击关闭按钮
+  document.addEventListener('click', function(e) {
+    if (e.target.classList.contains('modal-close-btn')) {
+      closeDocumentModal();
+    }
+  });
+  
+  // ESC 键关闭
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      closeDocumentModal();
+    }
+  });
 }
 
 /**
@@ -114,6 +202,12 @@ async function initLantai() {
   }
 
   console.log('开始初始化兰台组件...');
+
+  // 注入弹窗 HTML
+  injectModalHTML();
+  
+  // 初始化弹窗事件
+  attachModalEvents();
 
   // 显示加载状态
   container.innerHTML = `
