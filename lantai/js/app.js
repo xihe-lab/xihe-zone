@@ -247,7 +247,7 @@ async function handleCardClick(docId) {
 /**
  * 显示文档详情弹窗
  */
-function showDocumentModal(doc) {
+async function showDocumentModal(doc) {
     const sourceLabel = doc.source === 'internal' ? '内部' : '外部';
     const sourceClass = doc.source === 'internal' ? 'document-modal-source-internal' : 'document-modal-source-external';
     
@@ -279,6 +279,9 @@ function showDocumentModal(doc) {
                         </div>
                         ` : ''}
                     </div>
+                    <div class="document-modal-content" id="document-modal-content" style="display: none; margin-top: 15px; padding: 15px; background: #f8f9fa; border-radius: 8px; max-height: 400px; overflow-y: auto;">
+                        <div id="document-content-text" style="white-space: pre-wrap; font-family: monospace; font-size: 14px; line-height: 1.6;"></div>
+                    </div>
                     <div class="document-modal-actions">
                         <button class="document-modal-btn document-modal-btn-primary" id="modal-view-btn">
                             📄 查看文档
@@ -303,6 +306,8 @@ function showDocumentModal(doc) {
     const cancelBtn = document.getElementById('modal-cancel-btn');
     const viewBtn = document.getElementById('modal-view-btn');
     const overlay = document.getElementById('document-modal-overlay');
+    const contentDiv = document.getElementById('document-modal-content');
+    const contentText = document.getElementById('document-content-text');
     
     // 关闭弹窗
     const closeModal = () => {
@@ -316,11 +321,54 @@ function showDocumentModal(doc) {
         if (e.target === overlay) closeModal();
     });
     
-    // 查看文档按钮
-    viewBtn.addEventListener('click', () => {
-        if (doc.file_path) {
+    // 查看文档按钮 - 根据文件类型处理
+    viewBtn.addEventListener('click', async () => {
+        if (!doc.file_path) return;
+        
+        // 外部链接：直接打开
+        if (doc.file_path.startsWith('http')) {
             window.open(doc.file_path, '_blank', 'noopener,noreferrer');
+            return;
         }
+        
+        // Markdown 文件：读取并显示内容
+        if (doc.file_path.endsWith('.md')) {
+            try {
+                viewBtn.disabled = true;
+                viewBtn.textContent = '⏳ 加载中...';
+                
+                const response = await fetch(doc.file_path);
+                if (!response.ok) {
+                    throw new Error('无法加载文档内容');
+                }
+                
+                const content = await response.text();
+                contentText.textContent = content;
+                contentDiv.style.display = 'block';
+                viewBtn.textContent = '🔄 刷新内容';
+            } catch (error) {
+                console.error('加载 Markdown 失败:', error);
+                contentText.textContent = '⚠️ 加载失败：' + error.message;
+                contentDiv.style.display = 'block';
+                viewBtn.textContent = '⚠️ 加载失败';
+            } finally {
+                viewBtn.disabled = false;
+            }
+            return;
+        }
+        
+        // PDF 文件：提示用户
+        if (doc.file_path.endsWith('.pdf')) {
+            contentText.textContent = '📄 PDF 文件预览暂不支持，将在新标签页中打开。';
+            contentDiv.style.display = 'block';
+            setTimeout(() => {
+                window.open(doc.file_path, '_blank', 'noopener,noreferrer');
+            }, 1500);
+            return;
+        }
+        
+        // 其他文件：直接打开
+        window.open(doc.file_path, '_blank', 'noopener,noreferrer');
     });
     
     // ESC 键关闭
