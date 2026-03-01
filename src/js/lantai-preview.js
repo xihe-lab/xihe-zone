@@ -145,6 +145,14 @@ async function showDocumentModal(doc) {
  * 关闭文档详情弹窗
  */
 function closeDocumentModal() {
+  const modalOverlay = document.querySelector('.lantai-modal-overlay');
+  if (modalOverlay) {
+    modalOverlay.style.display = 'none';
+    document.body.style.overflow = '';
+  }
+}
+
+// 未使用的旧代码占位
   const modal = document.querySelector('.document-modal');
 
   modal.style.display = 'none';
