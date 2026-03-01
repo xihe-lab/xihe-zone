@@ -7,8 +7,6 @@
       "title": "羲和实验室合规手册",
       "desc": "内容合规、文化使用、网站运营、风险审核总规范",
       "charge_person": "皋陶",
-      "need_pinyin": true,
-      "pinyin": "gāo yáo",
       "file_path": "docs/xihe-compliance-manual.md",
       "source": "internal",
       "type": "合规规范"
@@ -18,8 +16,6 @@
       "title": "羲和实验室 · 智能体团队规范",
       "desc": "团队分工、协作机制、角色职责、行为准则",
       "charge_person": "陆压 / 皋陶",
-      "need_pinyin": true,
-      "pinyin": "gāo yáo",
       "file_path": "docs/agent-team-spec.md",
       "source": "internal",
       "type": "团队规范"
@@ -29,8 +25,6 @@
       "title": "内容审核与红线标准",
       "desc": "官网内容发布前必须遵守的审核清单",
       "charge_person": "皋陶",
-      "need_pinyin": true,
-      "pinyin": "gāo yáo",
       "file_path": "docs/content-audit-rules.md",
       "source": "internal",
       "type": "审核规范"
@@ -40,8 +34,6 @@
       "title": "数据安全与隐私保护指南",
       "desc": "用户信息、数据收集、存储、使用的合规要求",
       "charge_person": "皋陶",
-      "need_pinyin": true,
-      "pinyin": "gāo yáo",
       "file_path": "docs/data-security-privacy.md",
       "source": "internal",
       "type": "数据合规"
@@ -51,8 +43,6 @@
       "title": "中华人民共和国民法典",
       "desc": "国家官方发布完整版民法典",
       "charge_person": "国家政府网",
-      "need_pinyin": false,
-      "pinyin": "",
       "file_path": "https://www.gov.cn/zhengce/2020-06/01/content_5516679.htm",
       "source": "external",
       "type": "国家法规"
@@ -62,8 +52,6 @@
       "title": "中华人民共和国网络安全法",
       "desc": "国家官方发布网络安全法全文",
       "charge_person": "国家网信办",
-      "need_pinyin": false,
-      "pinyin": "",
       "file_path": "https://www.cac.gov.cn/2016-11/07/c_1119712577.htm",
       "source": "external",
       "type": "国家法规"
@@ -73,8 +61,6 @@
       "title": "中华人民共和国数据安全法",
       "desc": "国家官方发布数据安全法全文",
       "charge_person": "国家网信办",
-      "need_pinyin": false,
-      "pinyin": "",
       "file_path": "https://www.cac.gov.cn/2021-06/10/c_163711205.htm",
       "source": "external",
       "type": "国家法规"
@@ -84,8 +70,6 @@
       "title": "中华人民共和国个人信息保护法",
       "desc": "国家官方发布个人信息保护法全文",
       "charge_person": "国家网信办",
-      "need_pinyin": false,
-      "pinyin": "",
       "file_path": "https://www.cac.gov.cn/2021-08/20/c_162918868.htm",
       "source": "external",
       "type": "国家法规"
@@ -95,8 +79,6 @@
       "title": "互联网信息服务管理办法",
       "desc": "互联网内容与服务管理官方规定",
       "charge_person": "国家网信办",
-      "need_pinyin": false,
-      "pinyin": "",
       "file_path": "https://www.cac.gov.cn/2021-01/04/c_161145686.htm",
       "source": "external",
       "type": "国家法规"
@@ -106,8 +88,6 @@
       "title": "网络信息内容生态治理规定",
       "desc": "网络内容审核、生态治理官方标准",
       "charge_person": "国家网信办",
-      "need_pinyin": false,
-      "pinyin": "",
       "file_path": "https://www.cac.gov.cn/2019-12/20/c_158226611.htm",
       "source": "external",
       "type": "国家法规"

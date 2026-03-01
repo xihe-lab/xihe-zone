@@ -39,14 +39,14 @@ function renderDocumentCard(doc) {
         <div class="doc-info">
           <h3 class="doc-title">${doc.title}</h3>
           <p class="doc-desc">${doc.desc}</p>
-          ${doc.need_pinyin && doc.pinyin ? `<p class="doc-pinyin">负责人：<span class="text-sun-gold">${doc.charge_person}</span> (${doc.pinyin})</p>` : `<p class="doc-pinyin">负责人：<span class="text-sun-gold">${doc.charge_person}</span></p>`}
+          <p class="doc-pinyin">负责人：<span class="text-sun-gold">${doc.charge_person}</span></p>
         </div>
       </div>
       <div class="doc-footer">
         <span class="doc-tag">${doc.type}</span>
         <span class="doc-source-tag ${doc.source}">${doc.source === 'internal' ? '内部规范' : '外部法规'}</span>
         <button class="doc-view-btn sun-button" data-doc-id="${doc.id}" data-is-external="${isExternal}" data-url="${doc.file_path}">
-          ${isPdf ? '查看 PDF' : (isExternal ? '访问链接' : '查看详情')}
+          ${isPdf ? '查看 PDF' : (isExternal ? '访问链接' : '📄 查看文档')}
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
           </svg>
@@ -94,88 +94,13 @@ function renderDocuments(documents, container) {
         // 外部链接直接打开
         window.open(url, '_blank');
       } else {
-        // 内部文档显示详情
-        showDocumentDetail(docId, documents);
+        // 内部文档打开详情页
+        window.open(`/lantai/document.html?id=${docId}`, '_blank');
       }
     });
   });
   
   console.log('渲染完成');
-}
-
-/**
- * 显示文档详情（弹窗）
- */
-function showDocumentDetail(docId, documents) {
-  const doc = documents.find(d => d.id == docId);
-  if (!doc) return;
-
-  // 创建弹窗
-  const modal = document.createElement('div');
-  modal.className = 'lantai-modal-overlay';
-  modal.innerHTML = `
-    <div class="lantai-modal">
-      <div class="modal-header">
-        <h3 class="modal-title">${doc.title}</h3>
-        <button class="modal-close" aria-label="关闭">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-          </svg>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="detail-section">
-          <h4 class="detail-label">文档描述</h4>
-          <p class="detail-content">${doc.desc}</p>
-        </div>
-        <div class="detail-section">
-          <h4 class="detail-label">文档类型</h4>
-          <p class="detail-content">${doc.type}</p>
-        </div>
-        <div class="detail-section">
-          <h4 class="detail-label">负责人</h4>
-          <p class="detail-content">
-            <span class="text-sun-gold">${doc.charge_person}</span>
-            ${doc.need_pinyin && doc.pinyin ? `(${doc.pinyin})` : ''}
-          </p>
-        </div>
-        ${doc.file_path ? `
-        <div class="detail-section">
-          <h4 class="detail-label">文件路径</h4>
-          <p class="detail-content code-path">${doc.file_path}</p>
-        </div>
-        ` : ''}
-      </div>
-      <div class="modal-footer">
-        ${doc.file_path?.endsWith('.pdf') ? `
-          <a href="${doc.file_path}" target="_blank" class="sun-button">
-            打开 PDF
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
-            </svg>
-          </a>
-        ` : `
-          <button class="sun-button modal-close-btn">关闭</button>
-        `}
-      </div>
-    </div>
-  `;
-
-  // 绑定关闭事件
-  modal.querySelectorAll('.modal-close, .modal-close-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      modal.remove();
-    });
-  });
-
-  // 点击遮罩关闭
-  modal.addEventListener('click', (e) => {
-    if (e.target === modal) {
-      modal.remove();
-    }
-  });
-
-  document.body.appendChild(modal);
 }
 
 /**

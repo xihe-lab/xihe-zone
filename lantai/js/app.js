@@ -76,36 +76,15 @@ function createDocumentCard(doc) {
             <div class="card-meta">
                 <span class="meta-item">
                     <span class="meta-icon">👤</span>
-                    <span>${formatChargePerson(doc)}</span>
+                    <span>${escapeHtml(doc.charge_person)}</span>
                 </span>
                 <span class="meta-item">
                     <span class="meta-icon">${sourceIcon}</span>
                     <span class="source-badge ${sourceClass}">${sourceLabel}</span>
                 </span>
             </div>
-            ${doc.need_pinyin && doc.pinyin ? `
-                <div class="pinyin">${escapeHtml(doc.pinyin)}</div>
-            ` : ''}
         </div>
     `;
-}
-
-/**
- * 格式化负责人信息
- */
-function formatChargePerson(doc) {
-    if (!doc.need_pinyin) {
-        return escapeHtml(doc.charge_person);
-    }
-    
-    // 处理多个负责人的情况
-    const persons = doc.charge_person.split('/').map(p => p.trim());
-    return persons.map(person => {
-        if (person.includes('皋陶')) {
-            return `皋陶 <span style="font-size: 0.85em; color: var(--primary-red);">(${doc.pinyin})</span>`;
-        }
-        return escapeHtml(person);
-    }).join(' / ');
 }
 
 /**
@@ -237,150 +216,11 @@ async function handleCardClick(docId) {
             return;
         }
         
-        // internal 类型显示详情弹窗
-        showDocumentModal(doc);
+        // internal 类型打开文档详情页
+        window.open(`/lantai/document.html?id=${doc.id}`, '_blank');
     } catch (error) {
         console.error('处理点击失败:', error);
     }
-}
-
-/**
- * 显示文档详情弹窗
- */
-async function showDocumentModal(doc) {
-    const sourceLabel = doc.source === 'internal' ? '内部' : '外部';
-    const sourceClass = doc.source === 'internal' ? 'document-modal-source-internal' : 'document-modal-source-external';
-    
-    const modalHtml = `
-        <div class="document-modal-overlay active" id="document-modal-overlay">
-            <div class="document-modal">
-                <div class="document-modal-header">
-                    <h2 class="document-modal-title">
-                        ${escapeHtml(doc.title)}
-                        <span class="document-modal-source-badge ${sourceClass}">${sourceLabel}</span>
-                    </h2>
-                    <button class="document-modal-close" id="modal-close-btn">&times;</button>
-                </div>
-                <div class="document-modal-body">
-                    <p class="document-modal-desc">${escapeHtml(doc.desc)}</p>
-                    <div class="document-modal-meta">
-                        <div class="document-modal-meta-item">
-                            <span class="document-modal-meta-label">类型:</span>
-                            <span class="document-modal-meta-value">${escapeHtml(doc.type)}</span>
-                        </div>
-                        <div class="document-modal-meta-item">
-                            <span class="document-modal-meta-label">负责人:</span>
-                            <span class="document-modal-meta-value">${formatChargePerson(doc)}</span>
-                        </div>
-                        ${doc.need_pinyin && doc.pinyin ? `
-                        <div class="document-modal-meta-item">
-                            <span class="document-modal-meta-label">拼音:</span>
-                            <span class="document-modal-meta-value">${escapeHtml(doc.pinyin)}</span>
-                        </div>
-                        ` : ''}
-                    </div>
-                    <div class="document-modal-content" id="document-modal-content" style="display: none; margin-top: 15px; padding: 15px; background: #f8f9fa; border-radius: 8px; max-height: 400px; overflow-y: auto;">
-                        <div id="document-content-text" style="white-space: pre-wrap; font-family: monospace; font-size: 14px; line-height: 1.6;"></div>
-                    </div>
-                    <div class="document-modal-actions">
-                        <button class="document-modal-btn document-modal-btn-primary" id="modal-view-btn">
-                            📄 查看文档
-                        </button>
-                        <button class="document-modal-btn document-modal-btn-secondary" id="modal-cancel-btn">
-                            关闭
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    `;
-    
-    // 添加弹窗到页面
-    const tempContainer = document.createElement('div');
-    tempContainer.innerHTML = modalHtml;
-    const modalOverlay = tempContainer.firstElementChild;
-    document.body.appendChild(modalOverlay);
-    
-    // 绑定事件
-    const closeBtn = document.getElementById('modal-close-btn');
-    const cancelBtn = document.getElementById('modal-cancel-btn');
-    const viewBtn = document.getElementById('modal-view-btn');
-    const overlay = document.getElementById('document-modal-overlay');
-    const contentDiv = document.getElementById('document-modal-content');
-    const contentText = document.getElementById('document-content-text');
-    
-    // 关闭弹窗
-    const closeModal = () => {
-        overlay.classList.remove('active');
-        setTimeout(() => overlay.remove(), 300);
-    };
-    
-    closeBtn.addEventListener('click', closeModal);
-    cancelBtn.addEventListener('click', closeModal);
-    overlay.addEventListener('click', (e) => {
-        if (e.target === overlay) closeModal();
-    });
-    
-    // 查看文档按钮 - 根据文件类型处理
-    viewBtn.addEventListener('click', async () => {
-        if (!doc.file_path) return;
-        
-        // 外部链接：直接打开
-        if (doc.file_path.startsWith('http')) {
-            window.open(doc.file_path, '_blank', 'noopener,noreferrer');
-            return;
-        }
-        
-        // Markdown 文件：读取并显示内容
-        if (doc.file_path.endsWith('.md')) {
-            try {
-                viewBtn.disabled = true;
-                viewBtn.textContent = '⏳ 加载中...';
-                
-                const response = await fetch(doc.file_path);
-                if (!response.ok) {
-                    throw new Error('无法加载文档内容');
-                }
-                
-                const content = await response.text();
-                // 使用 marked 渲染 Markdown
-                const html = marked.parse(content);
-                document.getElementById('document-modal-content').innerHTML = html;
-                contentDiv.style.display = 'block';
-                viewBtn.textContent = '🔄 刷新内容';
-            } catch (error) {
-                console.error('加载 Markdown 失败:', error);
-                contentText.textContent = '⚠️ 加载失败：' + error.message;
-                contentDiv.style.display = 'block';
-                viewBtn.textContent = '⚠️ 加载失败';
-            } finally {
-                viewBtn.disabled = false;
-            }
-            return;
-        }
-        
-        // PDF 文件：提示用户
-        if (doc.file_path.endsWith('.pdf')) {
-            contentText.textContent = '📄 PDF 文件预览暂不支持，将在新标签页中打开。';
-            contentDiv.style.display = 'block';
-            setTimeout(() => {
-                window.open(doc.file_path, '_blank', 'noopener,noreferrer');
-            }, 1500);
-            return;
-        }
-        
-        // 其他文件：直接打开
-        window.open(doc.file_path, '_blank', 'noopener,noreferrer');
-    });
-    
-    // ESC 键关闭
-    const handleEsc = (e) => {
-        if (e.key === 'Escape') {
-            closeModal();
-            document.removeEventListener('keydown', handleEsc);
-        }
-    };
-    document.addEventListener('keydown', handleEsc);
 }
 
 /**
