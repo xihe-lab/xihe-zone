@@ -274,6 +274,9 @@ async function initLantai() {
     return;
   }
 
+  // 保存数据到全局变量
+  window.lantaiData = data;
+
   // 仅展示内部规范（source === 'internal'）
   const internalDocs = data.documents.filter((doc) => doc.source === 'internal');
 
