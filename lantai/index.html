@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>羲和实验室 - 兰台</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/lantai.css">
+</head>
+<body>
+  <div class="lantai-container">
+    <header class="lantai-header">
+      <div class="header-content">
+        <div class="logo-section">
+          <div class="logo-icon">📜</div>
+          <h1 class="main-title">兰台</h1>
+          <p class="subtitle">羲和实验室 · 法律合规与团队规范</p>
+        </div>
+      </div>
+      <div class="header-deco">
+        <div class="cloud-pattern"></div>
+      </div>
+    </header>
+
+    <main class="lantai-main">
+      <section class="section-intro">
+        <p class="intro-text">「兰台」者，汉宫藏书之所，今为羲和实验室典章之库</p>
+        <div class="divider">
+          <div class="divider-line"></div>
+          <div class="divider-icon">🏛️</div>
+          <div class="divider-line"></div>
+        </div>
+        <p class="intro-subtext">收录合规规范、团队准则、国家法规共计十卷</p>
+      </section>
+
+      <!-- 统计信息 -->
+      <div id="statistics-container"></div>
+
+      <!-- 搜索框 -->
+      <div id="search-filter-container"></div>
+
+      <!-- 文档列表容器 -->
+      <div id="documents-container" class="documents-grid">
+        <!-- 由 app.js 动态加载 -->
+      </div>
+    </main>
+
+    <footer class="lantai-footer">
+      <div class="footer-content">
+        <div class="footer-deco">
+          <span class="sun-icon">🌞</span>
+        </div>
+        <p class="footer-text">羲和驭光 · 智见未来</p>
+        <p class="footer-subtext">以神话为骨 · 以代码为魂</p>
+      </div>
+    </footer>
+  </div>
+
+  <!-- 数据模块（提供 API） -->
+  <script src="js/data.js"></script>
+  <!-- 工具函数模块（提供增强功能） -->
+  <script src="js/utils.js"></script>
+  <!-- 主应用逻辑 -->
+  <script src="js/app.js"></script>
+  <!-- 增强功能初始化 -->
+  <script>
+    // 页面加载完成后初始化增强功能
+    document.addEventListener('DOMContentLoaded', function() {
+      // 等待 app.js 加载完成后初始化增强功能
+      setTimeout(function() {
+        // 渲染统计信息
+        if (typeof LantaiData !== 'undefined') {
+          const statsContainer = document.getElementById('statistics-container');
+          if (statsContainer && LantaiUtils) {
+            statsContainer.innerHTML = LantaiUtils.renderStatistics();
+          }
+
+          // 渲染搜索框
+          const searchContainer = document.getElementById('search-filter-container');
+          if (searchContainer && LantaiUtils) {
+            searchContainer.innerHTML = `
+              <div class="search-filter-bar">
+                ${LantaiUtils.renderSearchBox('search-box', '搜索内部规范文档...')}
+              </div>
+            `;
+          }
+        }
+
+        console.log('兰台板块增强功能初始化完成');
+        console.log('平台信息:', LantaiData ? LantaiData.getPlatformInfo() : '未加载');
+        console.log('统计数据:', LantaiData ? LantaiData.getStatistics() : '未加载');
+      }, 100);
+    });
+  </script>
+</body>
+</html>
