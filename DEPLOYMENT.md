@@ -40,6 +40,7 @@ xihe-zone/
 #### 1. GitHub Pages 部署
 
 1. 确保所有文件已提交到 Git：
+
    ```bash
    git add .
    git commit -m "deploy: 静态 HTML 版本"
@@ -162,16 +163,16 @@ npm run preview
 
 ## 部署方式对比
 
-| 特性 | 方案一（静态 HTML） | 方案二（VitePress） |
-|------|-------------------|-------------------|
-| **部署速度** | ⚡ 即时 | 🐢 1-2 分钟 |
-| **配置复杂度** | 简单 | 中等 |
-| **Markdown 支持** | ❌ | ✅ |
-| **搜索功能** | ❌ | ✅ |
-| **代码高亮** | 手动 | 自动 |
-| **响应式导航** | 手动 | 自动 |
-| **开发体验** | 编辑 HTML | Markdown + 热重载 |
-| **适用场景** | 快速上线、简单页面 | 文档站、博客、复杂内容 |
+| 特性              | 方案一（静态 HTML） | 方案二（VitePress）    |
+| ----------------- | ------------------- | ---------------------- |
+| **部署速度**      | ⚡ 即时             | 🐢 1-2 分钟            |
+| **配置复杂度**    | 简单                | 中等                   |
+| **Markdown 支持** | ❌                  | ✅                     |
+| **搜索功能**      | ❌                  | ✅                     |
+| **代码高亮**      | 手动                | 自动                   |
+| **响应式导航**    | 手动                | 自动                   |
+| **开发体验**      | 编辑 HTML           | Markdown + 热重载      |
+| **适用场景**      | 快速上线、简单页面  | 文档站、博客、复杂内容 |
 
 ---
 
@@ -182,12 +183,14 @@ npm run preview
 **原因：** 使用了 VitePress 但没有配置自动构建。
 
 **解决方案：**
+
 - 方案 A：使用方案一（静态 HTML），直接部署 `index.html`
 - 方案 B：配置 GitHub Actions（方案二），自动构建 VitePress
 
 ### Q2: 样式或 JavaScript 文件加载失败？
 
 **检查路径：**
+
 - 确保使用相对路径（如 `css/main.css` 而不是 `/css/main.css`）
 - 检查文件是否已提交到 Git
 - 清除浏览器缓存后重试
@@ -195,6 +198,7 @@ npm run preview
 ### Q3: GitHub Actions 部署失败？
 
 **排查步骤：**
+
 1. 检查 `.github/workflows/deploy.yml` 语法
 2. 确认 `package.json` 中有 `build` 脚本
 3. 查看 Actions 日志，找到具体错误
@@ -203,11 +207,13 @@ npm run preview
 ### Q4: 如何切换部署方案？
 
 **从方案一切换到方案二：**
+
 1. 配置 GitHub Pages 使用 GitHub Actions
 2. 推送包含 `.github/workflows/deploy.yml` 的代码
 3. 等待自动构建完成
 
 **从方案二切换到方案一：**
+
 1. 确保根目录有 `index.html`
 2. GitHub Pages 设置改为 `Deploy from a branch`
 3. 选择 `main` 分支和 `/ (root)` 文件夹
@@ -217,11 +223,13 @@ npm run preview
 ## 推荐方案
 
 ### 🚀 紧急情况：使用方案一
+
 - 网站需要立即上线
 - 内容相对简单
 - 不需要文档功能
 
 ### 📚 长期规划：使用方案二
+
 - 需要写技术文档
 - 内容会频繁更新
 - 需要搜索和导航功能
@@ -233,11 +241,13 @@ npm run preview
 如果使用自定义域名（如 `www.xihe.zone`）：
 
 1. 在仓库根目录创建 `CNAME` 文件，内容为：
+
    ```
    www.xihe.zone
    ```
 
 2. 在域名提供商处添加 CNAME 记录：
+
    ```
    www CNAME yourusername.github.io
    ```
@@ -246,4 +256,4 @@ npm run preview
 
 ---
 
-*🌞 愿羲和实验室永远闪耀！*
+_🌞 愿羲和实验室永远闪耀！_

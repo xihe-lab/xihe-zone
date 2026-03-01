@@ -9,16 +9,16 @@
 
 /* 基础变量 - 与主样式表协调 */
 :root {
-  --lantai-primary: #C41E3A;
-  --lantai-primary-dark: #8B0000;
-  --lantai-accent: #D4AF37;
-  --lantai-bg: #FDF6E3;
-  --lantai-card-bg: #FFFEF7;
-  --lantai-text: #2C1810;
-  --lantai-text-light: #8D6E63;
-  --lantai-border: #E8D5B7;
-  --lantai-internal: #C41E3A;
-  --lantai-external: #D4AF37;
+  --lantai-primary: #c41e3a;
+  --lantai-primary-dark: #8b0000;
+  --lantai-accent: #d4af37;
+  --lantai-bg: #fdf6e3;
+  --lantai-card-bg: #fffef7;
+  --lantai-text: #2c1810;
+  --lantai-text-light: #8d6e63;
+  --lantai-border: #e8d5b7;
+  --lantai-internal: #c41e3a;
+  --lantai-external: #d4af37;
   --lantai-shadow: 0 4px 12px rgba(139, 0, 0, 0.1);
   --lantai-shadow-hover: 0 8px 24px rgba(139, 0, 0, 0.15);
 }
@@ -31,7 +31,7 @@
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   background: var(--lantai-bg);
   color: var(--lantai-text);
   line-height: 1.6;
@@ -120,7 +120,9 @@ body {
   border: 2px solid var(--lantai-border);
   border-radius: 8px;
   font-size: 1rem;
-  transition: border-color 0.3s, box-shadow 0.3s;
+  transition:
+    border-color 0.3s,
+    box-shadow 0.3s;
 }
 
 .search-input:focus {
@@ -137,7 +139,9 @@ body {
   border-radius: 8px;
   font-size: 1rem;
   cursor: pointer;
-  transition: background 0.3s, transform 0.2s;
+  transition:
+    background 0.3s,
+    transform 0.2s;
 }
 
 .search-btn:hover {
@@ -186,7 +190,9 @@ body {
   padding: 24px;
   border-radius: 12px;
   box-shadow: var(--lantai-shadow);
-  transition: box-shadow 0.3s, transform 0.2s;
+  transition:
+    box-shadow 0.3s,
+    transform 0.2s;
   border-left: 4px solid var(--lantai-primary);
 }
 
@@ -409,7 +415,7 @@ body {
 }
 
 .search-filter-bar .search-input {
-  font-family: "Noto Serif SC", "Source Han Serif SC", "SimSun", serif;
+  font-family: 'Noto Serif SC', 'Source Han Serif SC', 'SimSun', serif;
   border-color: var(--border-light);
   background: var(--bg-card);
 }
@@ -421,7 +427,7 @@ body {
 
 .search-filter-bar .search-btn {
   background: var(--primary-red);
-  font-family: "Noto Serif SC", "Source Han Serif SC", "SimSun", serif;
+  font-family: 'Noto Serif SC', 'Source Han Serif SC', 'SimSun', serif;
 }
 
 .search-filter-bar .search-btn:hover {
@@ -429,7 +435,7 @@ body {
 }
 
 .search-filter-bar select {
-  font-family: "Noto Serif SC", "Source Han Serif SC", "SimSun", serif;
+  font-family: 'Noto Serif SC', 'Source Han Serif SC', 'SimSun', serif;
   border-color: var(--border-light);
   background: var(--bg-card);
   color: var(--text-primary);
@@ -527,7 +533,7 @@ body {
   font-weight: 700;
   margin: 0;
   padding-right: 20px;
-  font-family: "KaiTi", "STKaiti", serif;
+  font-family: 'KaiTi', 'STKaiti', serif;
   letter-spacing: 0.1rem;
 }
 
@@ -573,7 +579,7 @@ body {
 .meta-tag {
   display: inline-block;
   padding: 6px 14px;
-  background: linear-gradient(135deg, var(--light-gold), #E8D5B7);
+  background: linear-gradient(135deg, var(--light-gold), #e8d5b7);
   color: var(--dark-red);
   border-radius: 20px;
   font-size: 0.9rem;
@@ -595,7 +601,7 @@ body {
   color: var(--dark-red);
   margin: 1.5em 0 0.8em;
   font-weight: 600;
-  font-family: "KaiTi", "STKaiti", serif;
+  font-family: 'KaiTi', 'STKaiti', serif;
 }
 
 .document-modal-content h1 {
@@ -700,30 +706,30 @@ body {
     width: 95%;
     max-height: 90vh;
   }
-  
+
   .document-modal-header {
     padding: 16px 20px;
   }
-  
+
   .document-modal-title {
     font-size: 1.2rem;
   }
-  
+
   .modal-close-btn {
     width: 36px;
     height: 36px;
     font-size: 1.8rem;
   }
-  
+
   .document-modal-body {
     padding: 16px;
   }
-  
+
   .document-meta {
     flex-direction: column;
     gap: 8px;
   }
-  
+
   .meta-tag {
     font-size: 0.85rem;
     padding: 4px 12px;
@@ -750,22 +756,20 @@ body {
     max-width: 95%;
     margin: 2.5vh auto;
   }
-  
+
   .document-modal-header {
     padding: 1rem 1.5rem;
   }
-  
+
   .document-modal-title {
     font-size: 1.2rem;
   }
-  
+
   .document-modal-body {
     padding: 1.5rem;
   }
-  
+
   .document-modal-actions {
     flex-direction: column;
   }
 }
-
-

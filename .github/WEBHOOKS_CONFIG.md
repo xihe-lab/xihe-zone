@@ -7,6 +7,7 @@
 ## 📋 配置目标
 
 当有新的 PR 提交到 `xihe-zone` 仓库时：
+
 1. GitHub 自动发送 Webhook 通知
 2. 白泽自动接收并分析 PR
 3. 输出初步审查报告
@@ -42,7 +43,7 @@ jobs:
           echo "标题：${{ github.event.pull_request.title }}"
           echo "作者：${{ github.event.pull_request.user.login }}"
           echo "分支：${{ github.event.pull_request.head.ref }}"
-          
+
           # 可以集成到消息平台
           # curl -X POST ${{ secrets.WEBHOOK_URL }} \
           #   -H "Content-Type: application/json" \
@@ -73,6 +74,7 @@ jobs:
 2. 点击 **Add webhook**
 
 3. 填写配置：
+
    ```
    Payload URL: https://your-webhook-endpoint.com/github
    Content type: application/json
@@ -117,7 +119,7 @@ jobs:
           echo "URL: ${{ github.event.pull_request.html_url }}"
           echo ""
           echo "⏰ 创建时间：$(date)"
-          
+
       - name: 发送到消息平台（可选）
         if: ${{ secrets.WEBHOOK_URL != '' }}
         run: |
@@ -142,11 +144,13 @@ jobs:
 #### 1. 创建机器人
 
 **企业微信：**
+
 1. 群聊 → 机器人 → 添加
 2. 复制 Webhook URL
 3. 添加到 GitHub Secrets：`WECHAT_WEBHOOK_URL`
 
 **钉钉：**
+
 1. 群设置 → 智能群助手 → 添加机器人
 2. 复制 Webhook URL
 3. 添加到 GitHub Secrets：`DINGTALK_WEBHOOK_URL`
@@ -187,6 +191,7 @@ jobs:
 ### 1. 添加 Webhook Secret
 
 **GitHub 设置：**
+
 ```
 Settings → Secrets and variables → Actions
 → New repository secret
@@ -196,6 +201,7 @@ Settings → Secrets and variables → Actions
 ```
 
 **验证 Webhook：**
+
 ```yaml
 - name: 验证 Webhook 签名
   run: |
@@ -234,16 +240,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: 安装依赖
         run: npm install
-        
+
       - name: 运行 ESLint
         run: npm run lint
-        
+
       - name: 运行测试
         run: npm run test
-        
+
       - name: 构建检查
         run: npm run build
 
@@ -264,7 +270,7 @@ jobs:
           echo "- [ ] 架构设计合理性"
           echo "- [ ] 安全漏洞检查"
           echo "- [ ] 性能影响评估"
-          
+
       - name: 添加审查标签
         run: |
           # 使用 GitHub CLI 添加标签
@@ -280,7 +286,7 @@ jobs:
       - name: 通知墨子
         run: |
           echo "@墨子 你的 PR #${{ github.event.pull_request.number }} 已提交，等待白泽审查"
-          
+
       - name: 通知白泽
         run: |
           echo "@白泽 有新的 PR 需要审查：#${{ github.event.pull_request.number }}"
@@ -362,5 +368,5 @@ curl -X POST https://api.github.com/repos/xihe-lab/xihe-zone/hooks \
 
 ---
 
-*配置时间：2026-02-28*  
-*羲和实验室 Xihe Lab*
+_配置时间：2026-02-28_  
+_羲和实验室 Xihe Lab_

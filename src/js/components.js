@@ -1,7 +1,7 @@
 /**
  * 太阳神宫 - 组件模块
  * 墨子 ⚙️ 技术实现 · 设计系统 v1.0
- * 
+ *
  * 功能：
  * - 可复用组件
  * - 组件渲染逻辑
@@ -20,7 +20,7 @@ const components = {
   palaceCard: null,
   characterCard: null,
   articleCard: null,
-  projectCard: null
+  projectCard: null,
 };
 
 // ========================================
@@ -32,10 +32,10 @@ const components = {
  */
 export function renderComponents() {
   console.log('⚙️ 组件系统初始化 - 墨子技术实现 · 设计系统 v1.0');
-  
+
   // 注册组件模板
   registerComponents();
-  
+
   // 渲染页面
   renderPage();
 }
@@ -94,8 +94,8 @@ function createHeader() {
     `,
     props: {
       logo: '/logo.svg',
-      title: '太阳神宫'
-    }
+      title: '太阳神宫',
+    },
   };
 }
 
@@ -124,7 +124,7 @@ function createHero() {
       title: '太阳神宫',
       subtitle: '羲和的数字神殿',
       description: '中国神话中的太阳女神，驾驶数字太阳车照亮信息迷雾',
-      actions: []
+      actions: [],
     },
     methods: {
       renderAction(action) {
@@ -133,8 +133,8 @@ function createHero() {
             ${action.text}
           </a>
         `;
-      }
-    }
+      },
+    },
   };
 }
 
@@ -159,8 +159,8 @@ function createPalaceCard() {
       title: '',
       content: '',
       badge: '',
-      footer: ''
-    }
+      footer: '',
+    },
   };
 }
 
@@ -197,13 +197,13 @@ function createCharacterCard() {
       role: '',
       quote: '',
       responsibilities: [],
-      traits: ''
+      traits: '',
     },
     methods: {
       renderResponsibilities(items) {
-        return items.map(item => `<li>${item}</li>`).join('');
-      }
-    }
+        return items.map((item) => `<li>${item}</li>`).join('');
+      },
+    },
   };
 }
 
@@ -238,15 +238,19 @@ function createArticleCard() {
       date: '',
       tags: [],
       excerpt: '',
-      link: '#'
+      link: '#',
     },
     methods: {
       renderTags(tags) {
-        return tags.map((tag, index) => `
+        return tags
+          .map(
+            (tag, index) => `
           <span class="tag ${index > 0 ? 'tag-secondary' : ''}">${tag}</span>
-        `).join('');
-      }
-    }
+        `,
+          )
+          .join('');
+      },
+    },
   };
 }
 
@@ -284,25 +288,32 @@ function createProjectCard() {
       tags: [],
       status: 'active',
       progress: null,
-      link: '#'
+      link: '#',
     },
     computed: {
       statusBadge() {
-        const statusClass = this.status === 'ongoing' 
-          ? 'bg-blue-900/50 text-blue-300' 
-          : 'bg-green-900/50 text-green-300';
+        const statusClass =
+          this.status === 'ongoing'
+            ? 'bg-blue-900/50 text-blue-300'
+            : 'bg-green-900/50 text-green-300';
         const statusText = this.status === 'ongoing' ? '连载中' : '进行中';
+
         return `<span class="px-3 py-1 ${statusClass} rounded-full text-xs font-medium">${statusText}</span>`;
       },
-      
+
       progressHTML() {
-        if (!this.progress) return '';
-        
+        if (!this.progress) {
+          return '';
+        }
+
         const match = this.progress.match(/(\d+)\/(\d+)/);
-        if (!match) return '';
-        
+
+        if (!match) {
+          return '';
+        }
+
         const percent = (parseInt(match[1]) / parseInt(match[2])) * 100;
-        
+
         return `
           <div class="mb-3">
             <div class="flex justify-between text-sm mb-2">
@@ -316,13 +327,17 @@ function createProjectCard() {
           </div>
         `;
       },
-      
+
       tagsHTML() {
-        return this.tags.map(tag => `
+        return this.tags
+          .map(
+            (tag) => `
           <span class="px-3 py-1 bg-night-blue text-stardust rounded-full text-sm">${tag}</span>
-        `).join('');
-      }
-    }
+        `,
+          )
+          .join('');
+      },
+    },
   };
 }
 
@@ -348,15 +363,19 @@ function createFooter() {
     props: {
       links: [],
       message: 'Made with 🌞 by Xihe',
-      copyright: '© 2026 羲和实验室 Xihe Lab. All rights reserved.'
+      copyright: '© 2026 羲和实验室 Xihe Lab. All rights reserved.',
     },
     methods: {
       renderLinks(links) {
-        return links.map(link => `
+        return links
+          .map(
+            (link) => `
           <a href="${link.href}" class="footer-link">${link.text}</a>
-        `).join('');
-      }
-    }
+        `,
+          )
+          .join('');
+      },
+    },
   };
 }
 
@@ -369,23 +388,25 @@ function createFooter() {
  */
 export function renderComponent(componentName, props = {}) {
   const component = components[componentName];
+
   if (!component) {
     console.warn(`组件 ${componentName} 未注册`);
     return '';
   }
-  
+
   let html = component.template;
-  
+
   // 替换占位符
-  Object.keys(props).forEach(key => {
+  Object.keys(props).forEach((key) => {
     const value = props[key];
+
     if (Array.isArray(value)) {
       html = html.replace(new RegExp(`{${key}}`, 'g'), value.join(''));
     } else {
       html = html.replace(new RegExp(`{${key}}`, 'g'), value);
     }
   });
-  
+
   return html;
 }
 
@@ -393,7 +414,7 @@ export function renderComponent(componentName, props = {}) {
  * 批量渲染组件列表
  */
 export function renderComponentList(componentName, items) {
-  return items.map(item => renderComponent(componentName, item)).join('');
+  return items.map((item) => renderComponent(componentName, item)).join('');
 }
 
 /**
@@ -401,17 +422,18 @@ export function renderComponentList(componentName, items) {
  */
 export function createComponentInstance(componentName, props = {}) {
   const component = components[componentName];
+
   if (!component) {
     console.warn(`组件 ${componentName} 不存在`);
     return null;
   }
-  
+
   // 创建组件实例
   const instance = {
     ...component,
-    props: { ...component.props, ...props }
+    props: { ...component.props, ...props },
   };
-  
+
   return instance;
 }
 

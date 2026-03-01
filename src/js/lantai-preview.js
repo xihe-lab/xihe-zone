@@ -4,8 +4,20 @@
  * 作者：鲁班 🔨
  */
 
+/* global marked */
+
 // 使用绝对路径，适配 GitHub Pages 环境
 const LANTAI_DATA_PATH = '/lantai/data.json';
+
+/**
+ * HTML 转义工具函数（防止 XSS）
+ */
+function escapeHtml(text) {
+  const div = document.createElement('div');
+
+  div.textContent = text;
+  return div.innerHTML;
+}
 
 /**
  * 加载兰台数据
@@ -13,13 +25,15 @@ const LANTAI_DATA_PATH = '/lantai/data.json';
 async function loadLantaiData() {
   try {
     const response = await fetch(LANTAI_DATA_PATH);
+
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     const data = await response.json();
+
     return data;
   } catch (error) {
-    console.error('加载兰台数据失败:', error);
+    // 加载失败，静默处理
     return null;
   }
 }
@@ -29,9 +43,8 @@ async function loadLantaiData() {
  */
 function renderDocumentCard(doc) {
   const isExternal = doc.source === 'external';
-  const targetUrl = isExternal ? doc.file_path : '#';
   const isPdf = doc.file_path?.endsWith('.pdf');
-  
+
   return `
     <div class="lantai-doc-card fade-in" data-doc-id="${doc.id}">
       <div class="doc-header">
@@ -46,7 +59,7 @@ function renderDocumentCard(doc) {
         <span class="doc-tag">${doc.type}</span>
         <span class="doc-source-tag ${doc.source}">${doc.source === 'internal' ? '内部规范' : '外部法规'}</span>
         <button class="doc-view-btn sun-button" data-doc-id="${doc.id}" data-is-external="${isExternal}" data-url="${doc.file_path}">
-          ${isPdf ? '查看 PDF' : (isExternal ? '访问链接' : '📄 查看文档')}
+          ${isPdf ? '查看 PDF' : isExternal ? '访问链接' : '📄 查看文档'}
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
           </svg>
@@ -59,43 +72,63 @@ function renderDocumentCard(doc) {
 /**
  * 显示文档详情弹窗
  */
-function showDocumentModal(doc) {
+async function showDocumentModal(doc) {
+  // 如果是外部链接，直接打开
+  if (doc.file_path.startsWith('http')) {
+    window.open(doc.file_path, '_blank');
+    return;
+  }
+
   const modal = document.querySelector('.document-modal');
   const modalTitle = modal.querySelector('.document-modal-title');
   const modalContent = modal.querySelector('.document-modal-content');
   const modalMeta = modal.querySelector('.document-meta');
-  
+
   // 设置标题
   modalTitle.textContent = doc.title;
-  
+
   // 设置元信息
   modalMeta.innerHTML = `
     <span class="meta-tag">${doc.type}</span>
     <span class="meta-tag">负责人：${doc.charge_pinyin ? `<ruby>${escapeHtml(doc.charge_person)}<rt>${escapeHtml(doc.charge_pinyin)}</rt></ruby>` : escapeHtml(doc.charge_person)}</span>
     <span class="meta-tag">${doc.source === 'internal' ? '内部规范' : '外部法规'}</span>
   `;
-  
-  // 使用 marked.js 渲染 Markdown 内容
-  const markdownContent = doc.content || doc.desc || '暂无详细内容';
-  
-  // 调试输出
-  console.log('Markdown 内容:', markdownContent);
-  console.log('marked 是否可用:', typeof marked);
-  
-  let html;
-  if (typeof marked !== 'undefined' && typeof marked.parse === 'function') {
-    html = marked.parse(markdownContent);
-  } else {
-    console.warn('marked.js 未加载，使用纯文本');
-    html = `<p>${markdownContent}</p>`;
+
+  try {
+    // 优先使用 doc.content，如果没有则尝试从 file_path 加载
+    let markdownContent;
+
+    if (doc.content) {
+      markdownContent = doc.content;
+    } else if (doc.file_path) {
+      const response = await fetch(doc.file_path);
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      markdownContent = await response.text();
+    } else {
+      markdownContent = doc.desc || '暂无详细内容';
+    }
+
+    let html;
+
+    if (typeof marked !== 'undefined' && typeof marked.parse === 'function') {
+      html = marked.parse(markdownContent);
+    } else {
+      html = `<p>${markdownContent.replace(/\n/g, '<br>')}</p>`;
+    }
+
+    modalContent.innerHTML = html;
+
+    // 显示弹窗
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden'; // 禁止背景滚动
+  } catch (error) {
+    modalContent.innerHTML = `<p class="text-red-500">加载文档内容失败：${error.message}</p>`;
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
   }
-  
-  console.log('渲染后 HTML:', html);
-  modalContent.innerHTML = html;
-  
-  // 显示弹窗
-  modal.style.display = 'flex';
-  document.body.style.overflow = 'hidden'; // 禁止背景滚动
 }
 
 /**
@@ -103,6 +136,7 @@ function showDocumentModal(doc) {
  */
 function closeDocumentModal() {
   const modal = document.querySelector('.document-modal');
+
   modal.style.display = 'none';
   document.body.style.overflow = ''; // 恢复背景滚动
 }
@@ -111,9 +145,8 @@ function closeDocumentModal() {
  * 渲染文档列表
  */
 function renderDocuments(documents, container) {
-  console.log('兰台数据:', window.lantaiData);
-  console.log('内部文档:', documents);
-  
+  // 数据已加载
+
   if (!documents || documents.length === 0) {
     container.innerHTML = `
       <div class="lantai-empty-state">
@@ -123,7 +156,8 @@ function renderDocuments(documents, container) {
     return;
   }
 
-  const html = documents.map(doc => renderDocumentCard(doc)).join('');
+  const html = documents.map((doc) => renderDocumentCard(doc)).join('');
+
   container.innerHTML = html;
 
   // 添加 visible 类使 fade-in 元素显示
@@ -134,7 +168,7 @@ function renderDocuments(documents, container) {
   });
 
   // 绑定点击事件
-  container.querySelectorAll('.doc-view-btn').forEach(btn => {
+  container.querySelectorAll('.doc-view-btn').forEach((btn) => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
       const docId = btn.dataset.docId;
@@ -146,15 +180,16 @@ function renderDocuments(documents, container) {
         window.open(url, '_blank');
       } else {
         // 内部文档显示弹窗
-        const doc = window.lantaiData?.documents?.find(d => d.id == docId);
+        const doc = window.lantaiData?.documents?.find((d) => d.id == docId);
+
         if (doc) {
           showDocumentModal(doc);
         }
       }
     });
   });
-  
-  console.log('渲染完成');
+
+  // 渲染完成
 }
 
 /**
@@ -176,6 +211,7 @@ function injectModalHTML() {
       </div>
     </div>
   `;
+
   document.body.insertAdjacentHTML('beforeend', modalHTML);
 }
 
@@ -184,21 +220,21 @@ function injectModalHTML() {
  */
 function attachModalEvents() {
   // 点击遮罩关闭
-  document.addEventListener('click', function(e) {
+  document.addEventListener('click', (e) => {
     if (e.target.classList.contains('document-modal-overlay')) {
       closeDocumentModal();
     }
   });
-  
+
   // 点击关闭按钮
-  document.addEventListener('click', function(e) {
+  document.addEventListener('click', (e) => {
     if (e.target.classList.contains('modal-close-btn')) {
       closeDocumentModal();
     }
   });
-  
+
   // ESC 键关闭
-  document.addEventListener('keydown', function(e) {
+  document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
       closeDocumentModal();
     }
@@ -210,39 +246,35 @@ function attachModalEvents() {
  */
 async function initLantai() {
   const container = document.getElementById('lantai-documents');
+
   if (!container) {
-    console.warn('兰台容器未找到');
+    // 兰台容器未找到
     return;
   }
 
-  console.log('开始初始化兰台组件...');
+  // 开始初始化兰台组件
 
   // 注入弹窗 HTML
   injectModalHTML();
-  
+
   // 初始化弹窗事件
   attachModalEvents();
 
   // 加载数据
   const data = await loadLantaiData();
+
   if (!data || !data.documents) {
     container.innerHTML = `
       <div class="lantai-error">
         <p>加载失败，请稍后重试</p>
       </div>
     `;
-    console.error('兰台数据加载失败');
     return;
   }
 
-  // 保存数据到全局变量供调试使用
-  window.lantaiData = data;
-  console.log('兰台数据加载成功:', data);
-
   // 仅展示内部规范（source === 'internal'）
-  const internalDocs = data.documents.filter(doc => doc.source === 'internal');
-  console.log('过滤后的内部文档数量:', internalDocs.length);
-  
+  const internalDocs = data.documents.filter((doc) => doc.source === 'internal');
+
   // 渲染文档列表
   renderDocuments(internalDocs, container);
 }

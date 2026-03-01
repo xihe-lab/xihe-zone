@@ -14,6 +14,7 @@ npm install
 ```
 
 这将安装：
+
 - ✅ ESLint - JavaScript 代码检查
 - ✅ Stylelint - CSS 代码检查
 - ✅ Prettier - 代码格式化
@@ -111,10 +112,10 @@ npm run format:check
 
 ## 📖 审查文档
 
-| 文档 | 用途 |
-|------|------|
-| `CODE_REVIEW.md` | 审查流程、清单、规范 |
-| `CODE_REVIEW_REPORT.md` | 审查报告模板和实例 |
+| 文档                        | 用途                 |
+| --------------------------- | -------------------- |
+| `CODE_REVIEW.md`            | 审查流程、清单、规范 |
+| `CODE_REVIEW_REPORT.md`     | 审查报告模板和实例   |
 | `CODE_REVIEW_QUICKSTART.md` | 本文件，快速上手指南 |
 
 ---
@@ -184,5 +185,5 @@ A: 查看 GitHub Actions 日志，根据错误信息修复。通常是 lint 或 
 
 ---
 
-*白泽 📖 · 羲和实验室代码审查系统*  
-*最后更新：2026-02-28*
+_白泽 📖 · 羲和实验室代码审查系统_  
+_最后更新：2026-02-28_

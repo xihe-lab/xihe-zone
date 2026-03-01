@@ -2,7 +2,7 @@
  * 太阳神宫 · 日光加载动画样式
  * 设计：鲁班 🔨
  * 技术实现：墨子 ⚙️
- * 
+ *
  * 动画时序：
  * 0ms       → 开场全屏黑底
  * 500ms     → 中央金色光点亮起
@@ -12,7 +12,7 @@
  * 3000-6000ms → 文字逐行显示（10 行×300ms）
  * 6000ms    → 全文定格（用户阅读）
  * 8000ms    → 淡出进入首页
- * 
+ *
  * 特性：
  * - 纯 CSS 光晕效果（无需外部图片）
  * - GPU 加速动画
@@ -26,9 +26,10 @@
 function initLoadingGate() {
   // 创建加载动画容器
   const loadingGate = document.createElement('div');
+
   loadingGate.className = 'loading-gate sun-gate';
   loadingGate.id = 'loadingGate';
-  
+
   loadingGate.innerHTML = `
     <!-- 全屏黑底 -->
     <div class="gate-blackout"></div>
@@ -62,16 +63,17 @@ function initLoadingGate() {
       <p class="sun-line empty" style="opacity: 0;"></p>
     </div>
   `;
-  
+
   // 添加到页面
   document.body.insertBefore(loadingGate, document.body.firstChild);
-  
+
   // 添加样式
   const style = document.createElement('style');
+
   style.id = 'loadingGateStyles';
   style.textContent = getSunGateStyles();
   document.head.appendChild(style);
-  
+
   // 执行动画序列
   runSunAnimation(loadingGate);
 }
@@ -88,50 +90,51 @@ function runSunAnimation(loadingGate) {
     textRevealStart: 3000,
     textRevealEnd: 6000,
     textHold: 6000,
-    fadeOut: 8000
+    fadeOut: 8000,
   };
-  
+
   // 0ms - 初始状态（黑屏）
   setTimeout(() => {
     loadingGate.classList.add('gate-visible');
   }, timeline.start);
-  
+
   // 500ms - 中央金色光点亮起
   setTimeout(() => {
     loadingGate.classList.add('core-light-on');
   }, timeline.coreLight);
-  
+
   // 1500ms - 形成日光光晕
   setTimeout(() => {
     loadingGate.classList.add('halo-forming');
   }, timeline.haloForm);
-  
+
   // 2500ms - 光晕向外扫屏展开
   setTimeout(() => {
     loadingGate.classList.add('sweep-expanding');
   }, timeline.sweepExpand);
-  
+
   // 3000ms - 文字开始逐行渐显
   setTimeout(() => {
     loadingGate.classList.add('text-revealing');
     revealTextLines(loadingGate);
   }, timeline.textRevealStart);
-  
+
   // 6000ms - 全文定格（用户阅读时间）
   setTimeout(() => {
     loadingGate.classList.add('text-hold');
   }, timeline.textHold);
-  
+
   // 8000ms - 淡出进入首页
   setTimeout(() => {
     loadingGate.classList.add('gate-fading');
-    
+
     // 移除元素
     setTimeout(() => {
       if (loadingGate.parentNode) {
         loadingGate.parentNode.removeChild(loadingGate);
       }
       const style = document.getElementById('loadingGateStyles');
+
       if (style && style.parentNode) {
         style.parentNode.removeChild(style);
       }
@@ -144,10 +147,10 @@ function runSunAnimation(loadingGate) {
  */
 function revealTextLines(loadingGate) {
   const lines = loadingGate.querySelectorAll('.sun-line.has-text');
-  
+
   lines.forEach((line, index) => {
     const delayTime = index * 300;
-    
+
     setTimeout(() => {
       line.classList.add('line-revealed');
       line.style.opacity = '1';

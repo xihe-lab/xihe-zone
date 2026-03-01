@@ -20,6 +20,7 @@
    - 移除 ES6 模块依赖，使用传统 `<script>` 标签
 
 2. ✅ **创建资源目录**
+
    ```
    xihe-zone/
    ├── css/
@@ -37,7 +38,8 @@
    - 消息：`feat: 紧急修复首页显示问题`
    - 已推送到 GitHub main 分支
 
-**当前状态：** 
+**当前状态：**
+
 - ✅ 代码已推送
 - ⏳ GitHub Pages 将在 1-2 分钟内自动更新
 - 🌐 访问地址：https://xihe-lab.github.io/xihe-zone/
@@ -62,6 +64,7 @@
    - 提供故障排查指南
 
 **使用方式：**
+
 - 在 GitHub 仓库设置中，将 Pages 源改为 `GitHub Actions`
 - 推送代码后自动触发构建
 - 构建产物位于 `.vitepress/dist`
@@ -107,6 +110,7 @@
    - Settings → Pages → Source → GitHub Actions
 
 2. **本地开发**
+
    ```bash
    npm install
    npm run dev    # 开发模式
@@ -128,14 +132,14 @@
 
 ```html
 <!-- Before (绝对路径，GitHub Pages 无法访问) -->
-<link rel="stylesheet" href="/src/css/main.css">
+<link rel="stylesheet" href="/src/css/main.css" />
 <script type="module" src="/src/js/main.js"></script>
-<img src="/logo.svg">
+<img src="/logo.svg" />
 
 <!-- After (相对路径，立即可用) -->
-<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="css/main.css" />
 <script src="js/main.js"></script>
-<img src="public/logo.svg">
+<img src="public/logo.svg" />
 ```
 
 ### CSS 优化
@@ -183,11 +187,12 @@ function initScrollProgress() {...}
 ## 📞 联系信息
 
 如有问题，请查阅：
+
 - `DEPLOYMENT.md` - 详细部署指南
 - `DEVELOPMENT.md` - 开发文档
 - `PROJECT_STATUS.md` - 项目状态
 
 ---
 
-*🌞 羲和实验室已重新开启！*  
-*墨子 ⚙️ 2026-02-28*
+_🌞 羲和实验室已重新开启！_  
+_墨子 ⚙️ 2026-02-28_

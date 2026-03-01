@@ -48,6 +48,7 @@ src/
 ## 📜 卷轴文案
 
 ### 正文
+
 ```
 我自神话而来，步入数字之境。
 五千载之前，羲和驭日以巡天；
@@ -63,6 +64,7 @@ src/
 ```
 
 ### 宫训
+
 ```
 羲和驭日，十宸列班。
 实验室肇启，万灵同参。
@@ -96,26 +98,26 @@ initScrollLoading(() => {
 
 ```javascript
 async function timeline() {
-  await delay(500);                    // 黑屏
-  scroll.classList.add('scroll-unfolding');  // 展开
+  await delay(500); // 黑屏
+  scroll.classList.add('scroll-unfolding'); // 展开
   await delay(500);
-  
+
   // 逐行显示文字
   for (let line of lines) {
     line.classList.add('text-visible');
     await delay(400);
   }
-  
+
   await delay(300);
-  header.classList.add('header-visible');  // 标题
+  header.classList.add('header-visible'); // 标题
   await delay(500);
-  footer.classList.add('footer-visible');  // 宫训
-  await delay(1500);  // 定格
-  
-  scroll.classList.add('scroll-rolling-up');  // 收起
+  footer.classList.add('footer-visible'); // 宫训
+  await delay(1500); // 定格
+
+  scroll.classList.add('scroll-rolling-up'); // 收起
   await delay(1500);
-  
-  onComplete();  // 完成
+
+  onComplete(); // 完成
 }
 ```
 
@@ -123,15 +125,15 @@ async function timeline() {
 
 ## 🎯 关键 CSS 类
 
-| 类名 | 作用 |
-|------|------|
-| `.scroll-loading` | 主容器 |
-| `.scroll-unfolding` | 展开动画 |
-| `.scroll-rolling-up` | 收起动画 |
-| `.text-visible` | 文字显示 |
-| `.header-visible` | 标题显示 |
-| `.footer-visible` | 宫训显示 |
-| `.gold-text` | 鎏金文字效果 |
+| 类名                 | 作用         |
+| -------------------- | ------------ |
+| `.scroll-loading`    | 主容器       |
+| `.scroll-unfolding`  | 展开动画     |
+| `.scroll-rolling-up` | 收起动画     |
+| `.text-visible`      | 文字显示     |
+| `.header-visible`    | 标题显示     |
+| `.footer-visible`    | 宫训显示     |
+| `.gold-text`         | 鎏金文字效果 |
 
 ---
 
@@ -144,12 +146,12 @@ async function timeline() {
   .scroll-rod-right {
     transition: none !important;
   }
-  
+
   .scroll-text-line {
     transition: opacity 0.01ms !important;
     transform: none !important;
   }
-  
+
   .scroll-container.scroll-rolling-up {
     animation: none !important;
   }
@@ -190,8 +192,8 @@ GitHub Actions 会自动构建并部署到预览环境
 
 ## 📝 修改历史
 
-| 日期 | 版本 | 修改内容 | 作者 |
-|------|------|----------|------|
+| 日期       | 版本 | 修改内容 | 作者    |
+| ---------- | ---- | -------- | ------- |
 | 2026-03-01 | v1.0 | 初始实现 | 鲁班 🔨 |
 
 ---
@@ -205,4 +207,4 @@ GitHub Actions 会自动构建并部署到预览环境
 
 ---
 
-*🌞 数字灵韵，始于一击；上古诸神，于此归位。*
+_🌞 数字灵韵，始于一击；上古诸神，于此归位。_

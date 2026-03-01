@@ -1,7 +1,7 @@
 /**
  * 兰台板块 - 数据模块
  * 羲和实验室 - 内部规范文档管理
- * 
+ *
  * @author 墨子 ⚙️
  * @version 1.1.0
  * @note 2026-03-01 调整：仅展示内部规范（4 份），国家法规暂不展示
@@ -9,54 +9,54 @@
 
 // 原始数据（从 lantai.json 加载 - 仅内部规范）
 const RAW_DATA = {
-  "platform": "羲和实验室 - 兰台",
-  "category": "内部规范",
-  "documents": [
+  platform: '羲和实验室 - 兰台',
+  category: '内部规范',
+  documents: [
     {
-      "id": 1001,
-      "title": "羲和实验室合规手册",
-      "desc": "内容合规、文化使用、网站运营、风险审核总规范",
-      "charge_person": "皋陶",
-      "need_pinyin": true,
-      "pinyin": "gāo yáo",
-      "file_path": "/lantai/docs/xihe-compliance-manual.pdf",
-      "source": "internal",
-      "type": "合规规范"
+      id: 1001,
+      title: '羲和实验室合规手册',
+      desc: '内容合规、文化使用、网站运营、风险审核总规范',
+      charge_person: '皋陶',
+      need_pinyin: true,
+      pinyin: 'gāo yáo',
+      file_path: '/lantai/docs/xihe-compliance-manual.pdf',
+      source: 'internal',
+      type: '合规规范',
     },
     {
-      "id": 1002,
-      "title": "羲和实验室 · 智能体团队规范",
-      "desc": "团队分工、协作机制、角色职责、行为准则",
-      "charge_person": "陆压 / 皋陶",
-      "need_pinyin": true,
-      "pinyin": "gāo yáo",
-      "file_path": "/lantai/docs/agent-team-spec.pdf",
-      "source": "internal",
-      "type": "团队规范"
+      id: 1002,
+      title: '羲和实验室 · 智能体团队规范',
+      desc: '团队分工、协作机制、角色职责、行为准则',
+      charge_person: '陆压 / 皋陶',
+      need_pinyin: true,
+      pinyin: 'gāo yáo',
+      file_path: '/lantai/docs/agent-team-spec.pdf',
+      source: 'internal',
+      type: '团队规范',
     },
     {
-      "id": 1003,
-      "title": "内容审核与红线标准",
-      "desc": "官网内容发布前必须遵守的审核清单",
-      "charge_person": "皋陶",
-      "need_pinyin": true,
-      "pinyin": "gāo yáo",
-      "file_path": "/lantai/docs/content-audit-rules.pdf",
-      "source": "internal",
-      "type": "审核规范"
+      id: 1003,
+      title: '内容审核与红线标准',
+      desc: '官网内容发布前必须遵守的审核清单',
+      charge_person: '皋陶',
+      need_pinyin: true,
+      pinyin: 'gāo yáo',
+      file_path: '/lantai/docs/content-audit-rules.pdf',
+      source: 'internal',
+      type: '审核规范',
     },
     {
-      "id": 1004,
-      "title": "数据安全与隐私保护指南",
-      "desc": "用户信息、数据收集、存储、使用的合规要求",
-      "charge_person": "皋陶",
-      "need_pinyin": true,
-      "pinyin": "gāo yáo",
-      "file_path": "/lantai/docs/data-security-privacy.pdf",
-      "source": "internal",
-      "type": "数据合规"
-    }
-  ]
+      id: 1004,
+      title: '数据安全与隐私保护指南',
+      desc: '用户信息、数据收集、存储、使用的合规要求',
+      charge_person: '皋陶',
+      need_pinyin: true,
+      pinyin: 'gāo yáo',
+      file_path: '/lantai/docs/data-security-privacy.pdf',
+      source: 'internal',
+      type: '数据合规',
+    },
+  ],
 };
 
 /**
@@ -67,7 +67,7 @@ const DOC_TYPES = {
   TEAM: '团队规范',
   AUDIT: '审核规范',
   DATA: '数据合规',
-  NATIONAL_LAW: '国家法规'
+  NATIONAL_LAW: '国家法规',
 };
 
 /**
@@ -75,7 +75,7 @@ const DOC_TYPES = {
  */
 const SOURCE_TYPES = {
   INTERNAL: 'internal',
-  EXTERNAL: 'external'
+  EXTERNAL: 'external',
 };
 
 /**
@@ -92,7 +92,8 @@ function getAllDocuments() {
  */
 function groupByType() {
   const grouped = {};
-  RAW_DATA.documents.forEach(doc => {
+
+  RAW_DATA.documents.forEach((doc) => {
     if (!grouped[doc.type]) {
       grouped[doc.type] = [];
     }
@@ -107,8 +108,8 @@ function groupByType() {
  */
 function groupBySource() {
   return {
-    internal: RAW_DATA.documents.filter(doc => doc.source === SOURCE_TYPES.INTERNAL),
-    external: RAW_DATA.documents.filter(doc => doc.source === SOURCE_TYPES.EXTERNAL)
+    internal: RAW_DATA.documents.filter((doc) => doc.source === SOURCE_TYPES.INTERNAL),
+    external: RAW_DATA.documents.filter((doc) => doc.source === SOURCE_TYPES.EXTERNAL),
   };
 }
 
@@ -118,7 +119,7 @@ function groupBySource() {
  * @returns {Object|null} 文档对象或 null
  */
 function getDocumentById(id) {
-  return RAW_DATA.documents.find(doc => doc.id === id) || null;
+  return RAW_DATA.documents.find((doc) => doc.id === id) || null;
 }
 
 /**
@@ -131,10 +132,12 @@ function searchDocuments(keyword) {
     return RAW_DATA.documents;
   }
   const lowerKeyword = keyword.toLowerCase().trim();
-  return RAW_DATA.documents.filter(doc => 
-    doc.title.toLowerCase().includes(lowerKeyword) ||
-    doc.desc.toLowerCase().includes(lowerKeyword) ||
-    doc.charge_person.toLowerCase().includes(lowerKeyword)
+
+  return RAW_DATA.documents.filter(
+    (doc) =>
+      doc.title.toLowerCase().includes(lowerKeyword) ||
+      doc.desc.toLowerCase().includes(lowerKeyword) ||
+      doc.charge_person.toLowerCase().includes(lowerKeyword),
   );
 }
 
@@ -144,7 +147,7 @@ function searchDocuments(keyword) {
  * @returns {Array} 匹配的文档列表
  */
 function filterByType(type) {
-  return RAW_DATA.documents.filter(doc => doc.type === type);
+  return RAW_DATA.documents.filter((doc) => doc.type === type);
 }
 
 /**
@@ -153,7 +156,7 @@ function filterByType(type) {
  * @returns {Array} 匹配的文档列表
  */
 function filterBySource(source) {
-  return RAW_DATA.documents.filter(doc => doc.source === source);
+  return RAW_DATA.documents.filter((doc) => doc.source === source);
 }
 
 /**
@@ -162,7 +165,9 @@ function filterBySource(source) {
  * @returns {string} 文档链接
  */
 function getDocumentLink(doc) {
-  if (!doc) return '#';
+  if (!doc) {
+    return '#';
+  }
   return doc.file_path || '#';
 }
 
@@ -172,9 +177,12 @@ function getDocumentLink(doc) {
  * @returns {boolean} 是否为外部链接
  */
 function isExternalLink(doc) {
-  if (!doc) return false;
-  return doc.source === SOURCE_TYPES.EXTERNAL || 
-         (doc.file_path && doc.file_path.startsWith('http'));
+  if (!doc) {
+    return false;
+  }
+  return (
+    doc.source === SOURCE_TYPES.EXTERNAL || (doc.file_path && doc.file_path.startsWith('http'))
+  );
 }
 
 /**
@@ -185,7 +193,7 @@ function getPlatformInfo() {
   return {
     platform: RAW_DATA.platform,
     category: RAW_DATA.category,
-    totalDocuments: RAW_DATA.documents.length
+    totalDocuments: RAW_DATA.documents.length,
   };
 }
 
@@ -196,17 +204,17 @@ function getPlatformInfo() {
 function getStatistics() {
   const byType = groupByType();
   const bySource = groupBySource();
-  
+
   return {
     total: RAW_DATA.documents.length,
-    byType: Object.keys(byType).map(type => ({
+    byType: Object.keys(byType).map((type) => ({
       type: type,
-      count: byType[type].length
+      count: byType[type].length,
     })),
     bySource: {
       internal: bySource.internal.length,
-      external: bySource.external.length
-    }
+      external: bySource.external.length,
+    },
   };
 }
 
@@ -226,7 +234,7 @@ if (typeof module !== 'undefined' && module.exports) {
     getDocumentLink,
     isExternalLink,
     getPlatformInfo,
-    getStatistics
+    getStatistics,
   };
 }
 
@@ -246,6 +254,6 @@ if (typeof window !== 'undefined') {
     getDocumentLink,
     isExternalLink,
     getPlatformInfo,
-    getStatistics
+    getStatistics,
   };
 }

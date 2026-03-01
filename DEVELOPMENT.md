@@ -91,6 +91,7 @@ xihe-zone/
 当前状态：⏳ 等待鲁班 🔨 输出详细设计规范
 
 需要确认的内容：
+
 - 色彩方案（主色、辅助色、渐变色）
 - 字体选择（标题字体、正文字体）
 - 布局设计（页面结构、间距规范）
@@ -115,10 +116,10 @@ function renderHero() {
 **方式二：使用 VitePress Markdown**
 
 ```markdown
-<!-- index.md -->
----
-layout: home
-title: 羲和实验室
+## <!-- index.md -->
+
+layout: home title: 羲和实验室
+
 ---
 
 # 欢迎来到羲和实验室
@@ -139,7 +140,7 @@ export function createNewComponent() {
     `,
     props: {
       // 组件属性
-    }
+    },
   };
 }
 ```
@@ -169,11 +170,11 @@ module.exports = {
           50: '#fffbeb',
           500: '#f59e0b', // 主金色
           900: '#78350f',
-        }
-      }
-    }
-  }
-}
+        },
+      },
+    },
+  },
+};
 ```
 
 ### 自定义 CSS 变量
@@ -208,14 +209,14 @@ colors: {
 
 ### 内置组件
 
-| 组件名 | 说明 | 使用位置 |
-|--------|------|----------|
-| `Hero` | 首页英雄区域 | 页面顶部 |
-| `FeatureCard` | 特性展示卡片 | 核心能力区 |
-| `ContentSection` | 内容区块 | 各章节 |
-| `ProjectCard` | 项目展示卡片 | 项目区 |
-| `ArticleCard` | 文章卡片 | 文章区 |
-| `Footer` | 页脚 | 页面底部 |
+| 组件名           | 说明         | 使用位置   |
+| ---------------- | ------------ | ---------- |
+| `Hero`           | 首页英雄区域 | 页面顶部   |
+| `FeatureCard`    | 特性展示卡片 | 核心能力区 |
+| `ContentSection` | 内容区块     | 各章节     |
+| `ProjectCard`    | 项目展示卡片 | 项目区     |
+| `ArticleCard`    | 文章卡片     | 文章区     |
+| `Footer`         | 页脚         | 页面底部   |
 
 ### 使用示例
 
@@ -226,7 +227,7 @@ import { renderComponent } from './components.js';
 const html = renderComponent('featureCard', {
   icon: '🤖',
   title: 'AI 助手',
-  details: '24 小时在线'
+  details: '24 小时在线',
 });
 ```
 
@@ -247,23 +248,25 @@ const html = renderComponent('featureCard', {
 
 ### Lighthouse 目标
 
-| 指标 | 目标值 | 当前状态 |
-|------|--------|----------|
-| Performance | > 90 | ⏳ 待测试 |
-| Accessibility | > 90 | ⏳ 待测试 |
-| Best Practices | > 90 | ⏳ 待测试 |
-| SEO | > 90 | ⏳ 待测试 |
+| 指标           | 目标值 | 当前状态  |
+| -------------- | ------ | --------- |
+| Performance    | > 90   | ⏳ 待测试 |
+| Accessibility  | > 90   | ⏳ 待测试 |
+| Best Practices | > 90   | ⏳ 待测试 |
+| SEO            | > 90   | ⏳ 待测试 |
 
 ### 优化建议
 
 1. **图片优化**
+
    ```html
    <img src="image.webp" alt="..." loading="lazy" />
    ```
 
 2. **字体优化**
+
    ```html
-   <link rel="preconnect" href="https://fonts.googleapis.com">
+   <link rel="preconnect" href="https://fonts.googleapis.com" />
    ```
 
 3. **代码分割**
@@ -322,6 +325,7 @@ dist/
 ### Q1: 开发服务器无法启动
 
 **解决方案：**
+
 ```bash
 # 删除 node_modules 和 lock 文件
 rm -rf node_modules package-lock.json
@@ -336,6 +340,7 @@ npm run dev
 ### Q2: 样式不生效
 
 **检查清单：**
+
 - [ ] Tailwind CSS 是否正确配置
 - [ ] CSS 文件是否正确引入
 - [ ] 浏览器缓存是否清除
@@ -343,6 +348,7 @@ npm run dev
 ### Q3: 动画效果卡顿
 
 **优化方案：**
+
 - 减少同时进行的动画数量
 - 使用 CSS transform 代替 position
 - 使用 requestAnimationFrame
@@ -350,6 +356,7 @@ npm run dev
 ### Q4: 移动端显示异常
 
 **调试步骤：**
+
 1. 使用浏览器开发者工具切换到移动模式
 2. 检查断点设置是否正确
 3. 测试不同尺寸设备

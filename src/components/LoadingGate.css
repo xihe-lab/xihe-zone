@@ -50,10 +50,10 @@
   position: absolute;
   width: 200px;
   height: 200px;
-  background: radial-gradient(circle, #FCD34D 0%, #F59E0B 40%, #D97706 70%, transparent 80%);
+  background: radial-gradient(circle, #fcd34d 0%, #f59e0b 40%, #d97706 70%, transparent 80%);
   border-radius: 50%;
   animation: sun-pulse 2s ease-in-out infinite;
-  box-shadow: 
+  box-shadow:
     0 0 60px rgba(245, 158, 11, 0.6),
     0 0 100px rgba(245, 158, 11, 0.4),
     0 0 140px rgba(245, 158, 11, 0.2);
@@ -163,9 +163,9 @@
   left: 0;
   right: 0;
   bottom: 0;
-  border: 8px solid #D97706;
-  background: linear-gradient(135deg, #B45309 0%, #78350F 100%);
-  box-shadow: 
+  border: 8px solid #d97706;
+  background: linear-gradient(135deg, #b45309 0%, #78350f 100%);
+  box-shadow:
     inset 0 0 20px rgba(0, 0, 0, 0.5),
     0 0 30px rgba(245, 158, 11, 0.3);
 }
@@ -176,15 +176,14 @@
   left: 10px;
   right: 10px;
   bottom: 10px;
-  border: 2px solid #F59E0B;
-  background-image: 
-    repeating-linear-gradient(
-      45deg,
-      transparent,
-      transparent 10px,
-      rgba(245, 158, 11, 0.1) 10px,
-      rgba(245, 158, 11, 0.1) 20px
-    );
+  border: 2px solid #f59e0b;
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 10px,
+    rgba(245, 158, 11, 0.1) 10px,
+    rgba(245, 158, 11, 0.1) 20px
+  );
 }
 
 /* ========================================
@@ -197,13 +196,13 @@
   left: 20px;
   right: 20px;
   bottom: 20px;
-  background: linear-gradient(135deg, #78350F 0%, #451a03 100%);
-  border: 4px solid #D97706;
+  background: linear-gradient(135deg, #78350f 0%, #451a03 100%);
+  border: 4px solid #d97706;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  box-shadow: 
+  box-shadow:
     inset 0 0 30px rgba(0, 0, 0, 0.6),
     0 4px 20px rgba(0, 0, 0, 0.4);
 }
@@ -229,9 +228,9 @@
 .stud {
   width: 20px;
   height: 20px;
-  background: radial-gradient(circle at 30% 30%, #FCD34D 0%, #D97706 50%, #78350F 100%);
+  background: radial-gradient(circle at 30% 30%, #fcd34d 0%, #d97706 50%, #78350f 100%);
   border-radius: 50%;
-  box-shadow: 
+  box-shadow:
     2px 2px 4px rgba(0, 0, 0, 0.4),
     inset -1px -1px 2px rgba(0, 0, 0, 0.3);
 }
@@ -281,9 +280,9 @@
   transform: translateX(-50%);
   width: 40px;
   height: 40px;
-  background: radial-gradient(circle at 30% 30%, #FCD34D 0%, #D97706 50%, #78350F 100%);
+  background: radial-gradient(circle at 30% 30%, #fcd34d 0%, #d97706 50%, #78350f 100%);
   border-radius: 50%;
-  box-shadow: 
+  box-shadow:
     2px 2px 4px rgba(0, 0, 0, 0.4),
     inset -1px -1px 2px rgba(0, 0, 0, 0.3);
 }
@@ -295,10 +294,10 @@
   transform: translateX(-50%);
   width: 50px;
   height: 50px;
-  border: 8px solid #D97706;
+  border: 8px solid #d97706;
   border-radius: 50%;
   background: transparent;
-  box-shadow: 
+  box-shadow:
     2px 2px 4px rgba(0, 0, 0, 0.4),
     inset -1px -1px 2px rgba(0, 0, 0, 0.3);
   animation: knocker-sway 3s ease-in-out infinite;
@@ -314,7 +313,7 @@
   top: 0;
   bottom: 0;
   width: 30px;
-  background: linear-gradient(90deg, #D97706 0%, #F59E0B 50%, #D97706 100%);
+  background: linear-gradient(90deg, #d97706 0%, #f59e0b 50%, #d97706 100%);
   box-shadow: 0 0 20px rgba(245, 158, 11, 0.4);
 }
 
@@ -336,8 +335,8 @@
   left: -30px;
   right: -30px;
   height: 40px;
-  background: linear-gradient(180deg, #D97706 0%, #78350F 100%);
-  border-top: 4px solid #F59E0B;
+  background: linear-gradient(180deg, #d97706 0%, #78350f 100%);
+  border-top: 4px solid #f59e0b;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 }
 
@@ -369,7 +368,7 @@
   font-family: 'Noto Serif SC', serif;
   font-size: 48px;
   font-weight: 900;
-  background: linear-gradient(180deg, #FCD34D 0%, #F59E0B 50%, #D97706 100%);
+  background: linear-gradient(180deg, #fcd34d 0%, #f59e0b 50%, #d97706 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -382,14 +381,7 @@
 .lintel-decoration {
   width: 400px;
   height: 20px;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    #D97706 20%,
-    #F59E0B 50%,
-    #D97706 80%,
-    transparent 100%
-  );
+  background: linear-gradient(90deg, transparent 0%, #d97706 20%, #f59e0b 50%, #d97706 80%, transparent 100%);
   margin: 0 auto;
   border-radius: 10px;
 }
@@ -399,7 +391,8 @@
    ======================================== */
 
 @keyframes sun-pulse {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(1);
     opacity: 1;
   }
@@ -419,7 +412,8 @@
 }
 
 @keyframes totem-glow {
-  0%, 100% {
+  0%,
+  100% {
     filter: drop-shadow(0 0 10px rgba(245, 158, 11, 0.5));
   }
   50% {
@@ -428,7 +422,8 @@
 }
 
 @keyframes knocker-sway {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateX(-50%) rotate(-5deg);
   }
   50% {
@@ -437,7 +432,8 @@
 }
 
 @keyframes lintel-glow {
-  0%, 100% {
+  0%,
+  100% {
     text-shadow: 0 0 30px rgba(245, 158, 11, 0.5);
   }
   50% {
@@ -530,7 +526,7 @@
   border-radius: 16px;
   padding: 2rem;
   text-align: center;
-  box-shadow: 
+  box-shadow:
     0 0 60px rgba(245, 158, 11, 0.3),
     0 0 100px rgba(245, 158, 11, 0.1),
     inset 0 0 40px rgba(0, 0, 0, 0.5);
@@ -557,7 +553,7 @@
 .monologue-highlight {
   font-family: var(--font-display);
   font-size: clamp(1.5rem, 4vw, 2rem);
-  background: linear-gradient(180deg, #FCD34D 0%, #F59E0B 100%);
+  background: linear-gradient(180deg, #fcd34d 0%, #f59e0b 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -581,17 +577,17 @@
   display: inline-flex;
   align-items: center;
   gap: 0.75rem;
-  background: linear-gradient(135deg, #F59E0B 0%, #FB923C 50%, #DC2626 100%);
+  background: linear-gradient(135deg, #f59e0b 0%, #fb923c 50%, #dc2626 100%);
   border: none;
   border-radius: 12px;
   padding: 1rem 2rem;
-  color: #0F0F0F;
+  color: #0f0f0f;
   font-family: var(--font-body);
   font-size: clamp(1rem, 2.5vw, 1.125rem);
   font-weight: 700;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 
+  box-shadow:
     0 4px 20px rgba(245, 158, 11, 0.4),
     0 0 40px rgba(245, 158, 11, 0.2);
   margin-top: 1rem;
@@ -599,7 +595,7 @@
 
 .monologue-enter-btn:hover {
   transform: translateY(-3px) scale(1.05);
-  box-shadow: 
+  box-shadow:
     0 8px 30px rgba(245, 158, 11, 0.6),
     0 0 60px rgba(245, 158, 11, 0.3);
 }
@@ -614,7 +610,7 @@
 }
 
 .btn-text {
-  background: linear-gradient(180deg, #0F0F0F 0%, #1A1A2E 100%);
+  background: linear-gradient(180deg, #0f0f0f 0%, #1a1a2e 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;

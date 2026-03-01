@@ -1,7 +1,7 @@
 /**
  * 兰台板块 - 工具函数模块
  * 羲和实验室 - 内部规范文档管理
- * 
+ *
  * @author 墨子 ⚙️
  * @version 1.1.0
  * @note 2026-03-01 调整：仅展示内部规范（4 份），国家法规暂不展示
@@ -15,15 +15,15 @@
  */
 function renderDocumentList(documents, containerId) {
   if (!documents || documents.length === 0) {
-    return `<div class="lantai-empty">暂无文档</div>`;
+    return '<div class="lantai-empty">暂无文档</div>';
   }
 
-  const html = documents.map(doc => {
-    const pinyinHtml = doc.need_pinyin && doc.pinyin 
-      ? `<span class="pinyin">${doc.pinyin}</span>` 
-      : '';
-    
-    return `
+  const html = documents
+    .map((doc) => {
+      const pinyinHtml =
+        doc.need_pinyin && doc.pinyin ? `<span class="pinyin">${doc.pinyin}</span>` : '';
+
+      return `
       <div class="lantai-doc-item" data-id="${doc.id}">
         <div class="doc-header">
           <h3 class="doc-title">
@@ -49,7 +49,8 @@ function renderDocumentList(documents, containerId) {
         </div>
       </div>
     `;
-  }).join('');
+    })
+    .join('');
 
   return `<div class="lantai-doc-list">${html}</div>`;
 }
@@ -61,17 +62,18 @@ function renderDocumentList(documents, containerId) {
  */
 function renderGroupedDocuments(groupedDocs) {
   if (!groupedDocs || Object.keys(groupedDocs).length === 0) {
-    return `<div class="lantai-empty">暂无文档</div>`;
+    return '<div class="lantai-empty">暂无文档</div>';
   }
 
-  const html = Object.keys(groupedDocs).map(type => {
-    const docs = groupedDocs[type];
-    const docItems = docs.map(doc => {
-      const pinyinHtml = doc.need_pinyin && doc.pinyin 
-        ? `<span class="pinyin">${doc.pinyin}</span>` 
-        : '';
-      
-      return `
+  const html = Object.keys(groupedDocs)
+    .map((type) => {
+      const docs = groupedDocs[type];
+      const docItems = docs
+        .map((doc) => {
+          const pinyinHtml =
+            doc.need_pinyin && doc.pinyin ? `<span class="pinyin">${doc.pinyin}</span>` : '';
+
+          return `
         <div class="lantai-doc-item" data-id="${doc.id}">
           <h4 class="doc-title">
             ${pinyinHtml}
@@ -94,15 +96,17 @@ function renderGroupedDocuments(groupedDocs) {
           </div>
         </div>
       `;
-    }).join('');
+        })
+        .join('');
 
-    return `
+      return `
       <section class="lantai-doc-section">
         <h2 class="section-title">${escapeHtml(type)}</h2>
         <div class="lantai-doc-list">${docItems}</div>
       </section>
     `;
-  }).join('');
+    })
+    .join('');
 
   return `<div class="lantai-grouped-docs">${html}</div>`;
 }
@@ -138,9 +142,9 @@ function renderTypeFilter(types, containerId) {
     return '';
   }
 
-  const options = types.map((type, index) => {
-    return `<option value="${escapeHtml(type)}">${escapeHtml(type)}</option>`;
-  }).join('');
+  const options = types
+    .map((type, index) => `<option value="${escapeHtml(type)}">${escapeHtml(type)}</option>`)
+    .join('');
 
   return `
     <div class="lantai-filter-box" id="${containerId}">
@@ -183,6 +187,7 @@ function handleSearch(keyword) {
 
   const results = LantaiData.searchDocuments(keyword);
   const container = document.getElementById('lantai-doc-container');
+
   if (container) {
     container.innerHTML = renderDocumentList(results);
   }
@@ -200,12 +205,13 @@ function handleTypeFilter(type) {
 
   const select = document.getElementById('lantai-type-filter');
   const selectedType = type || (select ? select.value : '');
-  
-  const results = selectedType 
+
+  const results = selectedType
     ? LantaiData.filterByType(selectedType)
     : LantaiData.getAllDocuments();
-    
+
   const container = document.getElementById('lantai-doc-container');
+
   if (container) {
     container.innerHTML = renderDocumentList(results);
   }
@@ -223,12 +229,13 @@ function handleSourceFilter(source) {
 
   const select = document.getElementById('lantai-source-filter');
   const selectedSource = source || (select ? select.value : '');
-  
-  const results = selectedSource 
+
+  const results = selectedSource
     ? LantaiData.filterBySource(selectedSource)
     : LantaiData.getAllDocuments();
-    
+
   const container = document.getElementById('lantai-doc-container');
+
   if (container) {
     container.innerHTML = renderDocumentList(results);
   }
@@ -240,14 +247,18 @@ function handleSourceFilter(source) {
  * @param {Object} doc - 文档对象
  */
 function handleDocClick(event, doc) {
-  if (!doc) return;
+  if (!doc) {
+    return;
+  }
 
   if (isExternalLink(doc)) {
     // 外部链接：新窗口打开，添加安全属性
     event.preventDefault();
     const link = getDocumentLink(doc);
+
     if (link) {
       const newWindow = window.open(link, '_blank', 'noopener,noreferrer');
+
       if (newWindow) {
         newWindow.opener = null; // 防止新窗口访问原窗口对象
       }
@@ -267,10 +278,11 @@ function getSafeLinkConfig(doc) {
   }
 
   const isExternal = isExternalLink(doc);
+
   return {
     href: getDocumentLink(doc),
     target: isExternal ? '_blank' : '_self',
-    rel: isExternal ? 'noopener noreferrer' : ''
+    rel: isExternal ? 'noopener noreferrer' : '',
   };
 }
 
@@ -280,18 +292,20 @@ function getSafeLinkConfig(doc) {
  * @returns {string} 处理后的路径
  */
 function processInternalPath(filePath) {
-  if (!filePath) return '#';
-  
+  if (!filePath) {
+    return '#';
+  }
+
   // 如果是 HTTP/HTTPS 链接，直接返回
   if (filePath.startsWith('http://') || filePath.startsWith('https://')) {
     return filePath;
   }
-  
+
   // 内部路径：确保以 / 开头
   if (!filePath.startsWith('/')) {
-    return '/' + filePath;
+    return `/${filePath}`;
   }
-  
+
   return filePath;
 }
 
@@ -301,17 +315,19 @@ function processInternalPath(filePath) {
  * @returns {string|null} 安全的 URL 或 null（如果不安全）
  */
 function processExternalLink(url) {
-  if (!url) return null;
-  
+  if (!url) {
+    return null;
+  }
+
   try {
     const urlObj = new URL(url);
-    
+
     // 只允许 HTTP/HTTPS 协议
     if (urlObj.protocol !== 'http:' && urlObj.protocol !== 'https:') {
       console.warn('不安全的外部链接协议:', url);
       return null;
     }
-    
+
     return url;
   } catch (e) {
     console.warn('无效的 URL:', url);
@@ -331,11 +347,11 @@ function renderPinyin(doc, position = 'before') {
   }
 
   const pinyinHtml = `<span class="pinyin">${escapeHtml(doc.pinyin)}</span>`;
-  
+
   if (position === 'before') {
-    return pinyinHtml + ' ';
+    return `${pinyinHtml} `;
   } else {
-    return ' ' + pinyinHtml;
+    return ` ${pinyinHtml}`;
   }
 }
 
@@ -347,9 +363,10 @@ function getDocumentTypes() {
   if (typeof LantaiData === 'undefined') {
     return [];
   }
-  
+
   const docs = LantaiData.getAllDocuments();
-  const types = [...new Set(docs.map(doc => doc.type))];
+  const types = [...new Set(docs.map((doc) => doc.type))];
+
   return types;
 }
 
@@ -388,8 +405,11 @@ function renderStatistics() {
  * @returns {string} 转义后的字符串
  */
 function escapeHtml(str) {
-  if (!str) return '';
+  if (!str) {
+    return '';
+  }
   const div = document.createElement('div');
+
   div.textContent = str;
   return div.innerHTML;
 }
@@ -402,11 +422,13 @@ function escapeHtml(str) {
  */
 function debounce(func, wait) {
   let timeout;
+
   return function executedFunction(...args) {
     const later = () => {
       clearTimeout(timeout);
       func(...args);
     };
+
     clearTimeout(timeout);
     timeout = setTimeout(later, wait);
   };
@@ -422,7 +444,7 @@ function initLantai(options = {}) {
     enableSearch = true,
     enableFilter = true,
     enableStatistics = true,
-    groupByType = false
+    groupByType = false,
   } = options;
 
   if (typeof LantaiData === 'undefined') {
@@ -431,6 +453,7 @@ function initLantai(options = {}) {
   }
 
   const container = document.getElementById(containerId);
+
   if (!container) {
     console.error('Container not found:', containerId);
     return;
@@ -439,6 +462,7 @@ function initLantai(options = {}) {
   // 渲染统计信息
   if (enableStatistics) {
     const statsContainer = document.createElement('div');
+
     statsContainer.innerHTML = renderStatistics();
     container.appendChild(statsContainer);
   }
@@ -446,15 +470,18 @@ function initLantai(options = {}) {
   // 渲染搜索框
   if (enableSearch) {
     const searchContainer = document.createElement('div');
+
     searchContainer.innerHTML = renderSearchBox('lantai-search');
     container.appendChild(searchContainer);
 
     // 绑定搜索事件（带防抖）
     const searchInput = document.getElementById('lantai-search-input');
+
     if (searchInput) {
       const debouncedSearch = debounce((e) => {
         handleSearch(e.target.value);
       }, 300);
+
       searchInput.addEventListener('input', debouncedSearch);
     }
   }
@@ -462,22 +489,26 @@ function initLantai(options = {}) {
   // 渲染过滤器
   if (enableFilter) {
     const filterContainer = document.createElement('div');
+
     filterContainer.innerHTML = renderSourceFilter('lantai-source-filter');
     container.appendChild(filterContainer);
   }
 
   // 渲染文档列表
   const docsContainer = document.createElement('div');
+
   docsContainer.id = 'lantai-doc-container';
-  
+
   if (groupByType) {
     const groupedDocs = LantaiData.groupByType();
+
     docsContainer.innerHTML = renderGroupedDocuments(groupedDocs);
   } else {
     const allDocs = LantaiData.getAllDocuments();
+
     docsContainer.innerHTML = renderDocumentList(allDocs);
   }
-  
+
   container.appendChild(docsContainer);
 }
 
@@ -501,7 +532,7 @@ if (typeof module !== 'undefined' && module.exports) {
     renderStatistics,
     escapeHtml,
     debounce,
-    initLantai
+    initLantai,
   };
 }
 
@@ -525,6 +556,6 @@ if (typeof window !== 'undefined') {
     renderStatistics,
     escapeHtml,
     debounce,
-    initLantai
+    initLantai,
   };
 }

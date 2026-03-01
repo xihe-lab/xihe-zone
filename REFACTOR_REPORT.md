@@ -40,13 +40,13 @@
 
 ### 文件更新清单
 
-| 文件 | 变更 | 说明 |
-|------|------|------|
-| `index.html` | 重写 | 新的 HTML5 结构，语义化标签 |
-| `src/css/main.css` | 重写 (20KB) | 完整设计系统样式 |
-| `src/js/main.js` | 重写 (17KB) | 组件渲染逻辑 |
-| `src/js/animations.js` | 更新 (10KB) | 增强动画效果 |
-| `src/js/components.js` | 更新 (10KB) | 可复用组件 |
+| 文件                   | 变更        | 说明                        |
+| ---------------------- | ----------- | --------------------------- |
+| `index.html`           | 重写        | 新的 HTML5 结构，语义化标签 |
+| `src/css/main.css`     | 重写 (20KB) | 完整设计系统样式            |
+| `src/js/main.js`       | 重写 (17KB) | 组件渲染逻辑                |
+| `src/js/animations.js` | 更新 (10KB) | 增强动画效果                |
+| `src/js/components.js` | 更新 (10KB) | 可复用组件                  |
 
 ### 核心功能实现
 
@@ -57,17 +57,13 @@
   position: absolute;
   width: 400px;
   height: 400px;
-  background: radial-gradient(
-    circle,
-    rgba(245, 158, 11, 0.3) 0%,
-    rgba(245, 158, 11, 0.1) 40%,
-    transparent 70%
-  );
+  background: radial-gradient(circle, rgba(245, 158, 11, 0.3) 0%, rgba(245, 158, 11, 0.1) 40%, transparent 70%);
   animation: sun-halo 4s ease-in-out infinite;
 }
 ```
 
 **效果：**
+
 - 双层光晕动画
 - 呼吸效果（缩放 + 透明度）
 - Logo 悬浮动画
@@ -76,7 +72,7 @@
 
 ```css
 .palace-card {
-  background: linear-gradient(145deg, #1A1A2E 0%, #252542 100%);
+  background: linear-gradient(145deg, #1a1a2e 0%, #252542 100%);
   border: 1px solid rgba(245, 158, 11, 0.2);
   border-radius: 12px;
 }
@@ -88,6 +84,7 @@
 ```
 
 **特性：**
+
 - 顶部金边装饰（悬停时显示）
 - 屋檐元素（三角形装饰）
 - 微光跟随效果
@@ -96,7 +93,7 @@
 
 ```css
 .hero-title {
-  background: linear-gradient(90deg, #FCD34D, #F59E0B, #FCD34D);
+  background: linear-gradient(90deg, #fcd34d, #f59e0b, #fcd34d);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-size: 200% auto;
@@ -105,6 +102,7 @@
 ```
 
 **效果：**
+
 - 流动金色渐变
 - shine 动画（从右到左）
 - 光晕阴影
@@ -121,6 +119,7 @@ button.addEventListener('mouseenter', (e) => {
 ```
 
 **交互：**
+
 - 鼠标悬停：光晕扩散
 - 点击：波纹效果
 - 悬停提升：2px 上移
@@ -163,6 +162,7 @@ html {
 ```
 
 **滚动触发动画：**
+
 - 淡入（fade-in）
 - 左滑入（slide-in-left）
 - 右滑入（slide-in-right）
@@ -175,7 +175,7 @@ html {
   width: 64px;
   height: 64px;
   border: 4px solid rgba(245, 158, 11, 0.2);
-  border-top-color: #F59E0B;
+  border-top-color: #f59e0b;
   animation: spin 1s linear infinite;
 }
 
@@ -191,13 +191,14 @@ html {
 
 ### 4.1 移动端响应式 ✓
 
-| 断点 | 宽度 | 布局调整 |
-|------|------|----------|
-| Mobile | < 640px | 单栏，按钮全宽，卡片简化 |
-| Tablet | 640px - 1024px | 双栏布局 |
-| Desktop | > 1024px | 完整三栏布局 |
+| 断点    | 宽度           | 布局调整                 |
+| ------- | -------------- | ------------------------ |
+| Mobile  | < 640px        | 单栏，按钮全宽，卡片简化 |
+| Tablet  | 640px - 1024px | 双栏布局                 |
+| Desktop | > 1024px       | 完整三栏布局             |
 
 **响应式特性：**
+
 - 字体大小：`clamp()` 函数
 - 网格布局：自适应列数
 - 按钮组：移动端垂直排列
@@ -212,13 +213,16 @@ html {
 
 ```javascript
 // IntersectionObserver 优化滚动动画
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-    }
-  });
-}, { threshold: 0.1 });
+const observer = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  },
+  { threshold: 0.1 },
+);
 ```
 
 ### 4.3 跨浏览器兼容 ✓
@@ -247,6 +251,7 @@ const observer = new IntersectionObserver((entries) => {
 ```
 
 **无障碍特性：**
+
 - 键盘导航支持
 - 焦点可见
 - 对比度符合 WCAG 2.1 AA
@@ -258,44 +263,44 @@ const observer = new IntersectionObserver((entries) => {
 
 ### 代码统计
 
-| 指标 | 数值 |
-|------|------|
-| CSS 代码量 | ~20KB |
-| JavaScript 代码量 | ~37KB |
-| HTML 代码量 | ~2.4KB |
-| 组件数量 | 7 个 |
-| 动画效果 | 12+ 种 |
+| 指标              | 数值   |
+| ----------------- | ------ |
+| CSS 代码量        | ~20KB  |
+| JavaScript 代码量 | ~37KB  |
+| HTML 代码量       | ~2.4KB |
+| 组件数量          | 7 个   |
+| 动画效果          | 12+ 种 |
 
 ### 性能指标
 
-| 指标 | 目标 | 实际 |
-|------|------|------|
-| 首次内容绘制 | < 1.5s | ✅ 优秀 |
-| 可交互时间 | < 3s | ✅ 优秀 |
-| 累积布局偏移 | < 0.1 | ✅ 优秀 |
-| Lighthouse 分数 | > 90 | ✅ 预计 95+ |
+| 指标            | 目标   | 实际        |
+| --------------- | ------ | ----------- |
+| 首次内容绘制    | < 1.5s | ✅ 优秀     |
+| 可交互时间      | < 3s   | ✅ 优秀     |
+| 累积布局偏移    | < 0.1  | ✅ 优秀     |
+| Lighthouse 分数 | > 90   | ✅ 预计 95+ |
 
 ---
 
 ## 🎨 设计系统对照表
 
-| 设计要求 | 实现状态 | 位置 |
-|----------|----------|------|
-| 太阳金主色 | ✅ | `--sun-gold: #F59E0B` |
-| 晨曦橙次级色 | ✅ | `--dawn-orange: #FB923C` |
-| 落日红强调色 | ✅ | `--sunset-red: #DC2626` |
-| 深空黑背景 | ✅ | `--deep-space: #0F0F0F` |
-| Noto Serif SC 字体 | ✅ | `--font-display` |
-| Noto Sans SC 字体 | ✅ | `--font-body` |
-| 太阳光晕 | ✅ | `.hero-sun` |
-| 宫殿卡片 | ✅ | `.palace-card` |
-| 云纹分隔线 | ✅ | `.cloud-divider` |
-| 金色渐变文字 | ✅ | `.golden-title` |
-| 按钮悬停光芒 | ✅ | `.btn-glow` |
-| 加载动画 | ✅ | `.loading-sun` |
-| 滚动进度条 | ✅ | `.scroll-progress` |
-| 响应式设计 | ✅ | 3 个断点 |
-| 无障碍支持 | ✅ | 焦点 + 减少动画 |
+| 设计要求           | 实现状态 | 位置                     |
+| ------------------ | -------- | ------------------------ |
+| 太阳金主色         | ✅       | `--sun-gold: #F59E0B`    |
+| 晨曦橙次级色       | ✅       | `--dawn-orange: #FB923C` |
+| 落日红强调色       | ✅       | `--sunset-red: #DC2626`  |
+| 深空黑背景         | ✅       | `--deep-space: #0F0F0F`  |
+| Noto Serif SC 字体 | ✅       | `--font-display`         |
+| Noto Sans SC 字体  | ✅       | `--font-body`            |
+| 太阳光晕           | ✅       | `.hero-sun`              |
+| 宫殿卡片           | ✅       | `.palace-card`           |
+| 云纹分隔线         | ✅       | `.cloud-divider`         |
+| 金色渐变文字       | ✅       | `.golden-title`          |
+| 按钮悬停光芒       | ✅       | `.btn-glow`              |
+| 加载动画           | ✅       | `.loading-sun`           |
+| 滚动进度条         | ✅       | `.scroll-progress`       |
+| 响应式设计         | ✅       | 3 个断点                 |
+| 无障碍支持         | ✅       | 焦点 + 减少动画          |
 
 ---
 
@@ -355,7 +360,7 @@ const observer = new IntersectionObserver((entries) => {
 ✅ 宫殿卡片 + 金色渐变文字  
 ✅ 交互动画 + 响应式设计  
 ✅ 性能优化 + 无障碍支持  
-✅ Git 提交并推送上线  
+✅ Git 提交并推送上线
 
 ### 技术亮点
 

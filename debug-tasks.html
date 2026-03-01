@@ -1,55 +1,99 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>任务看板调试</title>
-  <style>
-    body { background: #0F0F0F; color: #fff; font-family: sans-serif; padding: 20px; }
-    #debug { background: #1A1A2E; padding: 20px; border-radius: 8px; margin: 20px 0; }
-    .task-card { background: #252542; border: 1px solid rgba(245, 158, 11, 0.2); border-radius: 12px; padding: 20px; margin: 10px 0; }
-    .member-info { display: flex; align-items: center; gap: 10px; }
-    .member-emoji { font-size: 2rem; }
-    .member-name { font-size: 1.2rem; font-weight: bold; color: #F59E0B; }
-    .member-role { color: #9CA3AF; font-size: 0.9rem; }
-    .task-list { list-style: none; padding: 0; }
-    .task-item { display: flex; align-items: center; gap: 8px; padding: 5px 0; }
-    .todo .task-bullet { color: #FB923C; }
-    .done .task-bullet { color: #10B981; }
-  </style>
-</head>
-<body>
-  <h1>任务看板调试页面</h1>
-  <div id="debug">
-    <h2>调试信息</h2>
-    <pre id="debug-info">加载中...</pre>
-  </div>
-  <div id="teamTasksBoard"></div>
-  
-  <script>
-    const debugInfo = document.getElementById('debug-info');
-    const container = document.getElementById('teamTasksBoard');
-    
-    debugInfo.textContent = '开始加载...\n';
-    
-    // 测试 1: 检查容器
-    debugInfo.textContent += '容器存在：' + !!container + '\n';
-    debugInfo.textContent += '容器 ID: ' + (container ? container.id : 'N/A') + '\n\n';
-    
-    // 测试 2: 加载数据
-    fetch('/data/tasks.json?t=' + Date.now())
-      .then(r => {
-        debugInfo.textContent += 'HTTP 状态：' + r.status + '\n';
-        return r.json();
-      })
-      .then(data => {
-        debugInfo.textContent += '数据加载成功\n';
-        debugInfo.textContent += '成员数量：' + (data.members ? data.members.length : 0) + '\n';
-        debugInfo.textContent += '成员列表：' + (data.members ? data.members.map(m => m.name).join(', ') : 'N/A') + '\n\n';
-        
-        // 测试 3: 渲染
-        if (data && data.members) {
-          container.innerHTML = data.members.map(m => `
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>任务看板调试</title>
+    <style>
+      body {
+        background: #0f0f0f;
+        color: #fff;
+        font-family: sans-serif;
+        padding: 20px;
+      }
+      #debug {
+        background: #1a1a2e;
+        padding: 20px;
+        border-radius: 8px;
+        margin: 20px 0;
+      }
+      .task-card {
+        background: #252542;
+        border: 1px solid rgba(245, 158, 11, 0.2);
+        border-radius: 12px;
+        padding: 20px;
+        margin: 10px 0;
+      }
+      .member-info {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .member-emoji {
+        font-size: 2rem;
+      }
+      .member-name {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #f59e0b;
+      }
+      .member-role {
+        color: #9ca3af;
+        font-size: 0.9rem;
+      }
+      .task-list {
+        list-style: none;
+        padding: 0;
+      }
+      .task-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 5px 0;
+      }
+      .todo .task-bullet {
+        color: #fb923c;
+      }
+      .done .task-bullet {
+        color: #10b981;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>任务看板调试页面</h1>
+    <div id="debug">
+      <h2>调试信息</h2>
+      <pre id="debug-info">加载中...</pre>
+    </div>
+    <div id="teamTasksBoard"></div>
+
+    <script>
+      const debugInfo = document.getElementById("debug-info");
+      const container = document.getElementById("teamTasksBoard");
+
+      debugInfo.textContent = "开始加载...\n";
+
+      // 测试 1: 检查容器
+      debugInfo.textContent += "容器存在：" + !!container + "\n";
+      debugInfo.textContent += "容器 ID: " + (container ? container.id : "N/A") + "\n\n";
+
+      // 测试 2: 加载数据
+      fetch("/data/tasks.json?t=" + Date.now())
+        .then((r) => {
+          debugInfo.textContent += "HTTP 状态：" + r.status + "\n";
+          return r.json();
+        })
+        .then((data) => {
+          debugInfo.textContent += "数据加载成功\n";
+          debugInfo.textContent += "成员数量：" + (data.members ? data.members.length : 0) + "\n";
+          debugInfo.textContent +=
+            "成员列表：" + (data.members ? data.members.map((m) => m.name).join(", ") : "N/A") + "\n\n";
+
+          // 测试 3: 渲染
+          if (data && data.members) {
+            container.innerHTML = data.members
+              .map(
+                (m) => `
             <div class="task-card">
               <div class="member-info">
                 <span class="member-emoji">${m.emoji}</span>
@@ -59,18 +103,20 @@
                 </div>
               </div>
               <ul class="task-list">
-                ${m.todos.map(t => `<li class="task-item todo"><span>●</span> ${t}</li>`).join('')}
-                ${m.dones.map(d => `<li class="task-item done"><span>✓</span> ${d}</li>`).join('')}
+                ${m.todos.map((t) => `<li class="task-item todo"><span>●</span> ${t}</li>`).join("")}
+                ${m.dones.map((d) => `<li class="task-item done"><span>✓</span> ${d}</li>`).join("")}
               </ul>
             </div>
-          `).join('');
-          debugInfo.textContent += '渲染完成！\n';
-        }
-      })
-      .catch(e => {
-        debugInfo.textContent += '错误：' + e.message + '\n';
-        container.innerHTML = '<p style="color: red;">加载失败：' + e + '</p>';
-      });
-  </script>
-</body>
+          `,
+              )
+              .join("");
+            debugInfo.textContent += "渲染完成！\n";
+          }
+        })
+        .catch((e) => {
+          debugInfo.textContent += "错误：" + e.message + "\n";
+          container.innerHTML = '<p style="color: red;">加载失败：' + e + "</p>";
+        });
+    </script>
+  </body>
 </html>

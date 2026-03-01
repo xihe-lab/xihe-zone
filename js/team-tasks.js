@@ -28,6 +28,7 @@ class TeamTasksBoard {
 
   async loadData() {
     const response = await fetch(this.dataPath);
+
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
@@ -35,7 +36,9 @@ class TeamTasksBoard {
   }
 
   render() {
-    if (!this.data || !this.data.members) return;
+    if (!this.data || !this.data.members) {
+      return;
+    }
 
     this.container.innerHTML = `
       <div class="section-header fade-in">
@@ -56,19 +59,27 @@ class TeamTasksBoard {
   }
 
   renderMemberCard(member, index) {
-    const todoItems = member.todos.map(todo => `
+    const todoItems = member.todos
+      .map(
+        (todo) => `
       <li class="task-item todo">
         <span class="task-bullet">●</span>
         <span class="task-text">${todo}</span>
       </li>
-    `).join('');
+    `,
+      )
+      .join('');
 
-    const doneItems = member.dones.map(done => `
+    const doneItems = member.dones
+      .map(
+        (done) => `
       <li class="task-item done">
         <span class="task-bullet">✓</span>
         <span class="task-text">${done}</span>
       </li>
-    `).join('');
+    `,
+      )
+      .join('');
 
     return `
       <div class="task-card fade-in" style="animation-delay: ${index * 100}ms" data-member="${member.name}">
@@ -117,12 +128,15 @@ class TeamTasksBoard {
   addEventListeners() {
     // 折叠/展开功能
     const toggleBtns = this.container.querySelectorAll('.toggle-btn');
-    toggleBtns.forEach(btn => {
+
+    toggleBtns.forEach((btn) => {
       btn.addEventListener('click', (e) => {
         const card = e.target.closest('.task-card');
+
         card.classList.toggle('collapsed');
-        
+
         const icon = btn.querySelector('.toggle-icon');
+
         if (card.classList.contains('collapsed')) {
           icon.style.transform = 'rotate(-90deg)';
         } else {
@@ -133,7 +147,8 @@ class TeamTasksBoard {
 
     // 移动端滑动支持
     const taskCards = this.container.querySelectorAll('.task-card');
-    taskCards.forEach(card => {
+
+    taskCards.forEach((card) => {
       let startX = 0;
       let currentX = 0;
       let isDragging = false;
@@ -144,10 +159,12 @@ class TeamTasksBoard {
       });
 
       card.addEventListener('touchmove', (e) => {
-        if (!isDragging) return;
+        if (!isDragging) {
+          return;
+        }
         currentX = e.touches[0].clientX;
         const diff = currentX - startX;
-        
+
         if (Math.abs(diff) > 50) {
           if (diff > 0) {
             card.classList.remove('collapsed');
@@ -168,6 +185,7 @@ class TeamTasksBoard {
 // 自动初始化
 function initTeamTasksBoard() {
   const tasksContainer = document.getElementById('teamTasksBoard');
+
   if (tasksContainer) {
     console.log('🌞 初始化任务看板...');
     window.teamTasksBoard = new TeamTasksBoard('teamTasksBoard');

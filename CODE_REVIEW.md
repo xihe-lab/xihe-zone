@@ -153,7 +153,7 @@
 
 ## 审查报告模板
 
-```markdown
+````markdown
 # 代码审查报告
 
 **审查人：** 白泽 📖  
@@ -182,34 +182,34 @@
 
 ### 严重问题（必须修复）
 
-| 文件 | 行号 | 问题描述 | 建议修复 |
-|------|------|----------|----------|
-| `js/main.js` | 45 | 存在 XSS 风险 | 使用 `textContent` 替代 `innerHTML` |
+| 文件         | 行号 | 问题描述      | 建议修复                            |
+| ------------ | ---- | ------------- | ----------------------------------- |
+| `js/main.js` | 45   | 存在 XSS 风险 | 使用 `textContent` 替代 `innerHTML` |
 
 ### 一般问题（建议修复）
 
-| 文件 | 行号 | 问题描述 | 建议修复 |
-|------|------|----------|----------|
-| `css/main.css` | 120 | 魔法数字 | 提取为 CSS 变量 |
+| 文件           | 行号 | 问题描述 | 建议修复        |
+| -------------- | ---- | -------- | --------------- |
+| `css/main.css` | 120  | 魔法数字 | 提取为 CSS 变量 |
 
 ### 优化建议（可选）
 
-| 文件 | 问题描述 | 建议 |
-|------|----------|------|
+| 文件         | 问题描述     | 建议                  |
+| ------------ | ------------ | --------------------- |
 | `index.html` | 图片未懒加载 | 添加 `loading="lazy"` |
 
 ---
 
 ## 📈 性能指标
 
-| 指标 | 当前值 | 目标值 | 状态 |
-|------|--------|--------|------|
-| Lighthouse 性能 | 85 | ≥90 | ⚠️ |
-| Lighthouse 无障碍 | 92 | ≥90 | ✅ |
-| Lighthouse 最佳实践 | 88 | ≥90 | ⚠️ |
-| Lighthouse SEO | 95 | ≥90 | ✅ |
-| 首次内容绘制 (FCP) | 1.2s | <1.5s | ✅ |
-| 最大内容绘制 (LCP) | 2.8s | <2.5s | ⚠️ |
+| 指标                | 当前值 | 目标值 | 状态 |
+| ------------------- | ------ | ------ | ---- |
+| Lighthouse 性能     | 85     | ≥90    | ⚠️   |
+| Lighthouse 无障碍   | 92     | ≥90    | ✅   |
+| Lighthouse 最佳实践 | 88     | ≥90    | ⚠️   |
+| Lighthouse SEO      | 95     | ≥90    | ✅   |
+| 首次内容绘制 (FCP)  | 1.2s   | <1.5s  | ✅   |
+| 最大内容绘制 (LCP)  | 2.8s   | <2.5s  | ⚠️   |
 
 ---
 
@@ -230,6 +230,7 @@
 [详细描述]
 
 **修复建议：**
+
 ```javascript
 // 修复前
 element.innerHTML = userInput;
@@ -237,6 +238,7 @@ element.innerHTML = userInput;
 // 修复后
 element.textContent = userInput;
 ```
+````
 
 ---
 
@@ -250,8 +252,9 @@ element.textContent = userInput;
 
 ---
 
-*白泽 📖 · 羲和实验室代码审查系统*
-```
+_白泽 📖 · 羲和实验室代码审查系统_
+
+````
 
 ---
 
@@ -271,7 +274,7 @@ const n = 3;
 function fetch() {}
 const flag = true;
 const arr = [];
-```
+````
 
 ### 注释规范
 
@@ -317,16 +320,17 @@ xihe-zone/
 
 ### 已配置工具
 
-| 工具 | 用途 | 命令 |
-|------|------|------|
-| ESLint | JavaScript 代码检查 | `npm run lint` |
-| Prettier | 代码格式化 | `npm run format` |
-| Stylelint | CSS 代码检查 | `npm run lint:css` |
-| Lighthouse | 性能/无障碍审计 | `npm run audit` |
+| 工具       | 用途                | 命令               |
+| ---------- | ------------------- | ------------------ |
+| ESLint     | JavaScript 代码检查 | `npm run lint`     |
+| Prettier   | 代码格式化          | `npm run format`   |
+| Stylelint  | CSS 代码检查        | `npm run lint:css` |
+| Lighthouse | 性能/无障碍审计     | `npm run audit`    |
 
 ### 配置示例
 
 详见：
+
 - `.eslintrc.json` - ESLint 配置
 - `.stylelintrc.json` - Stylelint 配置
 - `.prettierrc` - Prettier 配置
@@ -365,5 +369,5 @@ npm run build
 
 ---
 
-*最后更新：2026-02-28*  
-*白泽 📖 · 羲和实验室代码审查系统*
+_最后更新：2026-02-28_  
+_白泽 📖 · 羲和实验室代码审查系统_

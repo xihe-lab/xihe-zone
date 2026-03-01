@@ -8,11 +8,13 @@
 ## 问题分析
 
 原 `lantai.json` 中的文档路径指向不存在的位置：
+
 ```json
 "file_path": "/lantai/docs/xihe-compliance-manual.pdf"
 ```
 
 实际文档位置在：
+
 ```
 feedback/lantai/confidential/policies/*.md
 ```
@@ -31,11 +33,11 @@ xihe-zone/lantai/docs/
 
 已复制 4 份内部规范文档到 `xihe-zone/lantai/docs/`：
 
-| 源文件 | 目标文件 |
-|--------|----------|
-| `agent-team-spec.pdf.md` | `agent-team-spec.md` |
-| `content-audit-rules.md` | `content-audit-rules.md` |
-| `data-security-privacy.md` | `data-security-privacy.md` |
+| 源文件                      | 目标文件                    |
+| --------------------------- | --------------------------- |
+| `agent-team-spec.pdf.md`    | `agent-team-spec.md`        |
+| `content-audit-rules.md`    | `content-audit-rules.md`    |
+| `data-security-privacy.md`  | `data-security-privacy.md`  |
 | `xihe-compliance-manual.md` | `xihe-compliance-manual.md` |
 
 ### 3. 更新 lantai.json
@@ -50,6 +52,7 @@ xihe-zone/lantai/docs/
 ```
 
 所有 internal 文档路径已更新：
+
 - ✅ `docs/xihe-compliance-manual.md`
 - ✅ `docs/agent-team-spec.md`
 - ✅ `docs/content-audit-rules.md`
@@ -60,6 +63,7 @@ xihe-zone/lantai/docs/
 在 `xihe-zone/lantai/js/app.js` 中添加了 Markdown 文件预览功能：
 
 **功能特性：**
+
 - 检测 `.md` 文件扩展名
 - 使用 `fetch()` 读取 Markdown 内容
 - 在弹窗中显示原始 Markdown 文本（`white-space: pre-wrap`）
@@ -71,28 +75,28 @@ xihe-zone/lantai/docs/
 ```javascript
 // Markdown 文件：读取并显示内容
 if (doc.file_path.endsWith('.md')) {
-    try {
-        viewBtn.disabled = true;
-        viewBtn.textContent = '⏳ 加载中...';
-        
-        const response = await fetch(doc.file_path);
-        if (!response.ok) {
-            throw new Error('无法加载文档内容');
-        }
-        
-        const content = await response.text();
-        contentText.textContent = content;
-        contentDiv.style.display = 'block';
-        viewBtn.textContent = '🔄 刷新内容';
-    } catch (error) {
-        console.error('加载 Markdown 失败:', error);
-        contentText.textContent = '⚠️ 加载失败：' + error.message;
-        contentDiv.style.display = 'block';
-        viewBtn.textContent = '⚠️ 加载失败';
-    } finally {
-        viewBtn.disabled = false;
+  try {
+    viewBtn.disabled = true;
+    viewBtn.textContent = '⏳ 加载中...';
+
+    const response = await fetch(doc.file_path);
+    if (!response.ok) {
+      throw new Error('无法加载文档内容');
     }
-    return;
+
+    const content = await response.text();
+    contentText.textContent = content;
+    contentDiv.style.display = 'block';
+    viewBtn.textContent = '🔄 刷新内容';
+  } catch (error) {
+    console.error('加载 Markdown 失败:', error);
+    contentText.textContent = '⚠️ 加载失败：' + error.message;
+    contentDiv.style.display = 'block';
+    viewBtn.textContent = '⚠️ 加载失败';
+  } finally {
+    viewBtn.disabled = false;
+  }
+  return;
 }
 ```
 
@@ -134,4 +138,4 @@ xihe-zone/lantai/
 
 ---
 
-*修复完成 ✅*
+_修复完成 ✅_

@@ -2,7 +2,7 @@
  * 太阳神宫 · 宫殿大门加载动画组件
  * 设计：中国神话风格（金色、红色）
  * 技术实现：墨子 ⚙️
- * 
+ *
  * 特性：
  * - 纯 CSS + SVG（无需外部图片）
  * - GPU 加速动画
@@ -16,9 +16,10 @@
 function initLoadingGate() {
   // 创建加载动画容器
   const loadingGate = document.createElement('div');
+
   loadingGate.className = 'loading-gate';
   loadingGate.id = 'loadingGate';
-  
+
   loadingGate.innerHTML = `
     <!-- 太阳光晕背景 -->
     <div class="gate-sun-glow">
@@ -44,14 +45,19 @@ function initLoadingGate() {
           <div class="sun-totem">
             <svg viewBox="0 0 200 200" class="totem-svg">
               <g class="sun-rays-svg">
-                ${Array(12).fill('').map((_, i) => `
+                ${Array(12)
+                  .fill('')
+                  .map(
+                    (_, i) => `
                   <line
                     x1="100" y1="100" x2="100" y2="20"
                     stroke="#F59E0B" stroke-width="4"
                     stroke-linecap="round"
                     transform="rotate(${i * 30} 100 100)"
                   />
-                `).join('')}
+                `,
+                  )
+                  .join('')}
               </g>
               <circle cx="100" cy="100" r="40" fill="#F59E0B" class="sun-core-svg" />
               <circle cx="100" cy="100" r="30" fill="#FCD34D" class="sun-inner-svg" />
@@ -85,14 +91,19 @@ function initLoadingGate() {
           <div class="sun-totem">
             <svg viewBox="0 0 200 200" class="totem-svg">
               <g class="sun-rays-svg">
-                ${Array(12).fill('').map((_, i) => `
+                ${Array(12)
+                  .fill('')
+                  .map(
+                    (_, i) => `
                   <line
                     x1="100" y1="100" x2="100" y2="20"
                     stroke="#F59E0B" stroke-width="4"
                     stroke-linecap="round"
                     transform="rotate(${i * 30} 100 100)"
                   />
-                `).join('')}
+                `,
+                  )
+                  .join('')}
               </g>
               <circle cx="100" cy="100" r="40" fill="#F59E0B" class="sun-core-svg" />
               <circle cx="100" cy="100" r="30" fill="#FCD34D" class="sun-inner-svg" />
@@ -156,36 +167,39 @@ function initLoadingGate() {
       </div>
     </div>
   `;
-  
+
   // 添加到页面
   document.body.insertBefore(loadingGate, document.body.firstChild);
-  
+
   // 添加样式
   const style = document.createElement('style');
+
   style.id = 'loadingGateStyles';
   style.textContent = getLoadingGateStyles();
   document.head.appendChild(style);
-  
+
   // 执行动画
   setTimeout(() => {
     loadingGate.classList.add('gate-open');
   }, 500);
-  
+
   // 大门完全打开后（约 2.5 秒），显示文案区域
   setTimeout(() => {
     const monologue = document.getElementById('xiheMonologue');
+
     if (monologue) {
       monologue.classList.add('monologue-visible');
     }
   }, 2500);
-  
+
   // 添加点击事件监听
   const enterBtn = document.getElementById('enterPalaceBtn');
+
   if (enterBtn) {
     enterBtn.addEventListener('click', () => {
       // 点击后淡出加载动画
       loadingGate.classList.add('gate-fading');
-      
+
       // 移除元素
       setTimeout(() => {
         if (loadingGate.parentNode) {
