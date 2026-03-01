@@ -1189,17 +1189,6 @@ a:hover {
   gap: 0.5rem;
 }
 
-/* 兰台加载状态 */
-.lantai-loading {
-  text-align: center;
-  padding: 3rem;
-  color: var(--text-tertiary);
-}
-
-.lantai-loading .sun-loader {
-  margin: 0 auto 1rem;
-}
-
 /* 兰台错误状态 */
 .lantai-error {
   text-align: center;

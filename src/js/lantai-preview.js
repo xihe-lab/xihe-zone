@@ -223,14 +223,6 @@ async function initLantai() {
   // 初始化弹窗事件
   attachModalEvents();
 
-  // 显示加载状态
-  container.innerHTML = `
-    <div class="lantai-loading">
-      <div class="sun-loader"></div>
-      <p>加载典章中...</p>
-    </div>
-  `;
-
   // 加载数据
   const data = await loadLantaiData();
   if (!data || !data.documents) {
